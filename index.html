@@ -3,101 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Helicobacter Attack X</title>
+  <title>Helicobacter pylori | Futuristic BioScan</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root{
-      --bg1:#030612;
-      --bg2:#0b1230;
-      --panel:rgba(14,18,35,0.66);
+      --bg1:#040814;
+      --bg2:#0b1330;
+      --panel:rgba(12,18,34,0.72);
       --panel2:rgba(255,255,255,0.05);
-      --line:rgba(255,255,255,0.12);
-      --cyan:#42f5ff;
-      --cyan2:#a7fbff;
-      --pink:#ff50f5;
-      --green:#4dff9c;
-      --yellow:#ffd95e;
-      --red:#ff5b78;
-      --text:#ecfbff;
-      --muted:#9eb8c8;
-      --shadow:0 24px 80px rgba(0,0,0,.55);
+      --line:rgba(255,255,255,0.10);
+      --cyan:#4befff;
+      --cyan2:#a8fbff;
+      --pink:#ff4df5;
+      --green:#54ffab;
+      --yellow:#ffd35e;
+      --red:#ff667f;
+      --orange:#ff9d5c;
+      --text:#eefcff;
+      --muted:#9bb7c7;
+      --shadow:0 26px 80px rgba(0,0,0,.55);
     }
 
     body{
-      min-height:100vh;
-      color:var(--text);
-      font-family:Arial, Helvetica, sans-serif;
-      overflow-x:hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
       background:
-        radial-gradient(circle at 15% 15%, rgba(66,245,255,.18), transparent 18%),
-        radial-gradient(circle at 85% 20%, rgba(255,80,245,.15), transparent 22%),
-        radial-gradient(circle at 50% 85%, rgba(77,255,156,.08), transparent 25%),
+        radial-gradient(circle at 18% 12%, rgba(75,239,255,.15), transparent 18%),
+        radial-gradient(circle at 80% 18%, rgba(255,77,245,.13), transparent 22%),
+        radial-gradient(circle at 48% 85%, rgba(84,255,171,.08), transparent 24%),
         linear-gradient(160deg, var(--bg2), var(--bg1) 68%);
     }
 
     body::before{
       content:"";
-      position:fixed; inset:0;
+      position: fixed;
+      inset: 0;
       background:
         linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size:38px 38px;
-      opacity:.24;
-      pointer-events:none;
+      background-size: 36px 36px;
+      opacity: .22;
+      pointer-events: none;
     }
 
     .app{
-      max-width:1450px;
-      margin:0 auto;
-      padding:24px;
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 24px;
     }
 
-    .intro-screen{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
+    .hero{
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 18px;
+      transform: perspective(1000px) rotateX(5deg);
+      position: relative;
+      overflow: hidden;
     }
 
-    .intro-card{
-      width:min(1100px, 100%);
-      border:1px solid var(--line);
-      border-radius:32px;
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      backdrop-filter:blur(16px);
-      box-shadow:var(--shadow);
-      padding:36px;
-      position:relative;
-      overflow:hidden;
-      transform:perspective(1200px) rotateX(5deg);
-    }
-
-    .intro-card::before{
+    .hero::after{
       content:"";
       position:absolute;
-      inset:auto -80px -80px auto;
-      width:220px; height:220px;
+      right:-80px; bottom:-80px;
+      width:240px; height:240px;
       border-radius:50%;
-      background:radial-gradient(circle, rgba(66,245,255,.45), transparent 65%);
-      filter:blur(18px);
+      background: radial-gradient(circle, rgba(75,239,255,.28), transparent 65%);
+      filter: blur(24px);
     }
 
-    .intro-card::after{
-      content:"";
-      position:absolute;
-      inset:20px;
-      border-radius:24px;
-      border:1px solid rgba(255,255,255,.06);
-      pointer-events:none;
-    }
-
-    .intro-top{
+    .top-row{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
+      gap:12px;
       flex-wrap:wrap;
     }
 
@@ -105,162 +90,34 @@
       display:inline-block;
       padding:8px 14px;
       border-radius:999px;
-      border:1px solid rgba(66,245,255,.22);
-      background:rgba(66,245,255,.08);
+      border:1px solid rgba(75,239,255,.22);
+      background:rgba(75,239,255,.08);
       color:var(--cyan);
+      font-size:.82rem;
       letter-spacing:1px;
       text-transform:uppercase;
-      font-size:.82rem;
     }
 
-    .intro-card h1{
-      font-size:clamp(2.4rem, 5vw, 4.8rem);
-      line-height:1;
-      color:var(--cyan);
-      text-transform:uppercase;
-      text-shadow:0 0 14px rgba(66,245,255,.35);
-      margin-top:18px;
+    .hero h1{
+      font-size: clamp(2rem, 4vw, 4rem);
+      margin-top: 16px;
+      color: var(--cyan);
+      text-shadow: 0 0 14px rgba(75,239,255,.30);
+      text-transform: uppercase;
+      line-height: 1.05;
     }
 
-    .intro-card p{
-      margin-top:14px;
-      max-width:850px;
-      line-height:1.7;
-      color:var(--muted);
-      font-size:1.05rem;
-    }
-
-    .intro-grid{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:22px;
-      margin-top:28px;
-    }
-
-    .intro-box{
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:24px;
-      background:rgba(255,255,255,.04);
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
-
-    .intro-box h3{
-      color:#d8fcff;
-      margin-bottom:12px;
-      font-size:1.2rem;
-    }
-
-    .intro-box ul{
-      padding-left:18px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .intro-box li{ margin-bottom:8px; }
-
-    .holo-preview{
-      min-height:300px;
-      position:relative;
-      border-radius:24px;
-      overflow:hidden;
-      background:
-        radial-gradient(circle at center, rgba(66,245,255,.12), rgba(255,255,255,.02) 38%, rgba(0,0,0,.18) 72%),
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18));
-      border:1px solid rgba(255,255,255,.08);
-    }
-
-    .holo-preview svg{
-      width:100%;
-      height:300px;
-      display:block;
-      filter:drop-shadow(0 0 12px rgba(66,245,255,.2));
-    }
-
-    .scan-line{
-      position:absolute;
-      left:0; width:100%; height:8px;
-      background:linear-gradient(90deg, transparent, rgba(66,245,255,.75), transparent);
-      box-shadow:0 0 18px rgba(66,245,255,.55);
-      animation:scanMove 3.6s linear infinite;
-      opacity:.8;
-    }
-
-    @keyframes scanMove{
-      0%{ top:0; }
-      50%{ top:calc(100% - 8px); }
-      100%{ top:0; }
-    }
-
-    .pulse{ animation:pulse 1.8s infinite; transform-origin:center; }
-    @keyframes pulse{
-      0%{ opacity:.35; transform:scale(1); }
-      50%{ opacity:.85; transform:scale(1.08); }
-      100%{ opacity:.35; transform:scale(1); }
-    }
-
-    .start-actions{
-      margin-top:26px;
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    button{
-      cursor:pointer;
-      border:none;
-      color:var(--text);
-      border-radius:18px;
-      padding:14px 18px;
-      font-size:1rem;
-      transition:.25s ease;
-    }
-
-    .btn-primary{
-      background:linear-gradient(180deg, rgba(66,245,255,.22), rgba(255,255,255,.04));
-      border:1px solid rgba(66,245,255,.28);
-      box-shadow:0 0 18px rgba(66,245,255,.1);
-    }
-
-    .btn-secondary{
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.12);
-    }
-
-    button:hover{
-      transform:translateY(-2px) scale(1.01);
-      box-shadow:0 0 16px rgba(66,245,255,.12);
-    }
-
-    .game-screen{ display:none; }
-
-    .game-header{
-      text-align:center;
-      margin-bottom:18px;
-      padding:20px;
-      border:1px solid var(--line);
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
-      transform:perspective(1000px) rotateX(5deg);
-    }
-
-    .game-header h2{
-      color:var(--cyan);
-      text-transform:uppercase;
-      font-size:clamp(1.8rem, 3vw, 3rem);
-      text-shadow:0 0 12px rgba(66,245,255,.26);
-    }
-
-    .game-header p{
-      margin-top:8px;
-      color:var(--muted);
+    .hero p{
+      margin-top: 12px;
+      color: var(--muted);
+      max-width: 980px;
+      line-height: 1.7;
+      font-size: 1.03rem;
     }
 
     .hud{
       display:grid;
-      grid-template-columns:repeat(5, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap:14px;
       margin-bottom:18px;
     }
@@ -269,23 +126,23 @@
       border:1px solid var(--line);
       border-radius:18px;
       padding:16px;
-      background:var(--panel);
-      backdrop-filter:blur(15px);
-      box-shadow:var(--shadow);
-      transform:perspective(900px) rotateX(8deg);
+      background: var(--panel);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      transform: perspective(850px) rotateX(7deg);
     }
 
     .hud-label{
-      color:var(--muted);
-      font-size:.82rem;
-      margin-bottom:6px;
-      text-transform:uppercase;
-      letter-spacing:1px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: .8rem;
+      margin-bottom: 6px;
     }
 
     .hud-value{
-      font-size:1.2rem;
-      font-weight:bold;
+      font-size: 1.2rem;
+      font-weight: bold;
     }
 
     .bar-wrap{
@@ -294,151 +151,173 @@
       border-radius:999px;
       overflow:hidden;
       margin-top:8px;
-      background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.08);
     }
 
     .bar{
       height:100%;
-      width:100%;
       transition:.35s ease;
     }
 
-    .life{
-      background:linear-gradient(90deg, var(--green), var(--yellow), var(--red));
-      box-shadow:0 0 16px rgba(77,255,156,.25);
-    }
-
-    .infection{
-      background:linear-gradient(90deg, #6a00ff, #ff50f5, #ff6f91);
-      box-shadow:0 0 16px rgba(255,80,245,.18);
-    }
+    .life{ background: linear-gradient(90deg, var(--green), var(--yellow), var(--red)); }
+    .infect{ background: linear-gradient(90deg, #6d2bff, #ff4df5, #ff7d8e); }
 
     .layout{
       display:grid;
-      grid-template-columns:1.15fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
       gap:18px;
     }
 
     .panel{
       border:1px solid var(--line);
       border-radius:28px;
-      overflow:hidden;
-      background:var(--panel);
-      backdrop-filter:blur(18px);
-      box-shadow:var(--shadow);
-      position:relative;
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
 
     .panel::after{
       content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(135deg, rgba(255,255,255,.05), transparent 45%, rgba(0,0,0,.14));
-      pointer-events:none;
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,.05), transparent 45%, rgba(0,0,0,.14));
+      pointer-events: none;
     }
 
     .panel-inner{
-      padding:22px;
       position:relative;
       z-index:2;
+      padding:22px;
     }
 
     .stage-top{
       display:flex;
-      align-items:center;
       justify-content:space-between;
+      align-items:center;
       gap:12px;
-      margin-bottom:14px;
       flex-wrap:wrap;
+      margin-bottom:14px;
     }
 
-    .human-stage{
-      position:relative;
-      min-height:670px;
-      border-radius:24px;
-      overflow:hidden;
+    .body-stage{
+      position: relative;
+      min-height: 760px;
+      border-radius: 24px;
+      overflow: hidden;
       background:
-        radial-gradient(circle at center, rgba(66,245,255,.1), rgba(255,255,255,.015) 38%, rgba(0,0,0,.18) 72%),
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.2));
+        radial-gradient(circle at center, rgba(75,239,255,.10), rgba(255,255,255,.02) 38%, rgba(0,0,0,.20) 72%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.22));
       border:1px solid rgba(255,255,255,.08);
-      transform:perspective(1300px) rotateY(-6deg);
-      box-shadow:inset 0 0 40px rgba(66,245,255,.06), 0 22px 60px rgba(0,0,0,.4);
+      transform: perspective(1300px) rotateY(-6deg);
+      box-shadow: inset 0 0 40px rgba(75,239,255,.06), 0 22px 60px rgba(0,0,0,.4);
+    }
+
+    .scan-line{
+      position:absolute;
+      left:0;
+      width:100%;
+      height:8px;
+      background: linear-gradient(90deg, transparent, rgba(75,239,255,.8), transparent);
+      box-shadow: 0 0 18px rgba(75,239,255,.55);
+      opacity:.85;
+      animation: scanMove 4s linear infinite;
+      z-index: 4;
+    }
+
+    @keyframes scanMove{
+      0%{ top:0; }
+      50%{ top:calc(100% - 8px); }
+      100%{ top:0; }
     }
 
     .human-svg{
       width:100%;
-      height:670px;
+      height:760px;
       display:block;
-      filter:drop-shadow(0 0 14px rgba(66,245,255,.16));
+      filter: drop-shadow(0 0 14px rgba(75,239,255,.15));
     }
 
     .organ{
+      opacity:.88;
       transition:.35s ease;
-      filter:drop-shadow(0 0 8px rgba(255,255,255,.12));
-      opacity:.85;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,.12));
     }
 
     .organ.active{
-      filter:drop-shadow(0 0 16px rgba(255,217,94,.62));
       opacity:1;
+      filter: drop-shadow(0 0 18px rgba(255,211,94,.70));
+    }
+
+    .pulse{
+      animation:pulse 1.9s infinite;
+      transform-origin:center;
+    }
+
+    @keyframes pulse{
+      0%{ opacity:.32; transform: scale(1); }
+      50%{ opacity:.82; transform: scale(1.07); }
+      100%{ opacity:.32; transform: scale(1); }
     }
 
     .bacteria{
-      animation:floaty 3.2s ease-in-out infinite;
-      transform-origin:center;
-      filter:drop-shadow(0 0 12px rgba(255,80,245,.56));
+      animation: floaty 3.5s ease-in-out infinite;
+      transform-origin: center;
+      filter: drop-shadow(0 0 12px rgba(255,77,245,.55));
     }
 
-    .bacteria.alt{ animation-duration:4.2s; animation-delay:.7s; }
-    .bacteria.alt2{ animation-duration:5s; animation-delay:1.1s; }
-    .bacteria.boss{ animation-duration:2.5s; }
+    .bacteria.alt{ animation-duration: 4.2s; animation-delay: .8s; }
+    .bacteria.alt2{ animation-duration: 5.1s; animation-delay: 1.1s; }
+    .bacteria.boss{ animation-duration: 2.7s; }
 
     @keyframes floaty{
-      0%{ transform:translateY(0) rotate(0) scale(1); }
-      25%{ transform:translateY(-8px) rotate(8deg) scale(1.03); }
-      50%{ transform:translateY(3px) rotate(-7deg) scale(.98); }
-      75%{ transform:translateY(-5px) rotate(5deg) scale(1.02); }
-      100%{ transform:translateY(0) rotate(0) scale(1); }
+      0%{ transform: translateY(0) rotate(0) scale(1); }
+      25%{ transform: translateY(-8px) rotate(8deg) scale(1.03); }
+      50%{ transform: translateY(4px) rotate(-6deg) scale(.98); }
+      75%{ transform: translateY(-6px) rotate(5deg) scale(1.02); }
+      100%{ transform: translateY(0) rotate(0) scale(1); }
     }
 
     .info-title{
-      font-size:1.6rem;
-      color:var(--cyan);
-      margin-bottom:8px;
-      text-shadow:0 0 12px rgba(66,245,255,.22);
+      font-size: 1.65rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      text-shadow: 0 0 12px rgba(75,239,255,.22);
     }
 
     .info-sub{
-      color:var(--muted);
-      margin-bottom:16px;
-      line-height:1.6;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
     }
 
     .fact-box{
       border:1px solid rgba(255,255,255,.08);
-      background:var(--panel2);
+      background: var(--panel2);
       border-radius:18px;
       padding:16px;
       margin-bottom:14px;
       line-height:1.7;
-      color:#dceef7;
+      color:#dff0f8;
     }
 
-    .fact-box strong{ color:var(--yellow); }
+    .fact-box strong{ color: var(--yellow); }
 
     .question-box{
       margin-top:14px;
       padding:18px;
       border-radius:18px;
-      background:linear-gradient(180deg, rgba(255,80,245,.12), rgba(255,255,255,.03));
-      border:1px solid rgba(255,80,245,.22);
+      background: linear-gradient(180deg, rgba(255,77,245,.12), rgba(255,255,255,.03));
+      border:1px solid rgba(255,77,245,.22);
     }
 
     .question-box h3{
+      color:#ffe2ff;
       margin-bottom:12px;
-      color:#ffe0ff;
-      font-size:1.1rem;
       line-height:1.5;
+      font-size:1.08rem;
     }
 
     .options{
@@ -449,10 +328,19 @@
     .option-btn, .control-btn{
       width:100%;
       text-align:left;
-      border-radius:16px;
       padding:14px 16px;
-      border:1px solid rgba(66,245,255,.22);
-      background:linear-gradient(180deg, rgba(66,245,255,.12), rgba(255,255,255,.03));
+      border-radius:16px;
+      border:1px solid rgba(75,239,255,.22);
+      background: linear-gradient(180deg, rgba(75,239,255,.12), rgba(255,255,255,.03));
+      color:var(--text);
+      cursor:pointer;
+      transition:.25s ease;
+      font-size:.98rem;
+    }
+
+    .option-btn:hover, .control-btn:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 0 16px rgba(75,239,255,.12);
     }
 
     .feedback{
@@ -462,20 +350,20 @@
       border-radius:16px;
       background:rgba(255,255,255,.04);
       border:1px solid rgba(255,255,255,.08);
-      line-height:1.6;
       color:var(--muted);
+      line-height:1.6;
     }
 
     .controls{
       display:flex;
       gap:12px;
-      margin-top:14px;
       flex-wrap:wrap;
+      margin-top:14px;
     }
 
     .legend{
       display:grid;
-      grid-template-columns:repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap:10px;
       margin-top:16px;
     }
@@ -484,338 +372,283 @@
       padding:12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
       line-height:1.55;
-      font-size:.94rem;
+      font-size:.93rem;
     }
 
-    .victory-screen, .gameover-screen{
+    .final-screen{
       display:none;
       text-align:center;
       padding:40px 20px 28px;
     }
 
-    .victory-screen.active, .gameover-screen.active{ display:block; }
+    .final-screen.active{ display:block; }
 
-    .victory-screen h2{
+    .final-screen h2{
       font-size:2.2rem;
+      margin-bottom:12px;
+    }
+
+    .victory h2{
       color:var(--green);
-      margin-bottom:12px;
-      text-shadow:0 0 12px rgba(77,255,156,.22);
+      text-shadow:0 0 12px rgba(84,255,171,.22);
     }
 
-    .gameover-screen h2{
-      font-size:2.2rem;
+    .gameover h2{
       color:var(--red);
-      margin-bottom:12px;
-      text-shadow:0 0 12px rgba(255,91,120,.22);
+      text-shadow:0 0 12px rgba(255,102,127,.22);
     }
 
-    .victory-screen p, .gameover-screen p{
+    .final-screen p{
       color:var(--muted);
       max-width:760px;
       margin:0 auto 14px;
       line-height:1.7;
     }
 
-    .small-note{
-      margin-top:16px;
-      color:#b9d8e6;
-      font-size:.92rem;
-    }
-
-    @media (max-width:1150px){
-      .layout, .intro-grid{ grid-template-columns:1fr; }
+    @media (max-width:1180px){
+      .layout{ grid-template-columns:1fr; }
       .hud{ grid-template-columns:repeat(2, 1fr); }
     }
 
     @media (max-width:760px){
       .hud{ grid-template-columns:1fr; }
       .legend{ grid-template-columns:1fr; }
-      .human-stage{ min-height:540px; }
-      .human-svg{ height:540px; }
+      .body-stage{ min-height:560px; }
+      .human-svg{ height:560px; }
     }
   </style>
 </head>
 <body>
   <div class="app">
-    <section class="intro-screen" id="introScreen">
-      <div class="intro-card">
-        <div class="intro-top">
-          <span class="chip">Simulación 3D futurista</span>
-          <span class="chip">Presentación interactiva</span>
-        </div>
+    <section class="hero">
+      <div class="top-row">
+        <span class="chip">BioScan Futurista</span>
+        <span class="chip">Helicobacter pylori</span>
+      </div>
+      <h1>Infección gástrica en cuerpo 3D</h1>
+      <p>
+        Simulación visual del cuerpo humano con enfoque en <strong>Helicobacter pylori</strong>, una bacteria que coloniza el estómago.
+        Esta versión está hecha para una presentación escolar llamativa, futurista y con la información clave de la rúbrica.
+      </p>
+    </section>
 
-        <h1>Helicobacter Attack X</h1>
-        <p>
-          Esta simulación muestra cómo <strong>Helicobacter pylori</strong> entra al sistema digestivo,
-          sobrevive en el ambiente ácido del estómago, daña la mucosa gástrica y puede provocar
-          gastritis, úlceras e incluso aumentar el riesgo de cáncer gástrico si no se trata.
-        </p>
-
-        <div class="intro-grid">
-          <div class="intro-box">
-            <h3>¿Qué aprenderás?</h3>
-            <ul>
-              <li>Qué es <strong>Helicobacter pylori</strong> y por qué se considera un agente infeccioso importante.</li>
-              <li>Cómo se contagia y cuáles son las principales vías de transmisión.</li>
-              <li>Qué órganos afecta y cuáles son los síntomas más frecuentes.</li>
-              <li>Qué complicaciones graves puede causar si la infección se vuelve crónica.</li>
-              <li>Cómo se diagnostica, cómo se trata y cómo se previene.</li>
-            </ul>
-
-            <div class="start-actions">
-              <button class="btn-primary" onclick="startExperience()">Iniciar simulación</button>
-              <button class="btn-secondary" onclick="toggleSoundInfo()">¿Cómo presentarlo?</button>
-            </div>
-
-            <p class="small-note" id="presentTip" style="display:none;">
-              Consejo: cuando lo muestres, di que construiste una simulación interactiva del cuerpo humano para explicar
-              el proceso infeccioso de una forma visual, moderna y menos tradicional.
-            </p>
-          </div>
-
-          <div class="intro-box">
-            <div class="holo-preview">
-              <div class="scan-line"></div>
-              <svg viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="250" cy="150" rx="110" ry="120" fill="rgba(66,245,255,.06)" class="pulse"/>
-                <circle cx="250" cy="55" r="28" fill="none" stroke="#60f5ff" stroke-width="3"/>
-                <path d="M225 84 Q250 72 275 84 L300 140 Q310 165 302 205 L285 272 L265 272 L250 210 L235 272 L215 272 L198 205 Q190 165 200 140 Z"
-                      fill="none" stroke="#60f5ff" stroke-width="3"/>
-                <path d="M200 140 L160 195" fill="none" stroke="#60f5ff" stroke-width="3"/>
-                <path d="M300 140 L340 195" fill="none" stroke="#60f5ff" stroke-width="3"/>
-                <g>
-                  <path d="M235 145 Q220 155 220 180 Q220 205 250 210 Q280 210 288 190 Q295 170 284 150 Q274 138 260 138 Q252 137 246 128 Q240 120 235 145Z"
-                        fill="rgba(77,255,156,.45)" stroke="#d6ffe8" stroke-width="2"/>
-                </g>
-                <g class="bacteria">
-                  <ellipse cx="255" cy="177" rx="14" ry="7" fill="#ff54ff"/>
-                  <path d="M242 177 C236 170, 232 186, 224 180" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                  <path d="M268 177 C276 170, 280 186, 288 180" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                </g>
-              </svg>
-            </div>
-          </div>
-        </div>
+    <section class="hud">
+      <div class="hud-card">
+        <div class="hud-label">Nivel</div>
+        <div class="hud-value" id="hudLevel">1 / 6</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Vida del paciente</div>
+        <div class="hud-value" id="hudLifeText">100%</div>
+        <div class="bar-wrap"><div class="bar life" id="lifeBar" style="width:100%"></div></div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Infección</div>
+        <div class="hud-value" id="hudInfectionText">15%</div>
+        <div class="bar-wrap"><div class="bar infect" id="infectionBar" style="width:15%"></div></div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Puntaje</div>
+        <div class="hud-value" id="hudScore">0 pts</div>
+      </div>
+      <div class="hud-card">
+        <div class="hud-label">Estado</div>
+        <div class="hud-value" id="hudStatus">Escaneo activo</div>
       </div>
     </section>
 
-    <section class="game-screen" id="gameScreen">
-      <div class="game-header">
-        <h2>Helicobacter Attack X</h2>
-        <p>Escaneo biomédico del cuerpo humano y progresión de la infección</p>
-      </div>
+    <section class="layout">
+      <div class="panel">
+        <div class="panel-inner">
+          <div class="stage-top">
+            <span class="chip">Human Body 3D</span>
+            <span class="chip" id="organChip">Sistema: Digestivo</span>
+          </div>
 
-      <div class="hud">
-        <div class="hud-card">
-          <div class="hud-label">Nivel</div>
-          <div class="hud-value" id="hudLevel">1 / 6</div>
-        </div>
+          <div class="body-stage">
+            <div class="scan-line" id="scanLine"></div>
 
-        <div class="hud-card">
-          <div class="hud-label">Vida del paciente</div>
-          <div class="hud-value" id="hudLifeText">100%</div>
-          <div class="bar-wrap"><div class="bar life" id="lifeBar"></div></div>
-        </div>
+            <svg class="human-svg" viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="holoStroke" x1="0" x2="1">
+                  <stop offset="0%" stop-color="#61f6ff"/>
+                  <stop offset="100%" stop-color="#a6fdff"/>
+                </linearGradient>
+              </defs>
 
-        <div class="hud-card">
-          <div class="hud-label">Infección</div>
-          <div class="hud-value" id="hudInfectionText">12%</div>
-          <div class="bar-wrap"><div class="bar infection" id="infectionBar" style="width:12%"></div></div>
-        </div>
+              <ellipse cx="300" cy="430" rx="180" ry="330" fill="rgba(75,239,255,.05)" class="pulse"/>
 
-        <div class="hud-card">
-          <div class="hud-label">Puntaje</div>
-          <div class="hud-value" id="hudScore">0 pts</div>
-        </div>
+              <!-- cuerpo -->
+              <circle cx="300" cy="115" r="52" fill="none" stroke="url(#holoStroke)" stroke-width="5"/>
+              <path d="M250 175
+                       Q300 150 350 175
+                       L390 300
+                       Q405 340 390 420
+                       L365 565
+                       L345 740
+                       L315 740
+                       L300 600
+                       L285 740
+                       L255 740
+                       L235 565
+                       L210 420
+                       Q195 340 210 300
+                       Z"
+                    fill="none" stroke="url(#holoStroke)" stroke-width="5"/>
+              <path d="M210 300 L130 440 L155 465 L235 345" fill="none" stroke="url(#holoStroke)" stroke-width="5"/>
+              <path d="M390 300 L470 440 L445 465 L365 345" fill="none" stroke="url(#holoStroke)" stroke-width="5"/>
+              <path d="M270 740 L225 845" fill="none" stroke="url(#holoStroke)" stroke-width="5"/>
+              <path d="M330 740 L375 845" fill="none" stroke="url(#holoStroke)" stroke-width="5"/>
 
-        <div class="hud-card">
-          <div class="hud-label">Estado</div>
-          <div class="hud-value" id="hudStatus">Escaneo activo</div>
-        </div>
-      </div>
+              <!-- órganos -->
+              <g id="brain" class="organ">
+                <ellipse cx="300" cy="115" rx="30" ry="22" fill="rgba(255,77,245,.55)" stroke="#ffd3ff" stroke-width="2"/>
+              </g>
 
-      <div class="layout">
-        <div class="panel">
-          <div class="panel-inner">
-            <div class="stage-top">
-              <span class="chip">Body Scan Hologram</span>
-              <span class="chip" id="organChip">Órgano: Estómago</span>
-            </div>
+              <g id="lungs" class="organ">
+                <ellipse cx="265" cy="275" rx="38" ry="62" fill="rgba(75,239,255,.34)" stroke="#b8fbff" stroke-width="2"/>
+                <ellipse cx="335" cy="275" rx="38" ry="62" fill="rgba(75,239,255,.34)" stroke="#b8fbff" stroke-width="2"/>
+              </g>
 
-            <div class="human-stage">
-              <div class="scan-line" id="mainScan"></div>
+              <g id="heart" class="organ">
+                <path d="M300 300
+                         C288 276 250 283 252 316
+                         C254 349 300 374 300 374
+                         C300 374 346 349 348 316
+                         C350 283 312 276 300 300Z"
+                      fill="rgba(255,102,127,.88)" stroke="#ffd8e0" stroke-width="2"/>
+              </g>
 
-              <svg class="human-svg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="250" cy="350" rx="160" ry="280" fill="rgba(66,245,255,.05)" class="pulse"/>
+              <g id="liver" class="organ">
+                <path d="M364 366
+                         Q430 362 438 402
+                         Q426 440 344 434
+                         Q300 420 314 384
+                         Q332 366 364 366Z"
+                      fill="rgba(255,211,94,.52)" stroke="#fff1bb" stroke-width="2"/>
+              </g>
 
-                <circle cx="250" cy="95" r="45" fill="none" stroke="#60f5ff" stroke-width="4"/>
-                <path d="M210 145
-                         Q250 125 290 145
-                         L325 245
-                         Q338 275 325 340
-                         L305 470
-                         L290 610
-                         L265 610
-                         L250 500
-                         L235 610
-                         L210 610
-                         L195 470
-                         L175 340
-                         Q162 275 175 245
-                         Z"
-                      fill="none" stroke="#60f5ff" stroke-width="4"/>
+              <g id="stomach" class="organ active">
+                <path d="M275 362
+                         Q245 378 245 420
+                         Q245 474 300 486
+                         Q349 486 364 456
+                         Q381 420 362 384
+                         Q348 364 321 362
+                         Q305 360 296 344
+                         Q286 324 275 362Z"
+                      fill="rgba(84,255,171,.52)" stroke="#deffec" stroke-width="3"/>
+              </g>
 
-                <path d="M175 245 L110 355 L130 375 L195 285" fill="none" stroke="#60f5ff" stroke-width="4"/>
-                <path d="M325 245 L390 355 L370 375 L305 285" fill="none" stroke="#60f5ff" stroke-width="4"/>
-                <path d="M225 610 L190 675" fill="none" stroke="#60f5ff" stroke-width="4"/>
-                <path d="M275 610 L310 675" fill="none" stroke="#60f5ff" stroke-width="4"/>
+              <g id="intestines" class="organ">
+                <path d="M250 525
+                         C225 525 225 575 262 575
+                         C300 575 300 525 338 525
+                         C375 525 375 575 338 575
+                         C300 575 300 625 262 625
+                         C225 625 225 675 270 675
+                         C315 675 315 625 352 625
+                         C388 625 388 675 345 675"
+                      fill="none" stroke="rgba(255,160,92,.88)" stroke-width="12" stroke-linecap="round"/>
+              </g>
 
-                <g id="brain" class="organ">
-                  <ellipse cx="250" cy="95" rx="28" ry="19" fill="rgba(255,80,245,.6)" stroke="#ffd7ff" stroke-width="2"/>
-                </g>
+              <!-- anillos de infección -->
+              <circle id="ring1" cx="305" cy="425" r="55" fill="none" stroke="rgba(255,211,94,.35)" stroke-width="4" class="pulse"/>
+              <circle id="ring2" cx="305" cy="425" r="80" fill="none" stroke="rgba(255,77,245,.24)" stroke-width="3" class="pulse"/>
 
-                <g id="lungs" class="organ">
-                  <ellipse cx="220" cy="225" rx="34" ry="54" fill="rgba(66,245,255,.33)" stroke="#a7fbff" stroke-width="2"/>
-                  <ellipse cx="280" cy="225" rx="34" ry="54" fill="rgba(66,245,255,.33)" stroke="#a7fbff" stroke-width="2"/>
-                </g>
+              <!-- bacterias -->
+              <g id="bacteria1" class="bacteria">
+                <ellipse cx="312" cy="410" rx="20" ry="10" fill="#ff53f5"/>
+                <path d="M292 410 C282 402, 278 425, 268 416" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+                <path d="M332 410 C342 402, 346 425, 356 416" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+                <path d="M310 398 C301 386, 322 380, 316 367" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+              </g>
 
-                <g id="heart" class="organ">
-                  <path d="M250 240
-                           C240 220 210 225 212 252
-                           C213 280 250 300 250 300
-                           C250 300 287 280 288 252
-                           C290 225 260 220 250 240Z"
-                        fill="rgba(255,91,120,.85)" stroke="#ffd6df" stroke-width="2"/>
-                </g>
+              <g id="bacteria2" class="bacteria alt">
+                <ellipse cx="270" cy="452" rx="16" ry="8" fill="#ff53f5"/>
+                <path d="M254 452 C245 445, 242 464, 232 458" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+                <path d="M286 452 C294 445, 298 464, 308 458" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+              </g>
 
-                <g id="liver" class="organ">
-                  <path d="M300 305
-                           Q355 302 360 335
-                           Q350 366 282 360
-                           Q250 348 260 320
-                           Q275 306 300 305Z"
-                        fill="rgba(255,217,94,.5)" stroke="#fff0b3" stroke-width="2"/>
-                </g>
+              <g id="bacteria3" class="bacteria alt2">
+                <ellipse cx="350" cy="445" rx="15" ry="7.5" fill="#ff53f5"/>
+                <path d="M335 445 C326 438, 323 457, 314 451" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+                <path d="M365 445 C374 438, 377 457, 386 451" stroke="#ffd2ff" stroke-width="2.5" fill="none"/>
+              </g>
 
-                <g id="stomach" class="organ active">
-                  <path d="M230 300
-                           Q205 315 205 350
-                           Q205 395 250 405
-                           Q290 405 302 380
-                           Q315 350 300 320
-                           Q290 302 268 300
-                           Q255 298 248 285
-                           Q240 270 230 300Z"
-                        fill="rgba(77,255,156,.5)" stroke="#d6ffe8" stroke-width="3"/>
-                </g>
-
-                <g id="intestines" class="organ">
-                  <path d="M210 430
-                           C190 430 190 470 220 470
-                           C250 470 250 430 280 430
-                           C310 430 310 470 280 470
-                           C250 470 250 510 220 510
-                           C190 510 190 550 225 550
-                           C260 550 260 510 290 510
-                           C320 510 320 550 285 550"
-                        fill="none" stroke="rgba(255,160,120,.85)" stroke-width="10" stroke-linecap="round"/>
-                </g>
-
-                <circle id="ring1" cx="255" cy="350" r="42" fill="none" stroke="rgba(255,217,94,.3)" stroke-width="4" class="pulse"/>
-                <circle id="ring2" cx="255" cy="350" r="62" fill="none" stroke="rgba(255,80,245,.2)" stroke-width="3" class="pulse"/>
-
-                <g id="bacteria1" class="bacteria">
-                  <ellipse cx="258" cy="338" rx="18" ry="9" fill="#ff54ff"/>
-                  <path d="M240 338 C233 330, 230 350, 222 341" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                  <path d="M276 338 C284 330, 288 350, 296 341" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                  <path d="M255 329 C247 319, 266 314, 260 304" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                </g>
-
-                <g id="bacteria2" class="bacteria alt">
-                  <ellipse cx="228" cy="372" rx="14" ry="7" fill="#ff54ff"/>
-                  <path d="M214 372 C206 366, 204 384, 196 378" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                  <path d="M242 372 C250 366, 252 384, 260 378" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                </g>
-
-                <g id="bacteria3" class="bacteria alt2">
-                  <ellipse cx="285" cy="365" rx="13" ry="6.5" fill="#ff54ff"/>
-                  <path d="M272 365 C264 359, 262 377, 254 371" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                  <path d="M298 365 C306 359, 308 377, 316 371" stroke="#ffb9ff" stroke-width="2" fill="none"/>
-                </g>
-
-                <g id="bossBacteria" class="bacteria boss" style="display:none;">
-                  <ellipse cx="255" cy="350" rx="36" ry="18" fill="#ff35f0"/>
-                  <path d="M218 350 C203 336, 198 373, 181 358" stroke="#ffd0ff" stroke-width="3" fill="none"/>
-                  <path d="M292 350 C307 336, 312 373, 329 358" stroke="#ffd0ff" stroke-width="3" fill="none"/>
-                  <path d="M252 332 C238 315, 274 306, 264 289" stroke="#ffd0ff" stroke-width="3" fill="none"/>
-                  <path d="M248 367 C235 382, 275 391, 264 406" stroke="#ffd0ff" stroke-width="3" fill="none"/>
-                </g>
-              </svg>
-            </div>
+              <g id="bossBacteria" class="bacteria boss" style="display:none;">
+                <ellipse cx="305" cy="425" rx="40" ry="20" fill="#ff36ee"/>
+                <path d="M264 425 C247 410, 242 451, 222 434" stroke="#ffd2ff" stroke-width="3" fill="none"/>
+                <path d="M346 425 C363 410, 368 451, 388 434" stroke="#ffd2ff" stroke-width="3" fill="none"/>
+                <path d="M303 406 C286 387, 328 376, 318 356" stroke="#ffd2ff" stroke-width="3" fill="none"/>
+                <path d="M300 444 C286 462, 326 473, 317 492" stroke="#ffd2ff" stroke-width="3" fill="none"/>
+              </g>
+            </svg>
           </div>
         </div>
+      </div>
 
-        <div class="panel">
-          <div class="panel-inner">
-            <div id="gameArea">
-              <div class="chip" id="stageChip">Misión 1</div>
-              <h2 class="info-title" id="levelTitle">Nivel 1: El agente infeccioso</h2>
-              <p class="info-sub" id="levelSubtitle">Conoce las características principales de Helicobacter pylori.</p>
+      <div class="panel">
+        <div class="panel-inner">
+          <div id="gameArea">
+            <div class="chip" id="stageChip">Módulo 1</div>
+            <h2 class="info-title" id="levelTitle">Agente infeccioso</h2>
+            <p class="info-sub" id="levelSubtitle">Nombre común, nombre científico y rasgos del microorganismo.</p>
 
-              <div class="fact-box" id="fact1"></div>
-              <div class="fact-box" id="fact2"></div>
+            <div class="fact-box" id="fact1"></div>
+            <div class="fact-box" id="fact2"></div>
 
-              <div class="question-box">
-                <h3 id="questionText"></h3>
-                <div class="options" id="optionsBox"></div>
-              </div>
-
-              <div class="feedback" id="feedbackBox">El sistema está listo. Presiona “Escanear infección” o responde una opción.</div>
-
-              <div class="controls">
-                <button class="control-btn" onclick="scanInfection()">Escanear infección</button>
-                <button class="control-btn btn-secondary" onclick="restartGame()">Reiniciar simulación</button>
-                <button class="control-btn btn-secondary" onclick="nextLevelManual()">Saltar nivel</button>
-              </div>
-
-              <div class="legend">
-                <div class="legend-item"><strong>Tipo de agente:</strong> bacteria Gram negativa con forma helicoidal y flagelos.</div>
-                <div class="legend-item"><strong>Sistema afectado:</strong> digestivo, especialmente el estómago y la mucosa gástrica.</div>
-                <div class="legend-item"><strong>Complicaciones:</strong> gastritis, úlcera péptica y mayor riesgo de cáncer gástrico.</div>
-                <div class="legend-item"><strong>Prevención:</strong> higiene, agua segura, alimentos limpios y control médico.</div>
-              </div>
+            <div class="question-box">
+              <h3 id="questionText"></h3>
+              <div class="options" id="optionsBox"></div>
             </div>
 
-            <div class="victory-screen" id="victoryScreen">
-              <h2>¡Misión cumplida!</h2>
-              <p>
-                Has completado la simulación y detenido la progresión de <strong>Helicobacter pylori</strong>.
-                Ahora sabes que esta bacteria puede persistir durante años en el estómago, generar inflamación
-                crónica y producir daño progresivo si no se diagnostica ni se trata.
-              </p>
-              <p>
-                El mensaje más importante es que la infección no siempre da síntomas al principio, por eso
-                el diagnóstico oportuno y el tratamiento adecuado con antibióticos e inhibidores del ácido
-                son fundamentales para evitar complicaciones mayores.
-              </p>
-              <p id="finalScore"></p>
-              <div class="controls" style="justify-content:center;">
-                <button class="control-btn" onclick="restartGame()">Jugar otra vez</button>
-              </div>
+            <div class="feedback" id="feedbackBox">Sistema listo. Puedes escanear la infección o responder para avanzar.</div>
+
+            <div class="controls">
+              <button class="control-btn" onclick="scanInfection()">Escanear infección</button>
+              <button class="control-btn" onclick="restartGame()">Reiniciar simulación</button>
+              <button class="control-btn" onclick="nextLevelManual()">Saltar módulo</button>
             </div>
 
-            <div class="gameover-screen" id="gameoverScreen">
-              <h2>Sistema crítico</h2>
-              <p>
-                La infección avanzó demasiado. Esto representa cómo una bacteria persistente puede seguir dañando
-                la mucosa del estómago si no se previene, diagnostica y trata a tiempo.
-              </p>
-              <div class="controls" style="justify-content:center;">
-                <button class="control-btn" onclick="restartGame()">Reiniciar</button>
-              </div>
+            <div class="legend">
+              <div class="legend-item"><strong>Agente:</strong> Helicobacter pylori, bacteria Gram negativa, helicoidal y flagelada.</div>
+              <div class="legend-item"><strong>Enfermedad:</strong> gastritis crónica, úlcera péptica y mayor riesgo de cáncer gástrico.</div>
+              <div class="legend-item"><strong>Sistema afectado:</strong> sistema digestivo, especialmente el estómago.</div>
+              <div class="legend-item"><strong>Chile:</strong> infección frecuente, con prevalencias altas reportadas en adultos. </div>
+            </div>
+          </div>
+
+          <div class="final-screen victory" id="victoryScreen">
+            <h2>¡Presentación completada!</h2>
+            <p>
+              Ahora recorriste toda la información importante sobre <strong>Helicobacter pylori</strong>:
+              agente infeccioso, características, enfermedad, sistema afectado, contagio, síntomas,
+              tratamiento, prevención y prevalencia en Chile.
+            </p>
+            <p>
+              Cierre recomendado para exponer: esta bacteria puede permanecer mucho tiempo en el estómago,
+              producir inflamación crónica y generar complicaciones si no se trata, por lo que el diagnóstico,
+              la higiene y el tratamiento oportuno son fundamentales.
+            </p>
+            <p id="finalScore"></p>
+            <div class="controls" style="justify-content:center;">
+              <button class="control-btn" onclick="restartGame()">Volver al inicio</button>
+            </div>
+          </div>
+
+          <div class="final-screen gameover" id="gameoverScreen">
+            <h2>Sistema crítico</h2>
+            <p>
+              La infección avanzó demasiado. Esto simboliza que una infección persistente por
+              <strong>Helicobacter pylori</strong> puede seguir dañando la mucosa gástrica si no se diagnostica
+              ni se trata a tiempo.
+            </p>
+            <div class="controls" style="justify-content:center;">
+              <button class="control-btn" onclick="restartGame()">Reiniciar</button>
             </div>
           </div>
         </div>
@@ -826,124 +659,120 @@
   <script>
     const levels = [
       {
-        title: "Nivel 1: El agente infeccioso",
-        subtitle: "Características principales de Helicobacter pylori",
-        organ: "Estómago",
-        infection: 12,
+        title: "Módulo 1: Agente infeccioso",
+        subtitle: "Nombre común y científico",
+        organ: "Sistema digestivo",
+        infection: 15,
         status: "Agente identificado",
-        fact1: "<strong>Helicobacter pylori</strong> es una bacteria con forma de espiral o hélice. Tiene <strong>flagelos</strong>, que le permiten moverse dentro del moco que protege la pared interna del estómago.",
-        fact2: "<strong>Clave científica:</strong> produce una enzima llamada <strong>ureasa</strong>, que ayuda a neutralizar parte del ácido del estómago alrededor de ella. Gracias a eso logra sobrevivir en un ambiente donde muchas otras bacterias morirían.",
-        question: "¿Qué hace especialmente peligrosa a Helicobacter pylori dentro del cuerpo humano?",
+        fact1: "<strong>Nombre común:</strong> bacteria del estómago. <strong>Nombre científico:</strong> <em>Helicobacter pylori</em>. Es una de las bacterias más conocidas por su capacidad de colonizar la mucosa gástrica.",
+        fact2: "<strong>Características del agente:</strong> es una bacteria <strong>Gram negativa</strong>, de forma <strong>helicoidal o espiral</strong>, microscópica, con <strong>flagelos</strong> que le permiten moverse. Además produce <strong>ureasa</strong>, una enzima que la ayuda a sobrevivir cerca del ácido del estómago.",
+        question: "¿Qué rasgo permite a H. pylori adaptarse al estómago?",
         options: [
-          { text: "Puede adaptarse al ambiente ácido del estómago gracias a la ureasa", correct: true, feedback: "Correcto. Esa adaptación le permite instalarse en el estómago y mantener la infección." },
-          { text: "Es un virus transmitido principalmente por el aire", correct: false, feedback: "Incorrecto. No es un virus y su contagio no ocurre principalmente por el aire." }
+          { text: "La producción de ureasa y su movilidad por flagelos", correct: true, feedback: "Correcto. Esos dos factores ayudan mucho a su colonización." },
+          { text: "Porque es un hongo resistente a la temperatura", correct: false, feedback: "Incorrecto. No es un hongo, es una bacteria." }
         ],
         activeOrgans: ["stomach"],
-        bacteria: [true, true, true],
+        bacteria: [true,true,true],
         boss: false,
         reward: 18
       },
       {
-        title: "Nivel 2: Entrada y contagio",
-        subtitle: "Cómo ingresa al sistema digestivo",
-        organ: "Boca y sistema digestivo",
-        infection: 28,
-        status: "Ruta de entrada detectada",
-        fact1: "<strong>Formas de transmisión:</strong> puede contagiarse por vía <strong>oral-oral</strong> y <strong>fecal-oral</strong>. Esto suele relacionarse con malas condiciones de higiene, agua contaminada o alimentos manipulados sin limpieza adecuada.",
-        fact2: "<strong>Prevención básica:</strong> el lavado de manos, el consumo de agua potable y la higiene de utensilios y alimentos ayudan a disminuir el riesgo de contagio.",
-        question: "¿Qué conducta ayuda más a reducir la transmisión?",
-        options: [
-          { text: "Lavarse las manos y cuidar la higiene del agua y los alimentos", correct: true, feedback: "Muy bien. La prevención se basa mucho en la higiene y el acceso a agua segura." },
-          { text: "Compartir cubiertos y vasos sin preocuparse por la higiene", correct: false, feedback: "Incorrecto. En contextos de mala higiene eso puede facilitar la transmisión." }
-        ],
-        activeOrgans: ["stomach", "intestines"],
-        bacteria: [true, true, true],
-        boss: false,
-        reward: 18
-      },
-      {
-        title: "Nivel 3: Colonización del estómago",
-        subtitle: "Daño inicial de la mucosa gástrica",
+        title: "Módulo 2: Infección y enfermedad",
+        subtitle: "Qué produce en el cuerpo",
         organ: "Estómago",
+        infection: 28,
+        status: "Daño inicial detectado",
+        fact1: "<strong>Nombre de la infección/enfermedad:</strong> infección por <em>Helicobacter pylori</em>. Puede causar <strong>gastritis crónica</strong>, <strong>úlcera gástrica o duodenal</strong> y, en algunos casos, aumentar el riesgo de <strong>cáncer gástrico</strong>.",
+        fact2: "<strong>Cómo se produce:</strong> la bacteria se instala en la mucosa del estómago, la irrita y genera inflamación. <strong>Qué produce:</strong> dolor abdominal, ardor, hinchazón, náuseas, sensación de llenura y a veces ausencia de síntomas al inicio.",
+        question: "¿Qué puede causar esta infección si persiste?",
+        options: [
+          { text: "Gastritis, úlceras y aumento del riesgo de cáncer gástrico", correct: true, feedback: "Muy bien. Es una infección que puede tener complicaciones importantes." },
+          { text: "Solo cansancio muscular sin afectar el estómago", correct: false, feedback: "Incorrecto. El principal sistema afectado es el digestivo." }
+        ],
+        activeOrgans: ["stomach","intestines"],
+        bacteria: [true,true,true],
+        boss: false,
+        reward: 18
+      },
+      {
+        title: "Módulo 3: Sistema humano afectado",
+        subtitle: "Órganos y estructuras comprometidas",
+        organ: "Estómago y mucosa gástrica",
         infection: 45,
         status: "Inflamación activa",
-        fact1: "Una vez instalada, la bacteria irrita la <strong>mucosa gástrica</strong>, que es la capa protectora interna del estómago. Esto puede provocar inflamación, conocida como <strong>gastritis</strong>.",
-        fact2: "<strong>Síntomas frecuentes:</strong> dolor o ardor abdominal, náuseas, hinchazón, sensación de llenura, molestias digestivas e incluso periodos en los que la persona no nota síntomas claros.",
-        question: "¿Cuál es una consecuencia frecuente de esta etapa?",
+        fact1: "<strong>Sistema afectado:</strong> principalmente el <strong>sistema digestivo</strong>. El órgano más comprometido es el <strong>estómago</strong>, especialmente su <strong>mucosa</strong>, que es la capa interna que lo protege.",
+        fact2: "<strong>Importancia biológica:</strong> al debilitar la mucosa, el ácido y las enzimas digestivas dañan con más facilidad el tejido. Por eso la infección puede avanzar desde inflamación simple hasta lesiones más profundas.",
+        question: "¿Qué parte del cuerpo afecta sobre todo H. pylori?",
         options: [
-          { text: "Inflamación del estómago y molestias digestivas", correct: true, feedback: "Correcto. La gastritis es una de las manifestaciones más frecuentes." },
-          { text: "Solo dolor muscular sin relación con el sistema digestivo", correct: false, feedback: "Incorrecto. El principal sistema afectado es el digestivo." }
+          { text: "El sistema digestivo, especialmente el estómago", correct: true, feedback: "Correcto. Ese es el foco principal de la infección." },
+          { text: "El sistema óseo como tejido principal", correct: false, feedback: "Incorrecto. No afecta principalmente huesos." }
         ],
-        activeOrgans: ["stomach"],
-        bacteria: [true, true, true],
+        activeOrgans: ["stomach","liver"],
+        bacteria: [true,true,true],
         boss: false,
         reward: 18
       },
       {
-        title: "Nivel 4: Complicaciones",
-        subtitle: "Úlceras y daño progresivo",
-        organ: "Estómago",
-        infection: 68,
-        status: "Complicaciones en aumento",
-        fact1: "Si la infección persiste, el daño a la mucosa puede progresar y aparecer una <strong>úlcera</strong>, que es una lesión o herida en el revestimiento del estómago o del duodeno.",
-        fact2: "<strong>Riesgo importante:</strong> cuando la inflamación se mantiene durante mucho tiempo, puede aumentar el riesgo de problemas más graves, incluyendo sangrado digestivo y una mayor probabilidad de <strong>cáncer gástrico</strong> en ciertos casos.",
-        question: "¿Por qué esta fase es más peligrosa que la anterior?",
+        title: "Módulo 4: Mecanismo de contagio",
+        subtitle: "Transmisión directa e indirecta",
+        organ: "Boca, alimentos y sistema digestivo",
+        infection: 62,
+        status: "Ruta de contagio detectada",
+        fact1: "<strong>Mecanismo de contagio:</strong> puede transmitirse por vía <strong>directa</strong>, como contacto oral-oral, y por vía <strong>indirecta</strong>, como agua o alimentos contaminados, superficies sucias o utensilios mal higienizados.",
+        fact2: "<strong>Factores que favorecen el contagio:</strong> hacinamiento, mala higiene de manos, consumo de agua no segura y manipulación inadecuada de alimentos. La infección suele adquirirse con frecuencia desde la niñez.",
+        question: "¿Cuál ejemplo corresponde a contagio indirecto?",
         options: [
-          { text: "Porque ya puede haber úlceras y daño crónico más serio", correct: true, feedback: "Exacto. En esta fase hablamos de lesiones más graves y riesgos importantes." },
-          { text: "Porque solamente aparece más apetito", correct: false, feedback: "Incorrecto. El problema es el deterioro progresivo de la mucosa." }
+          { text: "Consumir agua o alimentos contaminados", correct: true, feedback: "Exacto. Ese es un ejemplo típico de transmisión indirecta." },
+          { text: "Una fractura de brazo", correct: false, feedback: "Incorrecto. Eso no tiene relación con el contagio bacteriano." }
         ],
-        activeOrgans: ["stomach", "liver"],
-        bacteria: [true, true, true],
+        activeOrgans: ["stomach","intestines"],
+        bacteria: [true,true,true],
         boss: false,
         reward: 18
       },
       {
-        title: "Nivel 5: Jefe final",
-        subtitle: "Infección avanzada y riesgo clínico",
-        organ: "Estómago",
-        infection: 90,
-        status: "Infección crítica",
-        fact1: "En este nivel aparece el <strong>jefe final</strong>, que representa una infección avanzada o persistente. Esto simboliza el momento en que la bacteria ya ha logrado mantenerse durante mucho tiempo dentro del estómago.",
-        fact2: "<strong>Idea clave para explicar en clase:</strong> Helicobacter pylori no siempre se elimina sola. Puede permanecer por años si no existe diagnóstico y tratamiento adecuados, por eso no debe confundirse con una simple molestia digestiva pasajera.",
-        question: "¿Qué representa el jefe final en esta simulación?",
-        options: [
-          { text: "Una infección persistente que ya tiene mayor riesgo de complicaciones", correct: true, feedback: "Correcto. El jefe final representa una fase avanzada, más seria y peligrosa." },
-          { text: "Una alergia temporal sin importancia clínica", correct: false, feedback: "Incorrecto. Aquí se simboliza una infección crónica y relevante médicamente." }
-        ],
-        activeOrgans: ["stomach", "heart"],
-        bacteria: [false, false, false],
-        boss: true,
-        reward: 18
-      },
-      {
-        title: "Nivel 6: Contrataque médico",
-        subtitle: "Diagnóstico, tratamiento y prevención",
+        title: "Módulo 5: Tratamiento y prevención",
+        subtitle: "Cómo combatir la bacteria",
         organ: "Estómago y control clínico",
-        infection: 20,
-        status: "Tratamiento efectivo",
-        fact1: "<strong>Tratamiento habitual:</strong> se utiliza una combinación de <strong>antibióticos</strong> junto con medicamentos que reducen la producción de ácido, como los inhibidores de la bomba de protones. Esto busca eliminar la bacteria y permitir la recuperación del tejido gástrico.",
-        fact2: "<strong>Diagnóstico:</strong> puede detectarse con pruebas de aliento, análisis de deposiciones, endoscopia o biopsias. La prevención incluye buena higiene, agua segura, control médico y atención a síntomas digestivos persistentes.",
-        question: "¿Cómo se derrota realmente a Helicobacter pylori?",
+        infection: 82,
+        status: "Intervención médica necesaria",
+        fact1: "<strong>Tratamiento:</strong> suele incluir <strong>antibióticos</strong> combinados con medicamentos que disminuyen la producción de ácido, como inhibidores de la bomba de protones. Esto ayuda a erradicar la bacteria y aliviar los síntomas.",
+        fact2: "<strong>Medidas de prevención:</strong> lavado de manos, agua potable, correcta higiene de alimentos y utensilios, evitar ignorar síntomas digestivos persistentes y consultar a un profesional para diagnóstico y control.",
+        question: "¿Qué ayuda a eliminar la infección?",
         options: [
-          { text: "Con diagnóstico oportuno y tratamiento médico adecuado", correct: true, feedback: "¡Victoria! El manejo correcto permite eliminar la bacteria y disminuir el daño." },
-          { text: "Esperando siempre a que desaparezca sola sin control", correct: false, feedback: "Incorrecto. Ignorarla puede permitir que el daño continúe." }
+          { text: "Tratamiento médico adecuado y medidas de higiene", correct: true, feedback: "Correcto. No basta con esperar, se necesita manejo adecuado." },
+          { text: "No hacer nada y esperar siempre que desaparezca sola", correct: false, feedback: "Incorrecto. Eso puede permitir que el daño siga avanzando." }
         ],
-        activeOrgans: ["stomach", "lungs", "heart", "brain"],
-        bacteria: [false, false, false],
-        boss: false,
+        activeOrgans: ["stomach","heart","brain"],
+        bacteria: [false,false,false],
+        boss: true,
         reward: 20
+      },
+      {
+        title: "Módulo 6: Prevalencia en Chile",
+        subtitle: "Frecuencia de la infección",
+        organ: "Población chilena",
+        infection: 20,
+        status: "Datos epidemiológicos cargados",
+        fact1: "<strong>Prevalencia/Incidencia en Chile:</strong> distintas publicaciones médicas chilenas muestran que la infección por <em>H. pylori</em> es <strong>frecuente</strong>. En adultos se han reportado cifras alrededor de <strong>70–75%</strong>, mientras en escolares y niños los valores reportados suelen ser menores, aproximadamente <strong>18–30%</strong>, aunque varían según estudio y método diagnóstico.",
+        fact2: "<strong>Por qué importa en Chile:</strong> esta alta frecuencia se relaciona con la relevancia de la bacteria como problema de salud digestiva y con su vínculo con gastritis, úlcera péptica y cáncer gástrico. Por eso su estudio y detección siguen siendo importantes.",
+        question: "¿Cuál afirmación resume mejor la situación en Chile?",
+        options: [
+          { text: "Es una infección frecuente, especialmente en adultos", correct: true, feedback: "Muy bien. Esa es la idea epidemiológica central." },
+          { text: "Es una infección casi inexistente en la población chilena", correct: false, feedback: "Incorrecto. Los estudios reportan una frecuencia importante." }
+        ],
+        activeOrgans: ["stomach","brain","heart","lungs"],
+        bacteria: [false,false,false],
+        boss: false,
+        reward: 24
       }
     ];
 
     let currentLevel = 0;
     let life = 100;
-    let infection = 12;
+    let infection = 15;
     let score = 0;
     let answered = false;
-
-    const introScreen = document.getElementById("introScreen");
-    const gameScreen = document.getElementById("gameScreen");
-    const presentTip = document.getElementById("presentTip");
 
     const hudLevel = document.getElementById("hudLevel");
     const hudLifeText = document.getElementById("hudLifeText");
@@ -966,24 +795,13 @@
     const gameArea = document.getElementById("gameArea");
     const victoryScreen = document.getElementById("victoryScreen");
     const gameoverScreen = document.getElementById("gameoverScreen");
-    const finalScore = document.getElementById("finalScore");
 
     const organIds = ["brain","lungs","heart","liver","stomach","intestines"];
     const bacteriaIds = ["bacteria1","bacteria2","bacteria3"];
     const bossBacteria = document.getElementById("bossBacteria");
     const ring1 = document.getElementById("ring1");
     const ring2 = document.getElementById("ring2");
-    const mainScan = document.getElementById("mainScan");
-
-    function toggleSoundInfo(){
-      presentTip.style.display = presentTip.style.display === "none" ? "block" : "none";
-    }
-
-    function startExperience(){
-      introScreen.style.display = "none";
-      gameScreen.style.display = "block";
-      renderLevel();
-    }
+    const scanLine = document.getElementById("scanLine");
 
     function updateHUD(levelData){
       hudLevel.textContent = `${Math.min(currentLevel + 1, levels.length)} / ${levels.length}`;
@@ -993,8 +811,8 @@
       hudStatus.textContent = levelData.status;
       lifeBar.style.width = `${life}%`;
       infectionBar.style.width = `${infection}%`;
-      organChip.textContent = `Órgano: ${levelData.organ}`;
-      stageChip.textContent = `Misión ${Math.min(currentLevel + 1, levels.length)}`;
+      organChip.textContent = `Sistema / foco: ${levelData.organ}`;
+      stageChip.textContent = `Módulo ${Math.min(currentLevel + 1, levels.length)}`;
     }
 
     function updateBody(levelData){
@@ -1011,15 +829,15 @@
       bossBacteria.style.display = levelData.boss ? "block" : "none";
 
       if(levelData.boss){
-        ring1.setAttribute("r", "72");
-        ring2.setAttribute("r", "96");
-        ring1.style.stroke = "rgba(255,91,120,.34)";
-        ring2.style.stroke = "rgba(255,80,245,.28)";
+        ring1.setAttribute("r", "78");
+        ring2.setAttribute("r", "108");
+        ring1.style.stroke = "rgba(255,102,127,.38)";
+        ring2.style.stroke = "rgba(255,77,245,.30)";
       } else {
-        ring1.setAttribute("r", "42");
-        ring2.setAttribute("r", "62");
-        ring1.style.stroke = "rgba(255,217,94,.3)";
-        ring2.style.stroke = "rgba(255,80,245,.2)";
+        ring1.setAttribute("r", "55");
+        ring2.setAttribute("r", "80");
+        ring1.style.stroke = "rgba(255,211,94,.35)";
+        ring2.style.stroke = "rgba(255,77,245,.24)";
       }
     }
 
@@ -1041,9 +859,10 @@
       fact1.innerHTML = levelData.fact1;
       fact2.innerHTML = levelData.fact2;
       questionText.textContent = levelData.question;
-      feedbackBox.innerHTML = "El sistema está listo. Puedes escanear o responder para avanzar.";
+      feedbackBox.innerHTML = "El sistema está listo. Puedes escanear la infección o responder para avanzar.";
 
       optionsBox.innerHTML = "";
+
       levelData.options.forEach((option, index) => {
         const btn = document.createElement("button");
         btn.className = "option-btn";
@@ -1055,10 +874,10 @@
 
     function scanInfection(){
       const levelData = levels[currentLevel];
-      mainScan.style.animationDuration = "1.2s";
-      feedbackBox.innerHTML = `🔍 <strong>Escaneo completo:</strong> se detecta actividad infecciosa en <strong>${levelData.organ}</strong>. Nivel de infección estimado: <strong>${infection}%</strong>.`;
+      scanLine.style.animationDuration = "1.2s";
+      feedbackBox.innerHTML = `🔍 <strong>Escaneo completo:</strong> se detecta actividad relacionada con <strong>${levelData.organ}</strong>. Nivel estimado de infección: <strong>${infection}%</strong>.`;
       setTimeout(() => {
-        mainScan.style.animationDuration = "3.6s";
+        scanLine.style.animationDuration = "4s";
       }, 1200);
     }
 
@@ -1077,7 +896,7 @@
         setTimeout(() => {
           currentLevel++;
           renderLevel();
-        }, 1700);
+        }, 1600);
       } else {
         life -= 25;
         if(life < 0) life = 0;
@@ -1088,6 +907,7 @@
         hudInfectionText.textContent = `${infection}%`;
         lifeBar.style.width = `${life}%`;
         infectionBar.style.width = `${infection}%`;
+
         feedbackBox.innerHTML = `❌ <strong>Incorrecto:</strong> ${selected.feedback}`;
 
         if(life <= 0){
@@ -1102,8 +922,8 @@
       if(currentLevel < levels.length - 1){
         currentLevel++;
         renderLevel();
-      } else if(currentLevel === levels.length - 1){
-        currentLevel++;
+      } else {
+        currentLevel = levels.length;
         showVictory();
       }
     }
@@ -1112,8 +932,9 @@
       gameArea.style.display = "none";
       gameoverScreen.classList.remove("active");
       victoryScreen.classList.add("active");
-      finalScore.innerHTML = `<strong>Puntaje final:</strong> ${score} puntos | <strong>Vida restante:</strong> ${life}% | <strong>Infección final:</strong> ${infection}%`;
-      hudStatus.textContent = "Infección controlada";
+      document.getElementById("finalScore").innerHTML =
+        `<strong>Puntaje final:</strong> ${score} puntos | <strong>Vida restante:</strong> ${life}% | <strong>Infección final:</strong> ${infection}%`;
+      hudStatus.textContent = "Presentación completada";
       hudLevel.textContent = `${levels.length} / ${levels.length}`;
       bacteriaIds.forEach(id => document.getElementById(id).style.display = "none");
       bossBacteria.style.display = "none";
@@ -1124,18 +945,13 @@
       victoryScreen.classList.remove("active");
       gameoverScreen.classList.add("active");
       hudStatus.textContent = "Sistema crítico";
-      bacteriaIds.forEach(id => document.getElementById(id).style.display = "block");
       bossBacteria.style.display = "block";
-      ring1.setAttribute("r", "72");
-      ring2.setAttribute("r", "96");
-      ring1.style.stroke = "rgba(255,91,120,.34)";
-      ring2.style.stroke = "rgba(255,80,245,.28)";
     }
 
     function restartGame(){
       currentLevel = 0;
       life = 100;
-      infection = 12;
+      infection = 15;
       score = 0;
       answered = false;
 
@@ -1145,6 +961,8 @@
 
       renderLevel();
     }
+
+    renderLevel();
   </script>
 </body>
 </html>
