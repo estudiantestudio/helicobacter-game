@@ -917,5 +917,178 @@
       if(e.key === "ArrowLeft") prevLevel();
     });
   </script>
+  <div class="agent-module" id="agentModule">
+  <div class="agent-module-card">
+    <button class="agent-close" onclick="closeAgentModule()">✕</button>
+
+    <div class="agent-topbar">
+      <div class="agent-top-title">Agente infeccioso: Helicobacter pylori</div>
+      <div class="agent-step" id="agentStepLabel">Escena 1 / 4</div>
+    </div>
+
+    <div class="agent-scenes">
+      <!-- ESCENA 1 -->
+      <section class="agent-scene active" id="scene1">
+        <div class="scene-main visual-stage">
+          <div class="scene-title">Escena 1: cuerpo humano</div>
+          <div class="body-zoom-stage">
+            <img src="human-body.png" alt="Cuerpo humano" class="scene-body-img">
+            <div class="abdomen-target"></div>
+            <div class="stomach-ring"></div>
+            <div class="scan-caption">Zoom al abdomen • foco en estómago</div>
+          </div>
+        </div>
+
+        <div class="scene-side">
+          <div class="info-panel-box">
+            <h3>Panel A — Agente infeccioso</h3>
+            <p><strong>Helicobacter pylori</strong></p>
+            <p>Bacteria que coloniza la mucosa gástrica y puede provocar inflamación, gastritis y úlceras.</p>
+          </div>
+
+          <div class="info-panel-box">
+            <h3>Panel B — Nombre</h3>
+            <p><strong>Nombre común:</strong> bacteria Helicobacter pylori</p>
+            <p><strong>Nombre científico:</strong> Helicobacter pylori</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 2 -->
+      <section class="agent-scene" id="scene2">
+        <div class="scene-main visual-stage">
+          <div class="scene-title">Escena 2: acercamiento al estómago</div>
+
+          <div class="stomach-scene-wrap">
+            <img
+              src="stomach-real.png"
+              alt="Estómago"
+              class="stomach-real-img"
+              onerror="this.style.display='none';document.getElementById('stomachFallback').style.display='flex';"
+            >
+
+            <div class="stomach-fallback" id="stomachFallback">
+              <div class="stomach-shape"></div>
+            </div>
+
+            <div class="floating-organ-title">Órgano afectado principal: Estómago</div>
+
+            <div class="arrow-label arrow-a">
+              <span class="arrow-line"></span>
+              <span class="arrow-text">Pared interna del estómago</span>
+            </div>
+
+            <div class="arrow-label arrow-b">
+              <span class="arrow-line"></span>
+              <span class="arrow-text">Mucosa gástrica</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="scene-side">
+          <div class="info-panel-box">
+            <h3>Panel C — Características</h3>
+            <ul>
+              <li>Forma espiralada o en forma de S</li>
+              <li>Tamaño: 0,5 µm × 5 µm</li>
+              <li>Bacteria gramnegativa</li>
+              <li>Tiene flagelos</li>
+              <li>Produce ureasa</li>
+            </ul>
+          </div>
+
+          <div class="info-panel-box">
+            <h3>Qué ocurre en el estómago</h3>
+            <ul>
+              <li>La bacteria entra al estómago</li>
+              <li>Se mueve con sus flagelos</li>
+              <li>Atraviesa la capa de moco</li>
+              <li>Se adhiere a la mucosa gástrica</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 3 -->
+      <section class="agent-scene" id="scene3">
+        <div class="scene-main visual-stage">
+          <div class="scene-title">Escena 3: vista microscópica</div>
+
+          <div class="microscope-stage">
+            <div class="mucosa-bg"></div>
+            <div class="mucosa-layer"></div>
+
+            <div class="microscope-lens">
+              <div class="lens-grid"></div>
+              <div class="lens-mucosa"></div>
+              <div class="lens-bacteria bac-l1"></div>
+              <div class="lens-bacteria bac-l2"></div>
+              <div class="lens-bacteria bac-l3"></div>
+            </div>
+
+            <div class="micro-note micro-note-1">La bacteria vive en la capa de moco gástrico</div>
+            <div class="micro-note micro-note-2">También puede adherirse al revestimiento epitelial</div>
+          </div>
+        </div>
+
+        <div class="scene-side">
+          <div class="info-panel-box">
+            <h3>Panel D — Qué ocurre en el estómago</h3>
+            <ul>
+              <li>Produce ureasa para protegerse del ácido</li>
+              <li>Inflama la pared del estómago</li>
+              <li>Puede causar gastritis y úlceras</li>
+              <li>En algunos casos aumenta el riesgo de cáncer gástrico</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 4 -->
+      <section class="agent-scene" id="scene4">
+        <div class="scene-main visual-stage">
+          <div class="scene-title">Escena 4: microzoom de la bacteria</div>
+
+          <div class="bacteria-detail-stage">
+            <div class="big-bacteria">
+              <div class="flagella-group"></div>
+              <div class="label-box lb1">Flagelos polares</div>
+              <div class="label-box lb2">Pared celular gramnegativa</div>
+              <div class="label-box lb3">Membrana externa</div>
+              <div class="label-box lb4">Citoplasma</div>
+              <div class="label-box lb5">ADN circular</div>
+              <div class="label-box lb6">Enzima ureasa</div>
+
+              <div class="label-line ll1"></div>
+              <div class="label-line ll2"></div>
+              <div class="label-line ll3"></div>
+              <div class="label-line ll4"></div>
+              <div class="label-line ll5"></div>
+              <div class="label-line ll6"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scene-side">
+          <div class="info-panel-box">
+            <h3>Texto listo para pegar</h3>
+            <p><strong>Agente infeccioso:</strong> Helicobacter pylori</p>
+            <p><strong>Nombre común:</strong> bacteria Helicobacter pylori</p>
+            <p><strong>Nombre científico:</strong> Helicobacter pylori</p>
+            <p><strong>Tamaño:</strong> aproximadamente 0,5 µm de ancho y 5 µm de largo.</p>
+            <p><strong>Forma:</strong> espiralada o en forma de S.</p>
+            <p><strong>Estructuras celulares:</strong> bacteria gramnegativa con flagelos polares, pared celular, membrana externa, citoplasma y ADN circular.</p>
+            <p><strong>Ureasa:</strong> enzima que le permite sobrevivir en el ambiente ácido del estómago.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="agent-controls">
+      <button onclick="prevAgentScene()">◀ Escena anterior</button>
+      <button onclick="nextAgentScene()">Siguiente escena ▶</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
