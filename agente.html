@@ -15,6 +15,7 @@
       --glass:rgba(7,18,34,0.60);
       --border:rgba(99,231,255,0.30);
       --red:#ff6b7a;
+      --soft:#dffaff;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -46,7 +47,7 @@
       width:100%;
       min-height:100vh;
       display:grid;
-      grid-template-columns: 360px 1fr 380px;
+      grid-template-columns:360px 1fr 380px;
       gap:16px;
       padding:16px;
     }
@@ -60,7 +61,7 @@
       overflow:hidden;
     }
 
-    .left, .right{
+    .left,.right{
       display:flex;
       flex-direction:column;
       gap:16px;
@@ -80,7 +81,7 @@
     }
 
     .title-box p{
-      color:#dffaff;
+      color:var(--soft);
       line-height:1.55;
       font-size:.97rem;
     }
@@ -95,18 +96,19 @@
       font-size:1.2rem;
     }
 
+    .section p,
+    .section li{
+      color:#eefcff;
+      line-height:1.55;
+    }
+
     .section ul{
       padding-left:18px;
       display:grid;
       gap:8px;
     }
 
-    .section li{
-      color:#eefcff;
-      line-height:1.5;
-    }
-
-    .back-btn, .scene-btn{
+    .back-btn,.scene-btn{
       width:100%;
       padding:12px 14px;
       border-radius:14px;
@@ -118,7 +120,7 @@
       transition:.25s ease;
     }
 
-    .back-btn:hover, .scene-btn:hover{
+    .back-btn:hover,.scene-btn:hover{
       transform:translateY(-2px);
       border-color:rgba(183,248,255,.85);
       box-shadow:0 0 16px rgba(99,231,255,.14);
@@ -136,7 +138,7 @@
 
     .center{
       position:relative;
-      min-height:900px;
+      min-height:920px;
       overflow:hidden;
       border-radius:24px;
       border:1px solid rgba(99,231,255,.18);
@@ -144,6 +146,42 @@
         radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
         linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
       box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
+    }
+
+    .hud-grid{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(transparent 97%, rgba(99,231,255,.06) 100%),
+        linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
+      background-size:100% 72px, 72px 100%;
+      opacity:.45;
+    }
+
+    .ring-wrap{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+    }
+
+    .ring{
+      position:absolute;
+      border:1px solid rgba(99,231,255,.14);
+      border-radius:50%;
+      animation:spin 18s linear infinite;
+    }
+
+    .r1{width:620px;height:620px;}
+    .r2{width:470px;height:470px;animation-direction:reverse;}
+    .r3{width:320px;height:320px;animation-duration:12s;}
+
+    @keyframes spin{
+      from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
     }
 
     .scene{
@@ -160,3 +198,702 @@
     }
 
     .scene-label{
+      position:absolute;
+      top:18px;
+      left:18px;
+      z-index:5;
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.24);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:700;
+    }
+
+    .stage{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .body-wrap{
+      position:relative;
+      width:min(35vw,430px);
+      filter:drop-shadow(0 0 25px rgba(99,231,255,.20));
+      animation:bodyZoomFloat 3s ease-in-out infinite alternate;
+    }
+
+    .body-wrap img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    @keyframes bodyZoomFloat{
+      from{transform:scale(1) translateY(10px)}
+      to{transform:scale(1.12) translateY(22px)}
+    }
+
+    .abdomen-target{
+      position:absolute;
+      width:170px;
+      height:170px;
+      border:2px dashed rgba(99,231,255,.55);
+      border-radius:50%;
+      left:50%;
+      top:48%;
+      transform:translate(-50%,-50%);
+      animation:targetPulse 2s infinite;
+      box-shadow:0 0 18px rgba(99,231,255,.16);
+    }
+
+    @keyframes targetPulse{
+      0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}
+      50%{transform:translate(-50%,-50%) scale(1.08);opacity:.7}
+    }
+
+    .stomach-highlight{
+      position:absolute;
+      width:82px;
+      height:94px;
+      left:52%;
+      top:43%;
+      transform:translate(-50%,-50%);
+      border-radius:50% 45% 50% 50%;
+      border:3px solid rgba(255,208,90,.95);
+      box-shadow:0 0 22px rgba(255,208,90,.6);
+      background:radial-gradient(circle, rgba(255,215,70,.25), rgba(255,150,0,.10), transparent 72%);
+    }
+
+    .scene-caption{
+      position:absolute;
+      bottom:26px;
+      left:50%;
+      transform:translateX(-50%);
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.22);
+      border-radius:999px;
+      padding:10px 16px;
+      color:#dffaff;
+      font-weight:700;
+    }
+
+    .stomach-stage{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .stomach-img{
+      max-width:68%;
+      max-height:74%;
+      object-fit:contain;
+      filter:drop-shadow(0 0 24px rgba(255,180,80,.18));
+    }
+
+    .stomach-fallback{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      height:100%;
+    }
+
+    .stomach-shape{
+      width:260px;
+      height:320px;
+      border-radius:44% 54% 48% 56%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,214,160,.55), rgba(255,141,95,.35), transparent 64%),
+        linear-gradient(180deg, #f7b499, #cf6f63);
+      transform:rotate(18deg);
+      box-shadow:0 0 30px rgba(255,130,80,.22);
+    }
+
+    .floating-title{
+      position:absolute;
+      top:80px;
+      left:50%;
+      transform:translateX(-50%);
+      background:rgba(6,18,35,.76);
+      border:1px solid rgba(99,231,255,.24);
+      border-radius:999px;
+      padding:12px 18px;
+      color:#fff;
+      font-weight:800;
+      z-index:4;
+    }
+
+    .arrow-label{
+      position:absolute;
+      color:#fff;
+      font-weight:700;
+      z-index:4;
+    }
+
+    .arrow-line{
+      position:absolute;
+      display:block;
+      background:rgba(99,231,255,.9);
+      box-shadow:0 0 10px rgba(99,231,255,.4);
+    }
+
+    .arrow-text{
+      display:inline-block;
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.2);
+      border-radius:12px;
+      padding:8px 10px;
+    }
+
+    .arrow-a{left:12%;top:34%;}
+    .arrow-a .arrow-line{width:140px;height:2px;left:105%;top:50%;}
+
+    .arrow-b{right:12%;top:56%;}
+    .arrow-b .arrow-line{width:140px;height:2px;right:105%;top:50%;}
+
+    .arrow-c{left:10%;bottom:20%;}
+    .arrow-c .arrow-line{width:160px;height:2px;left:105%;top:50%;}
+
+    .microscope-stage{
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at center, rgba(255,120,120,.08), transparent 38%),
+        rgba(255,255,255,.02);
+    }
+
+    .mucosa-bg{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255,146,146,.18), transparent 18%),
+        radial-gradient(circle at 65% 60%, rgba(255,146,146,.15), transparent 22%),
+        radial-gradient(circle at 50% 50%, rgba(255,110,110,.10), transparent 30%);
+    }
+
+    .mucosa-layer{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:40%;
+      background:
+        linear-gradient(180deg, rgba(255,140,140,.2), rgba(180,60,60,.32)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,.05) 0 8px,
+          rgba(255,255,255,.02) 8px 16px
+        );
+      border-top:2px solid rgba(255,180,180,.3);
+    }
+
+    .lens{
+      position:absolute;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      border:4px solid rgba(99,231,255,.78);
+      box-shadow:0 0 28px rgba(99,231,255,.24);
+      overflow:hidden;
+      background:rgba(8,20,40,.45);
+    }
+
+    .lens-grid{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:24px 24px;
+    }
+
+    .lens-mucosa{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+      height:42%;
+      background:linear-gradient(180deg, rgba(255,180,180,.3), rgba(159,46,46,.45));
+    }
+
+    .lens-bacteria{
+      position:absolute;
+      width:92px;
+      height:34px;
+      border:3px solid #ff82cb;
+      border-radius:999px;
+      box-shadow:0 0 14px rgba(255,130,203,.5);
+      background:rgba(255,130,203,.05);
+      animation:wiggle 3s ease-in-out infinite;
+    }
+
+    .lens-bacteria::before,
+    .lens-bacteria::after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:2px;
+      right:-10px;
+      background:#ffc2e7;
+    }
+
+    .lens-bacteria::before{top:7px;transform:rotate(28deg)}
+    .lens-bacteria::after{bottom:7px;transform:rotate(-28deg)}
+
+    .bac1{left:42px;top:122px;transform:rotate(14deg)}
+    .bac2{right:44px;top:86px;transform:rotate(-14deg)}
+    .bac3{left:116px;bottom:54px;transform:rotate(8deg)}
+
+    @keyframes wiggle{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-8px)}
+    }
+
+    .micro-note{
+      position:absolute;
+      background:rgba(6,18,35,.75);
+      border:1px solid rgba(99,231,255,.22);
+      border-radius:14px;
+      padding:10px 12px;
+      color:#fff;
+      max-width:260px;
+      line-height:1.4;
+      z-index:4;
+    }
+
+    .micro-note-1{left:24px;bottom:36px;}
+    .micro-note-2{right:24px;top:90px;}
+
+    .micro-note-3{left:50%;top:82px;transform:translateX(-50%);}
+
+    .big-bacteria-wrap{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .big-bacteria{
+      position:relative;
+      width:380px;
+      height:170px;
+      border:5px solid #ff87cf;
+      border-radius:999px;
+      box-shadow:0 0 20px rgba(255,135,207,.45);
+      background:
+        radial-gradient(circle at 30% 40%, rgba(255,255,255,.08), transparent 20%),
+        linear-gradient(180deg, rgba(255,130,203,.10), rgba(255,130,203,.04));
+      transform:rotate(-8deg);
+    }
+
+    .big-bacteria::before{
+      content:"";
+      position:absolute;
+      inset:18px;
+      border:2px dashed rgba(255,220,240,.26);
+      border-radius:999px;
+    }
+
+    .flagella-group{
+      position:absolute;
+      right:-28px;
+      top:50%;
+      width:72px;
+      height:72px;
+      transform:translateY(-50%);
+    }
+
+    .flagella-group::before,
+    .flagella-group::after{
+      content:"";
+      position:absolute;
+      width:54px;
+      height:2px;
+      right:0;
+      background:#ffd2ec;
+      box-shadow:0 0 8px rgba(255,210,236,.5);
+    }
+
+    .flagella-group::before{top:24px;transform:rotate(24deg)}
+    .flagella-group::after{top:42px;transform:rotate(-18deg)}
+
+    .label-box{
+      position:absolute;
+      background:rgba(6,18,35,.80);
+      border:1px solid rgba(99,231,255,.22);
+      border-radius:12px;
+      padding:8px 10px;
+      color:#fff;
+      font-size:.94rem;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .lb1{right:-200px;top:24px;}
+    .lb2{left:-220px;top:8px;}
+    .lb3{left:-200px;bottom:18px;}
+    .lb4{right:-150px;bottom:-10px;}
+    .lb5{left:104px;top:-54px;}
+    .lb6{left:120px;bottom:-54px;}
+
+    .label-line{
+      position:absolute;
+      background:rgba(99,231,255,.9);
+      box-shadow:0 0 8px rgba(99,231,255,.35);
+    }
+
+    .ll1{width:120px;height:2px;right:-118px;top:48px;}
+    .ll2{width:132px;height:2px;left:-130px;top:40px;}
+    .ll3{width:112px;height:2px;left:-110px;bottom:48px;}
+    .ll4{width:78px;height:2px;right:-76px;bottom:24px;}
+    .ll5{width:2px;height:54px;left:180px;top:-54px;}
+    .ll6{width:2px;height:56px;left:214px;bottom:-56px;}
+
+    .info-card{
+      padding:18px;
+    }
+
+    .info-card h2{
+      color:var(--cyan2);
+      margin-bottom:12px;
+      font-size:1.2rem;
+    }
+
+    .info-card h3{
+      color:var(--yellow);
+      margin-bottom:10px;
+      font-size:1.05rem;
+    }
+
+    .info-card p{
+      color:#eefcff;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .info-card ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+    }
+
+    .info-card li{
+      color:#eefcff;
+      line-height:1.55;
+    }
+
+    .tag{
+      display:inline-block;
+      background:rgba(99,231,255,.10);
+      border:1px solid rgba(99,231,255,.24);
+      border-radius:999px;
+      padding:6px 10px;
+      color:#dffaff;
+      font-size:.88rem;
+      margin-bottom:10px;
+    }
+
+    .nav-buttons{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .nav-buttons button{
+      flex:1;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:rgba(99,231,255,.08);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .mini-note{
+      font-size:.92rem;
+      color:#dffaff;
+      opacity:.9;
+    }
+
+    @media (max-width: 1250px){
+      .page{
+        grid-template-columns:1fr;
+      }
+      .center{
+        min-height:900px;
+      }
+    }
+
+    @media (max-width: 900px){
+      .body-wrap{
+        width:min(66vw,360px);
+      }
+      .big-bacteria{
+        transform:scale(.75) rotate(-8deg);
+      }
+      .lens{
+        width:280px;
+        height:280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="left">
+      <section class="panel title-box">
+        <h1>1. Agente infeccioso:<br>Helicobacter pylori</h1>
+        <p>
+          Recorrido visual interactivo sobre la bacteria <strong>Helicobacter pylori</strong>,
+          su localización en el estómago, su vista microscópica y sus principales estructuras.
+        </p>
+      </section>
+
+      <section class="panel section">
+        <h2>Navegación</h2>
+        <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
+      </section>
+
+      <section class="panel section">
+        <h2>Secuencia visual</h2>
+        <div class="scene-menu">
+          <button class="scene-btn active" data-scene="0">Escena 1 · Cuerpo humano</button>
+          <button class="scene-btn" data-scene="1">Escena 2 · Estómago</button>
+          <button class="scene-btn" data-scene="2">Escena 3 · Microscopio</button>
+          <button class="scene-btn" data-scene="3">Escena 4 · Microzoom bacteria</button>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <h2>Texto corto listo para pegar</h2>
+        <p>
+          <strong>Agente infeccioso:</strong> Helicobacter pylori<br>
+          <strong>Nombre común:</strong> bacteria Helicobacter pylori<br>
+          <strong>Nombre científico:</strong> Helicobacter pylori<br>
+          <strong>Tamaño:</strong> aproximadamente 0,5 µm de ancho y 5 µm de largo.<br>
+          <strong>Forma:</strong> espiralada o en forma de S.<br>
+          <strong>Estructuras celulares:</strong> bacteria gramnegativa con flagelos polares, pared celular, membrana externa, citoplasma y ADN circular. Produce ureasa, una enzima que le permite sobrevivir en el ambiente ácido del estómago. Coloniza la mucosa gástrica y puede provocar inflamación, gastritis y úlceras.
+        </p>
+      </section>
+    </aside>
+
+    <main class="center panel">
+      <div class="hud-grid"></div>
+      <div class="ring-wrap">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+      </div>
+
+      <!-- ESCENA 1 -->
+      <section class="scene active" id="scene0">
+        <div class="scene-label">Escena 1: cuerpo humano</div>
+        <div class="stage">
+          <div class="body-wrap">
+            <img src="human-body.png" alt="Cuerpo humano">
+            <div class="abdomen-target"></div>
+            <div class="stomach-highlight"></div>
+          </div>
+        </div>
+        <div class="scene-caption">Zoom al abdomen · foco en el estómago</div>
+      </section>
+
+      <!-- ESCENA 2 -->
+      <section class="scene" id="scene1">
+        <div class="scene-label">Escena 2: acercamiento al estómago</div>
+        <div class="stomach-stage">
+          <img
+            src="stomach-real.png"
+            alt="Estómago"
+            class="stomach-img"
+            onerror="this.style.display='none';document.getElementById('fallbackStomach').style.display='flex';"
+          >
+          <div class="stomach-fallback" id="fallbackStomach">
+            <div class="stomach-shape"></div>
+          </div>
+
+          <div class="floating-title">Órgano afectado principal: Estómago</div>
+
+          <div class="arrow-label arrow-a">
+            <span class="arrow-line"></span>
+            <span class="arrow-text">Pared interna del estómago</span>
+          </div>
+
+          <div class="arrow-label arrow-b">
+            <span class="arrow-line"></span>
+            <span class="arrow-text">Mucosa gástrica</span>
+          </div>
+
+          <div class="arrow-label arrow-c">
+            <span class="arrow-line"></span>
+            <span class="arrow-text">Zona donde se adhiere H. pylori</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 3 -->
+      <section class="scene" id="scene2">
+        <div class="scene-label">Escena 3: vista microscópica</div>
+        <div class="microscope-stage">
+          <div class="mucosa-bg"></div>
+          <div class="mucosa-layer"></div>
+
+          <div class="lens">
+            <div class="lens-grid"></div>
+            <div class="lens-mucosa"></div>
+            <div class="lens-bacteria bac1"></div>
+            <div class="lens-bacteria bac2"></div>
+            <div class="lens-bacteria bac3"></div>
+          </div>
+
+          <div class="micro-note micro-note-1">La bacteria vive en la capa de moco gástrico</div>
+          <div class="micro-note micro-note-2">También puede adherirse al revestimiento epitelial</div>
+          <div class="micro-note micro-note-3">El lente enfoca la mucosa gástrica</div>
+        </div>
+      </section>
+
+      <!-- ESCENA 4 -->
+      <section class="scene" id="scene3">
+        <div class="scene-label">Escena 4: microzoom de la bacteria</div>
+        <div class="big-bacteria-wrap">
+          <div class="big-bacteria">
+            <div class="flagella-group"></div>
+
+            <div class="label-box lb1">Flagelos polares</div>
+            <div class="label-box lb2">Pared celular gramnegativa</div>
+            <div class="label-box lb3">Membrana externa</div>
+            <div class="label-box lb4">Citoplasma</div>
+            <div class="label-box lb5">ADN circular</div>
+            <div class="label-box lb6">Enzima ureasa</div>
+
+            <div class="label-line ll1"></div>
+            <div class="label-line ll2"></div>
+            <div class="label-line ll3"></div>
+            <div class="label-line ll4"></div>
+            <div class="label-line ll5"></div>
+            <div class="label-line ll6"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <section class="panel info-card">
+        <div class="tag">Panel A</div>
+        <h2>Agente infeccioso</h2>
+        <h3>Helicobacter pylori</h3>
+        <p>
+          Bacteria que coloniza la mucosa gástrica y puede provocar inflamación,
+          gastritis y úlceras.
+        </p>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Panel B</div>
+        <h2>Nombre común y científico</h2>
+        <p><strong>Nombre común:</strong> bacteria Helicobacter pylori</p>
+        <p><strong>Nombre científico:</strong> Helicobacter pylori</p>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Panel C</div>
+        <h2>Características</h2>
+        <ul>
+          <li>Forma espiralada o en forma de S</li>
+          <li>Tamaño: 0,5 µm × 5 µm</li>
+          <li>Bacteria gramnegativa</li>
+          <li>Tiene flagelos polares</li>
+          <li>Produce ureasa</li>
+          <li>Membrana externa</li>
+          <li>Citoplasma</li>
+          <li>ADN circular</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Panel D</div>
+        <h2>Qué ocurre en el estómago</h2>
+        <ul>
+          <li>La bacteria entra al estómago</li>
+          <li>Se mueve con sus flagelos</li>
+          <li>Atraviesa la capa de moco</li>
+          <li>Se adhiere a la mucosa gástrica</li>
+          <li>Produce ureasa para protegerse del ácido</li>
+          <li>Inflama la pared del estómago</li>
+          <li>Puede causar gastritis y úlceras</li>
+          <li>En algunos casos aumenta el riesgo de cáncer gástrico</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <h2>Lo mínimo que debe mostrar</h2>
+        <p class="mini-note">
+          Cuerpo humano · acercamiento al estómago · imagen del estómago · efecto de microscopio · bacteria ampliada · flechas señalando estructuras · nombre común · nombre científico · tamaño · forma · estructuras celulares.
+        </p>
+
+        <div class="nav-buttons">
+          <button onclick="prevScene()">◀ Escena anterior</button>
+          <button onclick="nextScene()">Siguiente escena ▶</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script>
+    const scenes = document.querySelectorAll(".scene");
+    const sceneButtons = document.querySelectorAll(".scene-btn");
+    let currentScene = 0;
+
+    function renderScene(){
+      scenes.forEach((scene, index) => {
+        scene.classList.toggle("active", index === currentScene);
+      });
+
+      sceneButtons.forEach((btn, index) => {
+        btn.classList.toggle("active", index === currentScene);
+      });
+    }
+
+    function goScene(index){
+      currentScene = index;
+      renderScene();
+    }
+
+    function nextScene(){
+      if(currentScene < scenes.length - 1){
+        currentScene++;
+        renderScene();
+      }
+    }
+
+    function prevScene(){
+      if(currentScene > 0){
+        currentScene--;
+        renderScene();
+      }
+    }
+
+    sceneButtons.forEach((btn, index) => {
+      btn.addEventListener("click", () => goScene(index));
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "ArrowRight") nextScene();
+      if(e.key === "ArrowLeft") prevScene();
+    });
+
+    renderScene();
+  </script>
+</body>
+</html>
