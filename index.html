@@ -1407,19 +1407,28 @@
     const finish = document.getElementById("finish");
     const bacteriaEls = [document.getElementById("b1"), document.getElementById("b2"), document.getElementById("b3")];
 
-    function makeButtons(){
-      levelButtons.innerHTML = "";
-      levels.forEach((lv, i) => {
-        const btn = document.createElement("button");
-        btn.textContent = `${i+1}. ${lv.short}`;
-        btn.onclick = () => {
-          current = i;
-          render();
-        };
-        levelButtons.appendChild(btn);
-      });
+   function makeButtons(){
+  levelButtons.innerHTML = "";
+
+  levels.forEach((lv, i) => {
+    const btn = document.createElement("button");
+    btn.textContent = `${i+1}. ${lv.short}`;
+
+    // 🔥 NIVEL 1 → VA A OTRA PÁGINA
+    if(i === 0){
+      btn.onclick = () => {
+        window.location.href = "agente.html";
+      };
+    } else {
+      btn.onclick = () => {
+        current = i;
+        render();
+      };
     }
 
+    levelButtons.appendChild(btn);
+  });
+}
     function render(){
       const lv = levels[current];
 
