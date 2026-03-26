@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema afectado - Helicobacter pylori</title>
+  <style>
+    :root{
+      --bg1:#030813;
+      --bg2:#071a2f;
+      --cyan:#63e7ff;
+      --cyan2:#b7f8ff;
+      --pink:#ff5fd2;
+      --yellow:#ffd86a;
+      --glass:rgba(7,18,34,0.60);
+      --border:rgba(99,231,255,0.30);
+      --soft:#dffaff;
+      --danger:#ff6b7a;
+      --green:#8fff9e;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      min-height:100vh;
+      color:white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,180,255,.18), transparent 22%),
+        radial-gradient(circle at 80% 25%, rgba(255,0,180,.14), transparent 22%),
+        radial-gradient(circle at 60% 75%, rgba(0,255,255,.08), transparent 25%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),#13081f);
+      overflow:auto;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size:40px 40px;
+      pointer-events:none;
+    }
+
+    .page{
+      width:100%;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:360px 1fr 390px;
+      gap:16px;
+      padding:16px;
+    }
+
+    .panel{
+      background:var(--glass);
+      border:1px solid var(--border);
+      border-radius:20px;
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 25px rgba(99,231,255,.10), inset 0 0 16px rgba(99,231,255,.05);
+      overflow:hidden;
+    }
+
+    .left,.right{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      z-index:3;
+    }
+
+    .title-box,.section,.info-card{
+      padding:18px;
+    }
+
+    .title-box h1,
+    .section h2,
+    .info-card h2{
+      color:var(--cyan2);
+    }
+
+    .title-box h1{
+      font-size:2rem;
+      line-height:1.04;
+      margin-bottom:10px;
+      text-shadow:0 0 14px rgba(99,231,255,.22);
+    }
+
+    .title-box p,
+    .section p,
+    .section li,
+    .info-card p,
+    .info-card li{
+      color:#eefcff;
+      line-height:1.55;
+    }
+
+    .section h2,
+    .info-card h2{
+      margin-bottom:12px;
+      font-size:1.2rem;
+    }
+
+    .section ul,
+    .info-card ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+    }
+
+    .back-btn,.main-btn,.zoom-btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:linear-gradient(135deg, rgba(99,231,255,.12), rgba(255,95,210,.10));
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+
+    .back-btn:hover,.main-btn:hover,.zoom-btn:hover{
+      transform:translateY(-2px);
+      border-color:rgba(183,248,255,.85);
+      box-shadow:0 0 16px rgba(99,231,255,.14);
+    }
+
+    .step-buttons{
+      display:grid;
+      gap:10px;
+    }
+
+    .step-btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.28);
+      background:rgba(99,231,255,.08);
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .step-btn.active{
+      border-color:rgba(183,248,255,.95);
+      box-shadow:0 0 18px rgba(99,231,255,.16);
+      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.12));
+    }
+
+    .tag{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(99,231,255,.10);
+      border:1px solid rgba(99,231,255,.24);
+      color:var(--soft);
+      font-size:.9rem;
+      margin-bottom:10px;
+    }
+
+    .center{
+      position:relative;
+      min-height:940px;
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid rgba(99,231,255,.18);
+      background:
+        radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
+    }
+
+    .hud-grid{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(transparent 97%, rgba(99,231,255,.06) 100%),
+        linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
+      background-size:100% 72px, 72px 100%;
+      opacity:.45;
+    }
+
+    .ring-wrap{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+    }
+
+    .ring{
+      position:absolute;
+      border:1px solid rgba(99,231,255,.14);
+      border-radius:50%;
+      animation:spin 18s linear infinite;
+    }
+
+    .r1{width:620px;height:620px;}
+    .r2{width:470px;height:470px;animation-direction:reverse;}
+    .r3{width:320px;height:320px;animation-duration:12s;}
+
+    @keyframes spin{
+      from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
+    }
+
+    .top-title{
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:5;
+      background:rgba(6,18,35,.78);
+      border:1px solid rgba(99,231,255,.24);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .scene{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transition:.45s ease;
+    }
+
+    .scene.active{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .scene-label{
+      position:absolute;
+      top:74px;
+      left:18px;
+      z-index:5;
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.24);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:700;
+    }
+
+    .stage{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .body-wrap{
+      position:relative;
+      width:min(35vw,430px);
+      filter:drop-shadow(0 0 25px rgba(99,231,255,.20));
+      transition:transform .6s ease;
+    }
+
+    .body-wrap img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    .body-wrap.dimmed img{
+      opacity:.55;
+      filter:grayscale(15%) brightness(.78);
+    }
+
+    .digestive-overlay{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .digestive-spot{
+      position:absolute;
+      border-radius:999px;
+      box-shadow:0 0 20px rgba(99,231,255,.4);
+      background:radial-gradient(circle, rgba(99,231,255,.42), rgba(99,231,255,.12), transparent 72%);
+      opacity:0;
+      transition:.4s ease;
+    }
+
+    .digestive-on .digestive-spot{
+      opacity:1;
+    }
+
+    .esophagus{width:34px;height:140px;left:48%;top:14%;}
+    .stomach{width:90px;height:92px;left:49.5%;top:32%;}
+    .small-int{width:120px;height:140px;left:44%;top:42%;}
+    .large-int{width:145px;height:165px;left:42.5%;top:40%;}
+
+    .stomach.strong{
+      box-shadow:0 0 28px rgba(255,208,90,.75);
+      background:radial-gradient(circle, rgba(255,215,70,.48), rgba(255,150,0,.16), transparent 72%);
+      border:2px solid rgba(255,208,90,.9);
+    }
+
+    .body-caption{
+      position:absolute;
+      bottom:26px;
+      left:50%;
+      transform:translateX(-50%);
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.22);
+      border-radius:999px;
+      padding:10px 16px;
+      color:#dffaff;
+      font-weight:700;
+      z-index:5;
+    }
+
+    .action-box{
+      position:absolute;
+      bottom:90px;
+      left:50%;
+      transform:translateX(-50%);
+      width:min(360px, 82%);
+      z-index:5;
+    }
+
+    .zoom-stage{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .zoom-body{
+      position:relative;
+      width:min(48vw,700px);
+      transform:scale(1.35) translateY(34px);
+      filter:drop-shadow(0 0 25px rgba(99,231,255,.18));
+    }
+
+    .zoom-body img{
+      width:100%;
+      display:block;
+      opacity:.8;
+    }
+
+    .abdomen-focus{
+      position:absolute;
+      width:280px;
+      height:260px;
+      left:50%;
+      top:43%;
+      transform:translate(-50%,-50%);
+      border:2px dashed rgba(99,231,255,.55);
+      border-radius:50%;
+      animation:targetPulse 2s infinite;
+      box-shadow:0 0 18px rgba(99,231,255,.16);
+    }
+
+    @keyframes targetPulse{
+      0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}
+      50%{transform:translate(-50%,-50%) scale(1.07);opacity:.7}
+    }
+
+    .digestive-label{
+      position:absolute;
+      z-index:5;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .digestive-line{
+      position:absolute;
+      display:block;
+      background:rgba(99,231,255,.9);
+      box-shadow:0 0 10px rgba(99,231,255,.4);
+    }
+
+    .digestive-text{
+      display:inline-block;
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.2);
+      border-radius:12px;
+      padding:8px 10px;
+    }
+
+    .label-es{left:16%;top:22%;}
+    .label-es .digestive-line{width:130px;height:2px;left:105%;top:50%;}
+
+    .label-st{right:15%;top:34%;}
+    .label-st .digestive-line{width:140px;height:2px;right:105%;top:50%;}
+
+    .label-id{left:14%;top:54%;}
+    .label-id .digestive-line{width:130px;height:2px;left:105%;top:50%;}
+
+    .label-ig{right:14%;top:63%;}
+    .label-ig .digestive-line{width:140px;height:2px;right:105%;top:50%;}
+
+    .stomach-big-stage{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .stomach-card{
+      position:relative;
+      width:min(520px, 80%);
+      height:min(620px, 78%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:28px;
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(99,231,255,.16);
+      box-shadow:0 0 26px rgba(99,231,255,.08);
+    }
+
+    .stomach-img{
+      max-width:72%;
+      max-height:72%;
+      object-fit:contain;
+      filter:drop-shadow(0 0 24px rgba(255,180,80,.16));
+    }
+
+    .stomach-fallback{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      height:100%;
+    }
+
+    .stomach-shape{
+      width:260px;
+      height:320px;
+      border-radius:44% 54% 48% 56%;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,214,160,.55), rgba(255,141,95,.35), transparent 64%),
+        linear-gradient(180deg, #f7b499, #cf6f63);
+      transform:rotate(18deg);
+      box-shadow:0 0 30px rgba(255,130,80,.22);
+    }
+
+    .stomach-title{
+      position:absolute;
+      top:24px;
+      left:50%;
+      transform:translateX(-50%);
+      background:rgba(6,18,35,.76);
+      border:1px solid rgba(99,231,255,.24);
+      border-radius:999px;
+      padding:12px 18px;
+      color:#fff;
+      font-weight:800;
+      z-index:4;
+    }
+
+    .hotspot{
+      position:absolute;
+      width:18px;
+      height:18px;
+      border-radius:50%;
+      background:radial-gradient(circle, #fff, var(--cyan), rgba(99,231,255,.2));
+      box-shadow:0 0 18px rgba(99,231,255,.7);
+      cursor:pointer;
+      animation:pulseHot 1.8s infinite;
+      z-index:6;
+    }
+
+    @keyframes pulseHot{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.22)}
+    }
+
+    .hs1{left:46%;top:36%;}
+    .hs2{left:54%;top:48%;}
+    .hs3{left:50%;top:58%;}
+    .hs4{left:60%;top:68%;}
+
+    .side-note{
+      position:absolute;
+      background:rgba(6,18,35,.78);
+      border:1px solid rgba(99,231,255,.2);
+      border-radius:12px;
+      padding:8px 10px;
+      color:#fff;
+      font-weight:700;
+      z-index:5;
+    }
+
+    .sn1{left:18px;top:120px;}
+    .sn2{right:18px;top:200px;}
+    .sn3{left:18px;bottom:120px;}
+    .sn4{right:18px;bottom:100px;}
+
+    .modal{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      opacity:0;
+      pointer-events:none;
+      transition:.25s ease;
+      z-index:20;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .modal.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .modal-card{
+      width:min(540px, 92%);
+      background:linear-gradient(145deg, rgba(7,18,34,.96), rgba(24,10,40,.94));
+      border:1px solid rgba(99,231,255,.28);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 0 30px rgba(99,231,255,.14);
+    }
+
+    .modal-card h3{
+      color:var(--cyan2);
+      margin-bottom:12px;
+    }
+
+    .modal-card p{
+      color:#eefcff;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .close-modal{
+      margin-top:8px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(99,231,255,.24);
+      background:rgba(99,231,255,.08);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .info-card h2{
+      margin-bottom:12px;
+      font-size:1.2rem;
+    }
+
+    .mini-note{
+      font-size:.92rem;
+      color:#dffaff;
+      opacity:.95;
+    }
+
+    .nav-buttons{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .nav-buttons button{
+      flex:1;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:rgba(99,231,255,.08);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    @media (max-width:1300px){
+      .page{
+        grid-template-columns:1fr;
+      }
+      .center{
+        min-height:960px;
+      }
+    }
+
+    @media (max-width:900px){
+      .body-wrap{
+        width:min(66vw,360px);
+      }
+      .zoom-body{
+        width:min(80vw,620px);
+      }
+      .stomach-card{
+        width:88%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="left">
+      <section class="panel title-box">
+        <h1>2. Sistema afectado:<br>Sistema digestivo</h1>
+        <p>
+          En este nivel se muestra el sistema humano afectado por <strong>Helicobacter pylori</strong>,
+          con foco en el <strong>estómago</strong> y específicamente en la <strong>mucosa gástrica</strong>.
+        </p>
+      </section>
+
+      <section class="panel section">
+        <h2>Navegación</h2>
+        <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
+      </section>
+
+      <section class="panel section">
+        <h2>Ruta visual</h2>
+        <div class="step-buttons">
+          <button class="step-btn active" data-step="0">Pantalla 1 · Cuerpo humano completo</button>
+          <button class="step-btn" data-step="1">Pantalla 2 · Sistema digestivo ampliado</button>
+          <button class="step-btn" data-step="2">Pantalla 3 · Estómago y mucosa gástrica</button>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <h2>Texto corto listo para poner</h2>
+        <p>
+          <strong>Sistema afectado:</strong> Sistema digestivo<br>
+          <strong>Órgano principal:</strong> Estómago<br>
+          <strong>Zona específica:</strong> Mucosa gástrica<br>
+          <strong>Importancia:</strong> Helicobacter pylori coloniza la mucosa del estómago, altera su función protectora y puede provocar inflamación, gastritis y úlceras.
+        </p>
+      </section>
+    </aside>
+
+    <main class="center panel">
+      <div class="hud-grid"></div>
+      <div class="ring-wrap">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+      </div>
+
+      <div class="top-title">Sistema humano afectado: sistema digestivo</div>
+
+      <!-- PANTALLA 1 -->
+      <section class="scene active" id="step0">
+        <div class="scene-label">Pantalla 1: cuerpo humano completo</div>
+        <div class="stage">
+          <div class="body-wrap digestive-on" id="fullBody">
+            <img src="human-body.png" alt="Cuerpo humano">
+            <div class="digestive-overlay">
+              <div class="digestive-spot esophagus"></div>
+              <div class="digestive-spot stomach strong"></div>
+              <div class="digestive-spot large-int"></div>
+              <div class="digestive-spot small-int"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-box">
+          <button class="main-btn" onclick="goStep(1)">Explorar sistema digestivo</button>
+        </div>
+
+        <div class="body-caption">Sistema digestivo iluminado · el estómago es el foco principal</div>
+      </section>
+
+      <!-- PANTALLA 2 -->
+      <section class="scene" id="step1">
+        <div class="scene-label">Pantalla 2: sistema digestivo ampliado</div>
+        <div class="zoom-stage">
+          <div class="zoom-body">
+            <img src="human-body.png" alt="Sistema digestivo ampliado">
+            <div class="abdomen-focus"></div>
+
+            <div class="digestive-label label-es">
+              <span class="digestive-line"></span>
+              <span class="digestive-text">Esófago</span>
+            </div>
+
+            <div class="digestive-label label-st">
+              <span class="digestive-line"></span>
+              <span class="digestive-text">Estómago</span>
+            </div>
+
+            <div class="digestive-label label-id">
+              <span class="digestive-line"></span>
+              <span class="digestive-text">Intestino delgado</span>
+            </div>
+
+            <div class="digestive-label label-ig">
+              <span class="digestive-line"></span>
+              <span class="digestive-text">Intestino grueso</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-box">
+          <button class="main-btn" onclick="goStep(2)">Zoom al estómago</button>
+        </div>
+
+        <div class="body-caption">El sistema digestivo se amplía y el estómago queda resaltado</div>
+      </section>
+
+      <!-- PANTALLA 3 -->
+      <section class="scene" id="step2">
+        <div class="scene-label">Pantalla 3: estómago y mucosa gástrica</div>
+
+        <div class="stomach-big-stage">
+          <div class="stomach-card">
+            <div class="stomach-title">Órgano principal: Estómago · Zona específica: mucosa gástrica</div>
+
+            <img
+              src="stomach-real.png"
+              alt="Estómago"
+              class="stomach-img"
+              onerror="this.style.display='none';document.getElementById('fallbackStomach').style.display='flex';"
+            >
+
+            <div class="stomach-fallback" id="fallbackStomach">
+              <div class="stomach-shape"></div>
+            </div>
+
+            <div class="hotspot hs1" onclick="openInfo('mucosa')"></div>
+            <div class="hotspot hs2" onclick="openInfo('llega')"></div>
+            <div class="hotspot hs3" onclick="openInfo('accion')"></div>
+            <div class="hotspot hs4" onclick="openInfo('danio')"></div>
+
+            <div class="side-note sn1">Punto 1 · Mucosa gástrica</div>
+            <div class="side-note sn2">Punto 2 · Zona donde llega H. pylori</div>
+            <div class="side-note sn3">Punto 3 · Acción de la bacteria</div>
+            <div class="side-note sn4">Punto 4 · Daño causado</div>
+          </div>
+        </div>
+
+        <div class="modal" id="infoModal">
+          <div class="modal-card">
+            <h3 id="modalTitle">Título</h3>
+            <p id="modalText">Texto</p>
+            <button class="close-modal" onclick="closeInfo()">Cerrar</button>
+          </div>
+        </div>
+
+        <div class="body-caption">Haz clic en los puntos brillantes para ver el detalle de la infección</div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <section class="panel info-card">
+        <div class="tag">Sistema afectado</div>
+        <h2>Sistema digestivo</h2>
+        <p>
+          Es el sistema principal afectado por <strong>Helicobacter pylori</strong>.
+        </p>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Órgano principal</div>
+        <h2>Estómago</h2>
+        <p>
+          Es el órgano más importante en esta infección, porque allí actúa la bacteria.
+        </p>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Parte específica afectada</div>
+        <h2>Mucosa gástrica</h2>
+        <p>
+          Es la capa protectora interna del estómago, donde la bacteria coloniza y altera la función normal de protección.
+        </p>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Función normal del sistema</div>
+        <ul>
+          <li>Digerir alimentos</li>
+          <li>Absorber nutrientes</li>
+          <li>Usar ácido gástrico para ayudar en la digestión y defensa</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Qué altera la bacteria</div>
+        <ul>
+          <li>Daña la mucosa</li>
+          <li>Reduce la protección del estómago</li>
+          <li>Causa inflamación</li>
+          <li>Deja que el ácido lesione el tejido</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <h2>Ruta visual</h2>
+        <p class="mini-note">
+          Cuerpo humano completo → sistema digestivo seleccionado → zoom al abdomen → zoom al estómago → puntos interactivos → detalle de cómo H. pylori afecta la mucosa.
+        </p>
+
+        <div class="nav-buttons">
+          <button onclick="prevStep()">◀ Pantalla anterior</button>
+          <button onclick="nextStep()">Siguiente pantalla ▶</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll(".scene");
+    const stepButtons = document.querySelectorAll(".step-btn");
+    let currentStep = 0;
+
+    function renderSteps(){
+      steps.forEach((step, index) => {
+        step.classList.toggle("active", index === currentStep);
+      });
+
+      stepButtons.forEach((btn, index) => {
+        btn.classList.toggle("active", index === currentStep);
+      });
+    }
+
+    function goStep(index){
+      currentStep = index;
+      renderSteps();
+    }
+
+    function nextStep(){
+      if(currentStep < steps.length - 1){
+        currentStep++;
+        renderSteps();
+      }
+    }
+
+    function prevStep(){
+      if(currentStep > 0){
+        currentStep--;
+        renderSteps();
+      }
+    }
+
+    stepButtons.forEach((btn, index) => {
+      btn.addEventListener("click", () => goStep(index));
+    });
+
+    const infoData = {
+      mucosa: {
+        title: "Punto 1: Mucosa gástrica",
+        text: "Capa interna que protege el estómago del ácido. Es la barrera principal que normalmente evita que el tejido se dañe."
+      },
+      llega: {
+        title: "Punto 2: Zona donde llega H. pylori",
+        text: "Helicobacter pylori se instala en la mucosa gástrica. Allí encuentra un lugar donde puede sobrevivir y adherirse."
+      },
+      accion: {
+        title: "Punto 3: Acción de la bacteria",
+        text: "La bacteria produce ureasa y logra sobrevivir al ácido del estómago. Así altera el ambiente y debilita la protección normal."
+      },
+      danio: {
+        title: "Punto 4: Daño causado",
+        text: "Provoca inflamación, gastritis y puede causar úlceras. En algunos casos más graves, favorece daño prolongado del tejido."
+      }
+    };
+
+    function openInfo(key){
+      const modal = document.getElementById("infoModal");
+      const title = document.getElementById("modalTitle");
+      const text = document.getElementById("modalText");
+
+      title.textContent = infoData[key].title;
+      text.textContent = infoData[key].text;
+      modal.classList.add("show");
+    }
+
+    function closeInfo(){
+      document.getElementById("infoModal").classList.remove("show");
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "ArrowRight") nextStep();
+      if(e.key === "ArrowLeft") prevStep();
+      if(e.key === "Escape") closeInfo();
+    });
+
+    renderSteps();
+  </script>
+</body>
+</html>
