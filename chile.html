@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nivel 8 - Chile | Helicobacter pylori</title>
+  <style>
+    :root{
+      --bg1:#030813;
+      --bg2:#071a2f;
+      --cyan:#63e7ff;
+      --cyan2:#b7f8ff;
+      --pink:#ff5fd2;
+      --yellow:#ffd86a;
+      --glass:rgba(7,18,34,0.60);
+      --border:rgba(99,231,255,0.30);
+      --soft:#dffaff;
+      --danger:#ff6b7a;
+      --green:#8fff9e;
+      --blueGlow:rgba(99,231,255,.25);
+      --redGlow:rgba(255,107,122,.25);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      min-height:100vh;
+      color:white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,180,255,.18), transparent 22%),
+        radial-gradient(circle at 80% 25%, rgba(255,0,180,.14), transparent 22%),
+        radial-gradient(circle at 60% 75%, rgba(0,255,255,.08), transparent 25%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),#13081f);
+      overflow:auto;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size:40px 40px;
+      pointer-events:none;
+    }
+
+    .page{
+      width:100%;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:360px 1fr 390px;
+      gap:16px;
+      padding:16px;
+    }
+
+    .panel{
+      background:var(--glass);
+      border:1px solid var(--border);
+      border-radius:20px;
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 25px rgba(99,231,255,.10), inset 0 0 16px rgba(99,231,255,.05);
+      overflow:hidden;
+    }
+
+    .left,.right{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      z-index:3;
+    }
+
+    .title-box,.section,.info-card{
+      padding:18px;
+    }
+
+    .title-box h1,
+    .section h2,
+    .info-card h2{
+      color:var(--cyan2);
+    }
+
+    .title-box h1{
+      font-size:2rem;
+      line-height:1.04;
+      margin-bottom:10px;
+      text-shadow:0 0 14px rgba(99,231,255,.22);
+    }
+
+    .title-box p,
+    .section p,
+    .section li,
+    .info-card p,
+    .info-card li{
+      color:#eefcff;
+      line-height:1.55;
+    }
+
+    .section h2,
+    .info-card h2{
+      margin-bottom:12px;
+      font-size:1.2rem;
+    }
+
+    .section ul,
+    .info-card ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+    }
+
+    .back-btn,.step-btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:linear-gradient(135deg, rgba(99,231,255,.12), rgba(255,95,210,.10));
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+
+    .back-btn:hover,.step-btn:hover{
+      transform:translateY(-2px);
+      border-color:rgba(183,248,255,.85);
+      box-shadow:0 0 16px rgba(99,231,255,.14);
+    }
+
+    .step-buttons{
+      display:grid;
+      gap:10px;
+    }
+
+    .step-btn.active{
+      border-color:rgba(183,248,255,.95);
+      box-shadow:0 0 18px rgba(99,231,255,.16);
+      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.12));
+    }
+
+    .tag{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(99,231,255,.10);
+      border:1px solid rgba(99,231,255,.24);
+      color:var(--soft);
+      font-size:.9rem;
+      margin-bottom:10px;
+    }
+
+    .highlight{
+      color:var(--yellow);
+      font-weight:800;
+    }
+
+    .center{
+      position:relative;
+      min-height:1080px;
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid rgba(99,231,255,.18);
+      background:
+        radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
+    }
+
+    .hud-grid{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(transparent 97%, rgba(99,231,255,.06) 100%),
+        linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
+      background-size:100% 72px, 72px 100%;
+      opacity:.45;
+    }
+
+    .ring-wrap{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+    }
+
+    .ring{
+      position:absolute;
+      border:1px solid rgba(99,231,255,.14);
+      border-radius:50%;
+      animation:spin 18s linear infinite;
+    }
+
+    .r1{width:620px;height:620px;}
+    .r2{width:470px;height:470px;animation-direction:reverse;}
+    .r3{width:320px;height:320px;animation-duration:12s;}
+
+    @keyframes spin{
+      from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
+    }
+
+    .top-title{
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:5;
+      background:rgba(6,18,35,.78);
+      border:1px solid rgba(99,231,255,.24);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .scene{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transition:.45s ease;
+    }
+
+    .scene.active{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .scene-label{
+      position:absolute;
+      top:74px;
+      left:18px;
+      z-index:5;
+      background:rgba(6,18,35,.74);
+      border:1px solid rgba(99,231,255,.24);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:700;
+    }
+
+    .stage{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+    }
+
+    .overview-stage{
+      width:min(980px, 96%);
+      min-height:760px;
+      border-radius:28px;
+      border:1px solid rgba(99,231,255,.16);
+      background:rgba(255,255,255,.02);
+      box-shadow:0 0 25px rgba(99,231,255,.08);
+      position:relative;
+      overflow:hidden;
+      padding:28px;
+    }
+
+    .alert-box{
+      position:absolute;
+      top:24px;
+      left:50%;
+      transform:translateX(-50%);
+      background:rgba(255,107,122,.14);
+      border:1px solid rgba(255,107,122,.28);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      box-shadow:0 0 18px var(--redGlow);
+      z-index:5;
+      text-align:center;
+    }
+
+    .chile-map-wrap{
+      position:absolute;
+      left:60px;
+      top:150px;
+      width:240px;
+      height:520px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .chile-map{
+      width:70px;
+      height:420px;
+      border-radius:30px;
+      background:linear-gradient(180deg, rgba(99,231,255,.65), rgba(99,231,255,.22));
+      box-shadow:0 0 22px var(--blueGlow);
+      position:relative;
+      clip-path:polygon(
+        44% 0%, 56% 2%, 54% 6%, 58% 10%, 50% 15%, 55% 20%,
+        48% 26%, 53% 30%, 46% 36%, 52% 42%, 45% 49%, 51% 55%,
+        44% 62%, 48% 68%, 42% 75%, 46% 82%, 40% 90%, 46% 100%,
+        32% 100%, 28% 90%, 34% 82%, 30% 75%, 36% 68%, 32% 62%,
+        38% 55%, 34% 49%, 40% 42%, 35% 36%, 42% 30%, 37% 26%,
+        44% 20%, 40% 15%, 46% 10%, 42% 6%
+      );
+    }
+
+    .map-glow{
+      position:absolute;
+      inset:-20px;
+      border-radius:40px;
+      box-shadow:0 0 40px rgba(99,231,255,.18);
+      pointer-events:none;
+    }
+
+    .bubble{
+      position:absolute;
+      min-width:180px;
+      padding:14px 16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 0 18px rgba(99,231,255,.08);
+      z-index:4;
+    }
+
+    .bubble h3{
+      color:var(--cyan2);
+      margin-bottom:8px;
+      font-size:1rem;
+    }
+
+    .bubble p{
+      color:#eefcff;
+      line-height:1.5;
+      font-size:.95rem;
+    }
+
+    .b1{right:60px;top:150px;}
+    .b2{right:80px;top:300px;}
+    .b3{right:70px;top:450px;}
+    .b4{left:110px;bottom:84px;}
+    .b5{right:110px;bottom:84px;}
+
+    .chart-stage{
+      width:min(980px, 96%);
+      min-height:760px;
+      border-radius:28px;
+      border:1px solid rgba(99,231,255,.16);
+      background:rgba(255,255,255,.02);
+      box-shadow:0 0 25px rgba(99,231,255,.08);
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+      padding:24px;
+      align-content:start;
+    }
+
+    .chart-card{
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:18px;
+      box-shadow:0 0 16px rgba(99,231,255,.05);
+    }
+
+    .chart-card h2{
+      color:var(--cyan2);
+      margin-bottom:8px;
+      font-size:1.15rem;
+    }
+
+    .chart-card p{
+      color:#eefcff;
+      line-height:1.5;
+      margin-bottom:12px;
+    }
+
+    .chart{
+      height:220px;
+      display:flex;
+      align-items:flex-end;
+      gap:28px;
+      padding:12px 8px 8px;
+      border-radius:18px;
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .bar-group{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      color:#eefcff;
+      font-size:.95rem;
+      text-align:center;
+    }
+
+    .bar{
+      width:68px;
+      border-radius:14px 14px 4px 4px;
+      background:linear-gradient(180deg, rgba(99,231,255,.85), rgba(99,231,255,.22));
+      box-shadow:0 0 16px rgba(99,231,255,.18);
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      padding-top:8px;
+    }
+
+    .bar.yellow{
+      background:linear-gradient(180deg, rgba(255,216,106,.90), rgba(255,216,106,.25));
+      box-shadow:0 0 16px rgba(255,216,106,.16);
+    }
+
+    .bar.red{
+      background:linear-gradient(180deg, rgba(255,107,122,.88), rgba(255,107,122,.24));
+      box-shadow:0 0 16px rgba(255,107,122,.16);
+    }
+
+    .impact-stage{
+      width:min(980px, 96%);
+      min-height:760px;
+      border-radius:28px;
+      border:1px solid rgba(99,231,255,.16);
+      background:rgba(255,255,255,.02);
+      box-shadow:0 0 25px rgba(99,231,255,.08);
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:20px;
+      padding:24px;
+      align-items:start;
+    }
+
+    .impact-card{
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:20px;
+    }
+
+    .impact-card h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+    }
+
+    .impact-card p,
+    .impact-card li{
+      color:#eefcff;
+      line-height:1.55;
+    }
+
+    .impact-card ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+    }
+
+    .counter-grid{
+      display:grid;
+      gap:14px;
+    }
+
+    .counter{
+      padding:18px;
+      border-radius:20px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 0 18px rgba(99,231,255,.06);
+    }
+
+    .counter .num{
+      font-size:2rem;
+      font-weight:900;
+      color:var(--yellow);
+      margin-bottom:6px;
+      text-shadow:0 0 14px rgba(255,216,106,.14);
+    }
+
+    .counter .label{
+      color:#eefcff;
+      line-height:1.45;
+    }
+
+    .mini-bars{
+      margin-top:16px;
+      height:180px;
+      display:flex;
+      align-items:flex-end;
+      gap:24px;
+      padding:12px 10px 6px;
+      border-radius:18px;
+      background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .mini-group{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      font-size:.92rem;
+      color:#eefcff;
+      text-align:center;
+    }
+
+    .mini-bar{
+      width:70px;
+      border-radius:14px 14px 4px 4px;
+      background:linear-gradient(180deg, rgba(255,107,122,.88), rgba(255,107,122,.24));
+      box-shadow:0 0 16px rgba(255,107,122,.16);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      font-weight:800;
+      padding-top:8px;
+    }
+
+    .info-card h2{
+      margin-bottom:12px;
+      font-size:1.2rem;
+    }
+
+    .mini-note{
+      font-size:.92rem;
+      color:#dffaff;
+      opacity:.95;
+    }
+
+    .nav-buttons{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .nav-buttons button{
+      flex:1;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:rgba(99,231,255,.08);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    @media (max-width:1300px){
+      .page{grid-template-columns:1fr;}
+      .center{min-height:1180px;}
+    }
+
+    @media (max-width:980px){
+      .impact-stage{
+        grid-template-columns:1fr;
+      }
+
+      .overview-stage{
+        padding-top:80px;
+      }
+
+      .chile-map-wrap{
+        position:relative;
+        left:auto;
+        top:auto;
+        width:100%;
+        height:auto;
+        margin:20px auto;
+      }
+
+      .bubble{
+        position:relative;
+        left:auto;
+        right:auto;
+        top:auto;
+        bottom:auto;
+        margin:10px auto;
+        width:90%;
+        max-width:420px;
+      }
+
+      .alert-box{
+        position:relative;
+        left:auto;
+        top:auto;
+        transform:none;
+        margin:0 auto 20px;
+        width:max-content;
+        max-width:94%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="left">
+      <section class="panel title-box">
+        <h1>8. Chile</h1>
+        <p>
+          Este nivel muestra la <strong>prevalencia e impacto de Helicobacter pylori en Chile</strong>,
+          con porcentajes, gráficos y datos de cáncer gástrico.
+        </p>
+      </section>
+
+      <section class="panel section">
+        <h2>Navegación</h2>
+        <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
+      </section>
+
+      <section class="panel section">
+        <h2>Pantallas del nivel</h2>
+        <div class="step-buttons">
+          <button class="step-btn active" data-step="0">Pantalla 1 · Mapa + resumen</button>
+          <button class="step-btn" data-step="1">Pantalla 2 · Gráficos</button>
+          <button class="step-btn" data-step="2">Pantalla 3 · Impacto cáncer gástrico</button>
+        </div>
+      </section>
+
+      <section class="panel section">
+        <h2>Texto corto listo para pegar</h2>
+        <p>
+          En Chile, Helicobacter pylori tiene una alta prevalencia. En escolares se ha reportado entre 18,1% y 20%, mientras que en adultos alcanza cerca de 72,9%–75%. Además, la infección aumenta con la edad y puede superar el 80% en personas de 30 años o más en algunos estudios. Esta bacteria es importante porque se relaciona con gastritis, úlceras y cáncer gástrico, y en 2022 Chile registró 4.955 casos nuevos de cáncer de estómago y 3.924 muertes por esta causa.
+        </p>
+      </section>
+    </aside>
+
+    <main class="center panel">
+      <div class="hud-grid"></div>
+      <div class="ring-wrap">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+      </div>
+
+      <div class="top-title">Prevalencia e impacto de Helicobacter pylori en Chile</div>
+
+      <!-- PANTALLA 1 -->
+      <section class="scene active" id="step0">
+        <div class="scene-label">Pantalla 1: mapa de Chile y resumen</div>
+        <div class="stage">
+          <div class="overview-stage">
+            <div class="alert-box">Chile = país con alta carga de Helicobacter pylori y cáncer gástrico</div>
+
+            <div class="chile-map-wrap">
+              <div class="chile-map">
+                <div class="map-glow"></div>
+              </div>
+            </div>
+
+            <div class="bubble b1">
+              <h3>Escolares</h3>
+              <p><strong>18,1%–20%</strong> de prevalencia en población no sintomática.</p>
+            </div>
+
+            <div class="bubble b2">
+              <h3>Adultos</h3>
+              <p><strong>72,9%–75%</strong> de prevalencia en población no sintomática.</p>
+            </div>
+
+            <div class="bubble b3">
+              <h3>Seroprevalencia por edad</h3>
+              <p>La infección aumenta con la edad y puede llegar a <strong>80% o más</strong> desde los 30 años.</p>
+            </div>
+
+            <div class="bubble b4">
+              <h3>Cáncer gástrico</h3>
+              <p><strong>4.955</strong> casos nuevos en Chile en 2022.</p>
+            </div>
+
+            <div class="bubble b5">
+              <h3>Muertes</h3>
+              <p><strong>3.924</strong> muertes por cáncer gástrico en Chile en 2022.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANTALLA 2 -->
+      <section class="scene" id="step1">
+        <div class="scene-label">Pantalla 2: gráficos de prevalencia</div>
+        <div class="stage">
+          <div class="chart-stage">
+            <div class="chart-card">
+              <h2>Gráfico 1 · Prevalencia de H. pylori en Chile según grupo</h2>
+              <p>La infección es mucho más frecuente en adultos que en niños.</p>
+              <div class="chart">
+                <div class="bar-group">
+                  <div class="bar" style="height:54px;">18,1%</div>
+                  <div>Escolares<br>mínimo</div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar" style="height:60px;">20%</div>
+                  <div>Escolares<br>máximo</div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar yellow" style="height:219px;">72,9%</div>
+                  <div>Adultos<br>mínimo</div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar yellow" style="height:225px;">75%</div>
+                  <div>Adultos<br>máximo</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chart-card">
+              <h2>Gráfico 2 · Cómo aumenta la infección con la edad en Chile</h2>
+              <p>Las barras suben con la edad, mostrando que el riesgo crece progresivamente.</p>
+              <div class="chart">
+                <div class="bar-group">
+                  <div class="bar" style="height:60px;">20%</div>
+                  <div>&lt;10 años</div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar" style="height:120px;">40%</div>
+                  <div>10–19 años</div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar yellow" style="height:180px;">60%</div>
+                  <div>20–29 años</div>
+                </div>
+                <div class="bar-group">
+                  <div class="bar red" style="height:240px;">80%+</div>
+                  <div>30+ años</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANTALLA 3 -->
+      <section class="scene" id="step2">
+        <div class="scene-label">Pantalla 3: impacto del cáncer gástrico</div>
+        <div class="stage">
+          <div class="impact-stage">
+            <div class="impact-card">
+              <h2>Impacto del cáncer gástrico en Chile (2022)</h2>
+              <p>
+                Esto muestra por qué <strong>H. pylori</strong> es un problema relevante de salud pública en Chile.
+              </p>
+              <ul>
+                <li><strong>Nuevos casos de cáncer de estómago:</strong> 4.955</li>
+                <li><strong>Muertes por cáncer de estómago:</strong> 3.924</li>
+                <li><strong>Lugar entre los cánceres más frecuentes en Chile:</strong> 4.º</li>
+                <li><strong>Lugar entre las muertes por cáncer en Chile:</strong> 2.º</li>
+              </ul>
+
+              <div class="mini-bars">
+                <div class="mini-group">
+                  <div class="mini-bar" style="height:180px;">4.955</div>
+                  <div>Casos nuevos</div>
+                </div>
+                <div class="mini-group">
+                  <div class="mini-bar" style="height:143px;">3.924</div>
+                  <div>Muertes</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="counter-grid">
+              <div class="counter">
+                <div class="num">18,1%–20%</div>
+                <div class="label">Prevalencia en escolares chilenos</div>
+              </div>
+
+              <div class="counter">
+                <div class="num">72,9%–75%</div>
+                <div class="label">Prevalencia en adultos chilenos</div>
+              </div>
+
+              <div class="counter">
+                <div class="num">80%+</div>
+                <div class="label">En adultos de 30 años o más en estudios chilenos de seroprevalencia</div>
+              </div>
+
+              <div class="counter">
+                <div class="num">4.955</div>
+                <div class="label">Casos nuevos de cáncer gástrico en Chile en 2022</div>
+              </div>
+
+              <div class="counter">
+                <div class="num">3.924</div>
+                <div class="label">Muertes por cáncer gástrico en Chile en 2022</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <section class="panel info-card">
+        <div class="tag">Resumen principal</div>
+        <h2>Alta prevalencia en Chile</h2>
+        <p>
+          En Chile, la infección por Helicobacter pylori es frecuente y aumenta con la edad.
+        </p>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Prevalencia por grupo</div>
+        <ul>
+          <li>Escolares: 18,1%–20%</li>
+          <li>Adultos: 72,9%–75%</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Prevalencia por edad</div>
+        <ul>
+          <li>&lt;10 años: 20%</li>
+          <li>10–19 años: 40%</li>
+          <li>20–29 años: 60%</li>
+          <li>30+ años: 80% o más</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <div class="tag">Cáncer gástrico</div>
+        <ul>
+          <li>4.955 casos nuevos en 2022</li>
+          <li>3.924 muertes en 2022</li>
+          <li>4.º entre los cánceres más frecuentes</li>
+          <li>2.º entre las muertes por cáncer</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <h2>Idea clave</h2>
+        <p class="mini-note">
+          En Chile, Helicobacter pylori es un problema relevante de salud pública por su alta prevalencia y por su relación con gastritis, úlceras y cáncer gástrico.
+        </p>
+
+        <div class="nav-buttons">
+          <button onclick="prevStep()">◀ Pantalla anterior</button>
+          <button onclick="nextStep()">Siguiente pantalla ▶</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll(".scene");
+    const stepButtons = document.querySelectorAll(".step-btn");
+    let currentStep = 0;
+
+    function renderSteps(){
+      steps.forEach((step, index) => {
+        step.classList.toggle("active", index === currentStep);
+      });
+
+      stepButtons.forEach((btn, index) => {
+        btn.classList.toggle("active", index === currentStep);
+      });
+    }
+
+    function goStep(index){
+      currentStep = index;
+      renderSteps();
+    }
+
+    function nextStep(){
+      if(currentStep < steps.length - 1){
+        currentStep++;
+        renderSteps();
+      }
+    }
+
+    function prevStep(){
+      if(currentStep > 0){
+        currentStep--;
+        renderSteps();
+      }
+    }
+
+    stepButtons.forEach((btn, index) => {
+      btn.addEventListener("click", () => goStep(index));
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "ArrowRight") nextStep();
+      if(e.key === "ArrowLeft") prevStep();
+    });
+
+    renderSteps();
+  </script>
+</body>
+</html>
