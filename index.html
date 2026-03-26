@@ -1407,7 +1407,7 @@
     const finish = document.getElementById("finish");
     const bacteriaEls = [document.getElementById("b1"), document.getElementById("b2"), document.getElementById("b3")];
 
-  function makeButtons(){
+ function makeButtons(){
   levelButtons.innerHTML = "";
 
   levels.forEach((lv, i) => {
@@ -1420,7 +1420,11 @@
       };
     } else if(i === 1){
       btn.onclick = () => {
-        window.location.href = "./sistema.html";
+        window.location.href = "sistema.html";
+      };
+    } else if(i === 2){
+      btn.onclick = () => {
+        window.location.href = "enfermedad.html";
       };
     } else {
       btn.onclick = () => {
