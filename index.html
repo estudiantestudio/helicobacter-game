@@ -1406,7 +1406,6 @@
     const bodyWrap = document.getElementById("bodyWrap");
     const finish = document.getElementById("finish");
     const bacteriaEls = [document.getElementById("b1"), document.getElementById("b2"), document.getElementById("b3")];
-
 function makeButtons(){
   levelButtons.innerHTML = "";
 
@@ -1433,6 +1432,10 @@ function makeButtons(){
     } else if(i === 5){
       btn.onclick = () => {
         window.location.href = "tratamiento.html";
+      };
+    } else if(i === 6){
+      btn.onclick = () => {
+        window.location.href = "prevencion.html";
       };
     } else {
       btn.onclick = () => {
