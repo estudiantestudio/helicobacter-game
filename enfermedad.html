@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -361,6 +362,53 @@
       line-height:1.55;
     }
 
+    .process-step-image{
+      padding-bottom:22px;
+    }
+
+    .entry-image-wrap{
+      margin-top:16px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .entry-image{
+      width:100%;
+      max-width:720px;
+      border-radius:18px;
+      box-shadow:0 0 24px rgba(99,231,255,.14);
+      border:1px solid rgba(99,231,255,.18);
+      display:block;
+    }
+
+    .bubble-container{
+      position:relative;
+    }
+
+    .bubble{
+      position:absolute;
+      top:50%;
+      left:60%;
+      transform:translate(-50%, -50%);
+      background:rgba(0,0,0,0.75);
+      border:2px solid rgba(99,231,255,.6);
+      color:white;
+      padding:10px 14px;
+      border-radius:14px;
+      font-weight:bold;
+      text-align:center;
+      box-shadow:0 0 20px rgba(99,231,255,.4);
+      animation:pulse 1.5s infinite;
+      white-space:nowrap;
+    }
+
+    @keyframes pulse{
+      0%{transform:translate(-50%, -50%) scale(1);}
+      50%{transform:translate(-50%, -50%) scale(1.05);}
+      100%{transform:translate(-50%, -50%) scale(1);}
+    }
+
     .arrow-phrase-stage{
       position:absolute;
       inset:0;
@@ -488,6 +536,12 @@
       .p1,.p2,.p3,.p4,.p5,.p6,.p7,.p8{
         transform:scale(.92);
       }
+      .bubble{
+        top:55%;
+        left:50%;
+        white-space:normal;
+        max-width:220px;
+      }
     }
   </style>
 </head>
@@ -580,22 +634,30 @@
         <div class="scene-label">Pantalla 2: proceso paso a paso</div>
         <div class="process-stage">
           <div class="process-wrap">
-           <div class="process-step process-step-image">
-  <div class="process-step process-step-image">
-  <div class="step-number">1</div>
-  <h3>Entrada al cuerpo</h3>
-  <p>La bacteria entra por agua contaminada, alimentos contaminados o mala higiene.</p>
 
-  <div class="entry-image-wrap">
-    <img src="entrada-cuerpo.png" alt="Entrada al cuerpo de Helicobacter pylori" class="entry-image">
-  </div>
-</div>
-  
+            <div class="process-step process-step-image">
+              <div class="step-number">1</div>
+              <h3>Entrada al cuerpo</h3>
+              <p>La bacteria entra por agua contaminada, alimentos contaminados o mala higiene.</p>
 
-            <div class="process-step">
+              <div class="entry-image-wrap">
+                <img src="entrada-cuerpo.png" alt="Entrada al cuerpo de Helicobacter pylori" class="entry-image">
+              </div>
+            </div>
+
+            <div class="process-step process-step-image">
               <div class="step-number">2</div>
               <h3>Llega al estómago</h3>
               <p>Sobrevive al ácido gástrico, algo que muchas bacterias no logran hacer.</p>
+
+              <div class="entry-image-wrap bubble-container">
+                <img src="entrada-cuerpo.png" alt="Llegada al estómago de Helicobacter pylori" class="entry-image">
+
+                <div class="bubble">
+                  Llega al estómago<br>
+                  Sobrevive al ácido
+                </div>
+              </div>
             </div>
 
             <div class="process-step">
@@ -627,6 +689,7 @@
               <h3>Consecuencias</h3>
               <p>Puede provocar gastritis, úlceras y daño crónico del tejido.</p>
             </div>
+
           </div>
         </div>
       </section>
