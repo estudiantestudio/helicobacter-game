@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nivel 6 - Tratamiento | Helicobacter pylori</title>
+  <title>6. Tratamiento | Helicobacter pylori</title>
   <style>
     :root{
       --bg1:#030813;
@@ -12,14 +12,11 @@
       --cyan2:#b7f8ff;
       --pink:#ff5fd2;
       --yellow:#ffd86a;
+      --green:#8fff9e;
       --glass:rgba(7,18,34,0.60);
       --border:rgba(99,231,255,0.30);
       --soft:#dffaff;
       --danger:#ff6b7a;
-      --danger2:#ff944d;
-      --green:#8fff9e;
-      --blueGlow:rgba(99,231,255,.25);
-      --greenGlow:rgba(143,255,158,.28);
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -51,7 +48,7 @@
       width:100%;
       min-height:100vh;
       display:grid;
-      grid-template-columns:360px 1fr 390px;
+      grid-template-columns:340px 1fr 360px;
       gap:16px;
       padding:16px;
     }
@@ -89,7 +86,13 @@
       text-shadow:0 0 14px rgba(99,231,255,.22);
     }
 
-    .title-box p,
+    .subtitle{
+      color:#dffaff;
+      line-height:1.6;
+      font-size:1rem;
+      margin-top:8px;
+    }
+
     .section p,
     .section li,
     .info-card p,
@@ -101,7 +104,7 @@
     .section h2,
     .info-card h2{
       margin-bottom:12px;
-      font-size:1.2rem;
+      font-size:1.15rem;
     }
 
     .section ul,
@@ -111,7 +114,7 @@
       gap:8px;
     }
 
-    .back-btn,.step-btn{
+    .back-btn,.nav-btn{
       width:100%;
       padding:12px 14px;
       border-radius:14px;
@@ -123,42 +126,26 @@
       transition:.25s ease;
     }
 
-    .back-btn:hover,.step-btn:hover{
+    .back-btn:hover,.nav-btn:hover{
       transform:translateY(-2px);
       border-color:rgba(183,248,255,.85);
       box-shadow:0 0 16px rgba(99,231,255,.14);
     }
 
-    .step-buttons{
+    .nav-buttons{
       display:grid;
       gap:10px;
     }
 
-    .step-btn.active{
+    .nav-btn.active{
       border-color:rgba(183,248,255,.95);
       box-shadow:0 0 18px rgba(99,231,255,.16);
       background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.12));
     }
 
-    .tag{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(99,231,255,.10);
-      border:1px solid rgba(99,231,255,.24);
-      color:var(--soft);
-      font-size:.9rem;
-      margin-bottom:10px;
-    }
-
-    .highlight{
-      color:var(--yellow);
-      font-weight:800;
-    }
-
     .center{
       position:relative;
-      min-height:980px;
+      min-height:1000px;
       overflow:hidden;
       border-radius:24px;
       border:1px solid rgba(99,231,255,.18);
@@ -166,6 +153,7 @@
         radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
         linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
       box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
+      padding:90px 24px 24px;
     }
 
     .hud-grid{
@@ -177,31 +165,6 @@
         linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
       background-size:100% 72px, 72px 100%;
       opacity:.45;
-    }
-
-    .ring-wrap{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-    }
-
-    .ring{
-      position:absolute;
-      border:1px solid rgba(99,231,255,.14);
-      border-radius:50%;
-      animation:spin 18s linear infinite;
-    }
-
-    .r1{width:620px;height:620px;}
-    .r2{width:470px;height:470px;animation-direction:reverse;}
-    .r3{width:320px;height:320px;animation-duration:12s;}
-
-    @keyframes spin{
-      from{transform:rotate(0deg)}
-      to{transform:rotate(360deg)}
     }
 
     .top-title{
@@ -220,55 +183,49 @@
     }
 
     .scene{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transition:.45s ease;
+      display:none;
     }
 
     .scene.active{
-      opacity:1;
-      pointer-events:auto;
+      display:block;
     }
 
-    .scene-label{
-      position:absolute;
-      top:74px;
-      left:18px;
-      z-index:5;
-      background:rgba(6,18,35,.74);
-      border:1px solid rgba(99,231,255,.24);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:700;
-    }
-
-    .stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:30px;
-    }
-
-    .treatment-stage{
-      width:min(980px, 96%);
-      min-height:640px;
+    .scene-card{
+      width:100%;
+      min-height:760px;
       border-radius:28px;
       border:1px solid rgba(99,231,255,.16);
       background:rgba(255,255,255,.02);
       box-shadow:0 0 25px rgba(99,231,255,.08);
+      padding:24px;
+    }
+
+    .section-title{
+      color:var(--cyan2);
+      font-size:1.4rem;
+      margin-bottom:8px;
+    }
+
+    .section-text{
+      color:#eefcff;
+      line-height:1.6;
+      margin-bottom:18px;
+    }
+
+    /* PANTALLA 1 */
+    .benefits-stage{
       position:relative;
+      min-height:650px;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
       overflow:hidden;
     }
 
     .center-stomach{
       position:absolute;
       left:50%;
-      top:52%;
+      top:50%;
       transform:translate(-50%,-50%);
       width:260px;
       height:320px;
@@ -280,291 +237,214 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      z-index:2;
     }
 
-    .mucosa-core{
+    .stomach-core{
       width:120px;
       height:140px;
       border-radius:44% 54% 48% 56%;
-      background:radial-gradient(circle, rgba(255,90,90,.35), rgba(255,90,90,.12), transparent 72%);
-      box-shadow:0 0 20px rgba(255,90,90,.3);
+      background:radial-gradient(circle, rgba(255,255,255,.18), rgba(255,255,255,.04), transparent 72%);
     }
 
-    .bubble{
+    .benefit-bubble{
       position:absolute;
-      width:220px;
-      min-height:170px;
-      border-radius:26px;
-      padding:18px;
+      width:210px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:0 0 22px rgba(99,231,255,.08);
-      z-index:4;
+      overflow:hidden;
+      box-shadow:0 0 16px rgba(99,231,255,.06);
+      z-index:3;
     }
 
-    .bubble h3{
-      margin-bottom:10px;
-      font-size:1.08rem;
+    .benefit-image{
+      height:140px;
+      background:rgba(255,255,255,.03);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
     }
 
-    .bubble p,
-    .bubble li{
-      color:#eefcff;
+    .benefit-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .fallback{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      height:100%;
+      color:#dffaff;
+      text-align:center;
+      padding:16px;
       line-height:1.5;
       font-size:.95rem;
     }
 
-    .bubble ul{
-      padding-left:18px;
-      display:grid;
-      gap:6px;
-      margin-top:8px;
+    .benefit-content{
+      padding:14px;
     }
 
-    .bubble-1{left:28px;top:124px;}
-    .bubble-2{right:28px;top:124px;}
-    .bubble-3{left:50%;bottom:34px;transform:translateX(-50%);width:260px;}
+    .benefit-content h3{
+      color:var(--cyan2);
+      font-size:1rem;
+      margin-bottom:8px;
+    }
 
-    .bubble-1 h3{color:#8fff9e;}
-    .bubble-2 h3{color:#63e7ff;}
-    .bubble-3 h3{color:#ffd86a;}
+    .benefit-content p{
+      color:#eefcff;
+      line-height:1.5;
+      font-size:.93rem;
+    }
 
-    .flow-line{
+    .b1{left:24px;top:30px;}
+    .b2{right:24px;top:30px;}
+    .b3{left:24px;bottom:42px;}
+    .b4{right:24px;bottom:42px;}
+    .b5{left:50%;bottom:10px;transform:translateX(-50%);width:240px;}
+
+    .benefit-line{
       position:absolute;
-      background:rgba(99,231,255,.9);
-      box-shadow:0 0 10px rgba(99,231,255,.35);
-      z-index:3;
+      background:rgba(99,231,255,.85);
+      box-shadow:0 0 10px rgba(99,231,255,.3);
+      z-index:1;
     }
 
-    .line-1{
-      width:180px;
-      height:2px;
-      left:240px;
-      top:270px;
-    }
+    .l1{left:235px;top:170px;width:110px;height:2px;}
+    .l2{right:235px;top:170px;width:110px;height:2px;}
+    .l3{left:235px;bottom:150px;width:110px;height:2px;}
+    .l4{right:235px;bottom:150px;width:110px;height:2px;}
+    .l5{left:50%;bottom:165px;width:2px;height:70px;transform:translateX(-50%);}
 
-    .line-2{
-      width:180px;
-      height:2px;
-      right:240px;
-      top:270px;
-    }
-
-    .line-3{
-      width:2px;
-      height:130px;
-      left:50%;
-      bottom:180px;
-      transform:translateX(-50%);
-    }
-
-    .arrow-note{
-      position:absolute;
-      background:rgba(6,18,35,.80);
-      border:1px solid rgba(99,231,255,.22);
-      border-radius:12px;
-      padding:8px 10px;
-      color:#fff;
-      font-weight:700;
-      z-index:5;
-      white-space:nowrap;
-    }
-
-    .note-1{left:250px;top:228px;}
-    .note-2{right:248px;top:228px;}
-    .note-3{left:50%;bottom:188px;transform:translateX(-50%);}
-
-    .status-panel{
-      position:absolute;
-      top:26px;
-      left:50%;
-      transform:translateX(-50%);
-      padding:14px 18px;
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      line-height:1.6;
-      text-align:center;
-      max-width:540px;
-      z-index:5;
-    }
-
-    .status-panel strong{
-      color:var(--yellow);
-    }
-
-    .therapy-box{
-      position:absolute;
-      right:28px;
-      bottom:26px;
-      max-width:280px;
-      padding:16px;
-      border-radius:18px;
-      background:rgba(255,216,106,.10);
-      border:1px solid rgba(255,216,106,.24);
-      color:#fff;
-      line-height:1.55;
-      box-shadow:0 0 18px rgba(255,216,106,.08);
-      z-index:5;
-    }
-
-    .before-after{
-      width:min(980px, 96%);
-      min-height:640px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
+    /* PANTALLA 2 */
+    .compare-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:20px;
-      padding:26px;
-      align-items:center;
     }
 
-    .state-card{
-      min-height:520px;
+    .compare-card{
       border-radius:24px;
       border:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.03);
-      padding:20px;
-      position:relative;
       overflow:hidden;
+      box-shadow:0 0 16px rgba(99,231,255,.05);
+      display:flex;
+      flex-direction:column;
     }
 
-    .state-card h2{
-      margin-bottom:10px;
+    .compare-head{
+      padding:18px;
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
 
-    .state-card p,
-    .state-card li{
+    .compare-head h2{
+      margin-bottom:6px;
+      font-size:1.4rem;
+    }
+
+    .before h2{color:var(--danger);}
+    .after h2{color:var(--green);}
+
+    .compare-head p{
       color:#eefcff;
       line-height:1.55;
     }
 
-    .state-card ul{
-      padding-left:18px;
-      display:grid;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .bad h2{color:var(--danger);}
-    .good h2{color:var(--green);}
-
-    .mini-stomach{
-      width:220px;
-      height:260px;
-      margin:24px auto 18px;
-      border-radius:44% 54% 48% 56%;
-      position:relative;
+    .compare-image{
+      height:280px;
+      background:rgba(255,255,255,.03);
+      border-bottom:1px solid rgba(255,255,255,.06);
       display:flex;
       align-items:center;
       justify-content:center;
-      box-shadow:0 0 26px rgba(255,130,80,.18);
+      overflow:hidden;
     }
 
-    .mini-stomach.bad{
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,150,150,.45), rgba(255,80,80,.24), transparent 64%),
-        linear-gradient(180deg, #ff9aa5, #b74856);
+    .compare-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
-    .mini-stomach.good{
-      background:
-        radial-gradient(circle at 35% 30%, rgba(190,255,190,.42), rgba(120,255,170,.18), transparent 64%),
-        linear-gradient(180deg, #b9ffcc, #57be86);
+    .compare-body{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1;
     }
 
-    .bacteria{
-      position:absolute;
-      width:44px;
-      height:18px;
-      border:2px solid #ff7bc6;
-      border-radius:999px;
-      box-shadow:0 0 12px rgba(255,123,198,.45);
-      background:rgba(255,123,198,.05);
-      animation:wiggle 3s ease-in-out infinite;
+    .compare-body ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+      color:#eefcff;
+      line-height:1.55;
     }
 
-    .bacteria::before,
-    .bacteria::after{
-      content:"";
-      position:absolute;
-      width:10px;
-      height:2px;
-      right:-5px;
-      background:#ffc1e6;
-    }
-
-    .bacteria::before{top:3px;transform:rotate(20deg)}
-    .bacteria::after{bottom:3px;transform:rotate(-20deg)}
-
-    .b1{left:26%;top:28%}
-    .b2{left:52%;top:42%}
-    .b3{left:36%;top:62%}
-
-    @keyframes wiggle{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-6px)}
-    }
-
-    .lesion{
-      position:absolute;
-      width:74px;
-      height:56px;
-      border-radius:50%;
-      background:radial-gradient(circle, rgba(255,60,60,.55), rgba(255,60,60,.12), transparent 70%);
-      box-shadow:0 0 16px rgba(255,60,60,.22);
-    }
-
-    .l1{left:42%;top:48%}
-
-    .sparkle{
-      position:absolute;
-      font-size:1.2rem;
+    .final-phrase{
+      margin-top:22px;
+      border-radius:20px;
+      border:1px solid rgba(143,255,158,.22);
+      background:rgba(143,255,158,.08);
+      padding:16px;
       color:#fff;
-      text-shadow:0 0 12px rgba(255,255,255,.45);
-      animation:floatSpark 2.4s ease-in-out infinite;
-    }
-
-    .s1{left:34%;top:28%}
-    .s2{left:54%;top:42%;animation-delay:.7s}
-    .s3{left:44%;top:60%;animation-delay:1.4s}
-
-    @keyframes floatSpark{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-8px)}
+      line-height:1.6;
+      font-weight:700;
     }
 
     .summary-box{
-      margin-top:16px;
-      padding:14px;
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
+      margin-top:22px;
+      border-radius:22px;
       border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:20px;
+      box-shadow:0 0 16px rgba(99,231,255,.05);
+    }
+
+    .summary-box h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+    }
+
+    .summary-box p{
       color:#eefcff;
-      line-height:1.55;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .highlight{
+      display:inline-block;
+      margin-top:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,216,106,.10);
+      border:1px solid rgba(255,216,106,.28);
+      color:#fff;
+      font-weight:700;
     }
 
     .info-card h2{
       margin-bottom:12px;
-      font-size:1.2rem;
+      font-size:1.15rem;
     }
 
-    .mini-note{
-      font-size:.92rem;
-      color:#dffaff;
-      opacity:.95;
-    }
-
-    .nav-buttons{
+    .nav-side{
       display:flex;
       gap:10px;
       margin-top:12px;
     }
 
-    .nav-buttons button{
+    .nav-side button{
       flex:1;
       padding:12px 14px;
       border-radius:14px;
@@ -575,16 +455,31 @@
       cursor:pointer;
     }
 
-    @media (max-width:1300px){
+    @media (max-width:1200px){
       .page{grid-template-columns:1fr;}
-      .center{min-height:1120px;}
+      .center{min-height:1300px;}
     }
 
     @media (max-width:980px){
-      .before-after{
+      .compare-grid{
         grid-template-columns:1fr;
       }
-      .bubble-1,.bubble-2,.bubble-3{
+
+      .benefits-stage{
+        padding:16px;
+        display:grid;
+        gap:14px;
+      }
+
+      .center-stomach{
+        position:relative;
+        left:auto;
+        top:auto;
+        transform:none;
+        margin:10px auto 20px;
+      }
+
+      .benefit-bubble{
         position:relative;
         left:auto;
         right:auto;
@@ -592,31 +487,11 @@
         bottom:auto;
         transform:none;
         width:100%;
+        max-width:420px;
+        margin:0 auto;
       }
-      .treatment-stage{
-        padding:20px;
-        display:grid;
-        gap:14px;
-      }
-      .center-stomach{
-        position:relative;
-        left:auto;
-        top:auto;
-        transform:none;
-        margin:180px auto 20px;
-      }
-      .flow-line,.arrow-note,.therapy-box,.status-panel{
-        position:relative;
-        left:auto;
-        right:auto;
-        top:auto;
-        bottom:auto;
-        transform:none;
-        margin:8px auto;
-        width:calc(100% - 40px);
-        max-width:520px;
-      }
-      .line-1,.line-2,.line-3{
+
+      .benefit-line{
         display:none;
       }
     }
@@ -627,269 +502,311 @@
     <aside class="left">
       <section class="panel title-box">
         <h1>6. Tratamiento</h1>
-        <p>
-          Este nivel muestra cómo el tratamiento elimina la bacteria, reduce la acidez
-          y permite que el estómago sane.
+        <p class="subtitle">
+          El tratamiento elimina la bacteria, reduce la acidez, protege la mucosa y ayuda a que el estómago sane.
         </p>
       </section>
 
       <section class="panel section">
-        <h2>Navegación</h2>
+        <h2>Menú</h2>
         <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
       </section>
 
       <section class="panel section">
-        <h2>Pantallas del nivel</h2>
-        <div class="step-buttons">
-          <button class="step-btn active" data-step="0">Pantalla 1 · Burbujas de tratamiento</button>
-          <button class="step-btn" data-step="1">Pantalla 2 · Antes y después</button>
+        <h2>Pantallas</h2>
+        <div class="nav-buttons">
+          <button class="nav-btn active" onclick="showScene(0)">Pantalla 1 - Beneficios del tratamiento</button>
+          <button class="nav-btn" onclick="showScene(1)">Pantalla 2 - Antes y después</button>
         </div>
       </section>
 
       <section class="panel section">
-        <h2>Checklist</h2>
+        <h2>Qué debe explicar</h2>
         <ul>
-          <li>Antibióticos</li>
-          <li>Reductores de ácido</li>
-          <li>Protectores gástricos</li>
-          <li>Qué hace cada uno</li>
-          <li>Qué pasa en el cuerpo</li>
-          <li>Terapia triple</li>
-          <li>Flechas explicativas</li>
-          <li>Burbujas visuales</li>
+          <li>Elimina la bacteria</li>
+          <li>Reduce la acidez</li>
+          <li>Protege la mucosa</li>
+          <li>Disminuye la inflamación</li>
+          <li>Favorece la reparación del tejido</li>
+          <li>Evita que el daño siga avanzando</li>
         </ul>
       </section>
     </aside>
 
     <main class="center panel">
       <div class="hud-grid"></div>
-      <div class="ring-wrap">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
-      </div>
-
-      <div class="top-title">Tratamiento de Helicobacter pylori</div>
+      <div class="top-title">6. Tratamiento</div>
 
       <!-- PANTALLA 1 -->
-      <section class="scene active" id="step0">
-        <div class="scene-label">Pantalla 1: tratamiento holográfico</div>
-        <div class="stage">
-          <div class="treatment-stage">
-            <div class="status-panel">
-              🦠 La bacteria está presente · 💊 Antibióticos la eliminan · ⚗️ Menos ácido = menos daño · 🛡️ La mucosa se regenera
-              <br><br>
-              <strong>“El tratamiento elimina la bacteria y permite que el estómago sane”</strong>
-            </div>
+      <section class="scene active" id="scene0">
+        <div class="scene-card">
+          <h2 class="section-title">Beneficios del tratamiento</h2>
+          <p class="section-text">
+            El tratamiento no solo elimina la infección: también permite que el estómago se recupere.
+          </p>
 
-            <div class="bubble bubble-1">
-              <h3>💊 Antibióticos</h3>
-              <p><strong>Ejemplo:</strong> amoxicilina, claritromicina</p>
-              <ul>
-                <li>Eliminan la bacteria</li>
-                <li>Detienen la infección</li>
-              </ul>
-            </div>
-
-            <div class="bubble bubble-2">
-              <h3>⚗️ Reductores de ácido</h3>
-              <p><strong>Ejemplo:</strong> omeprazol</p>
-              <ul>
-                <li>Disminuyen el ácido del estómago</li>
-                <li>Permiten que el tejido sane</li>
-              </ul>
-            </div>
-
-            <div class="bubble bubble-3">
-              <h3>🛡️ Protectores gástricos</h3>
-              <ul>
-                <li>Protegen la pared del estómago</li>
-                <li>Ayudan a regenerar la mucosa</li>
-              </ul>
-            </div>
-
+          <div class="benefits-stage">
             <div class="center-stomach">
-              <div class="mucosa-core"></div>
+              <div class="stomach-core"></div>
             </div>
 
-            <div class="flow-line line-1"></div>
-            <div class="flow-line line-2"></div>
-            <div class="flow-line line-3"></div>
+            <div class="benefit-line l1"></div>
+            <div class="benefit-line l2"></div>
+            <div class="benefit-line l3"></div>
+            <div class="benefit-line l4"></div>
+            <div class="benefit-line l5"></div>
 
-            <div class="arrow-note note-1">“Elimina la bacteria”</div>
-            <div class="arrow-note note-2">“Reduce la acidez”</div>
-            <div class="arrow-note note-3">“Protege la mucosa”</div>
+            <article class="benefit-bubble b1">
+              <div class="benefit-image">
+                <img src="elimina-bacteria.png" alt="Elimina la bacteria"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  elimina-bacteria.png<br><br>
+                  Bacteria desapareciendo<br>
+                  Bacteria siendo atacada<br>
+                  Menos bacterias en la mucosa
+                </div>
+              </div>
+              <div class="benefit-content">
+                <h3>Elimina la bacteria</h3>
+                <p>El tratamiento ayuda a eliminar Helicobacter pylori del estómago.</p>
+              </div>
+            </article>
 
-            <div class="therapy-box">
-              <strong>Terapia triple:</strong><br>
-              2 antibióticos + 1 inhibidor de ácido
-              <br><br>
-              <strong>Duración:</strong> 10–14 días
-              <br><br>
-              <span class="highlight">Si no se trata, la infección puede durar años y causar daño grave.</span>
-            </div>
+            <article class="benefit-bubble b2">
+              <div class="benefit-image">
+                <img src="reduce-acidez.png" alt="Reduce la acidez"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  reduce-acidez.png<br><br>
+                  Ácido bajando<br>
+                  Menos burbujas agresivas<br>
+                  Ambiente menos irritante
+                </div>
+              </div>
+              <div class="benefit-content">
+                <h3>Reduce la acidez</h3>
+                <p>Disminuye el ácido gástrico para evitar más irritación.</p>
+              </div>
+            </article>
+
+            <article class="benefit-bubble b3">
+              <div class="benefit-image">
+                <img src="protege-mucosa.png" alt="Protege la mucosa"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  protege-mucosa.png<br><br>
+                  Mucosa con capa protectora<br>
+                  Pared más cubierta<br>
+                  Escudo protector
+                </div>
+              </div>
+              <div class="benefit-content">
+                <h3>Protege la mucosa</h3>
+                <p>Ayuda a proteger la pared interna del estómago.</p>
+              </div>
+            </article>
+
+            <article class="benefit-bubble b4">
+              <div class="benefit-image">
+                <img src="disminuye-inflamacion.png" alt="Disminuye la inflamación"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  disminuye-inflamacion.png<br><br>
+                  Zona roja bajando<br>
+                  Mucosa menos inflamada<br>
+                  Color más sano
+                </div>
+              </div>
+              <div class="benefit-content">
+                <h3>Disminuye la inflamación</h3>
+                <p>Reduce la irritación y la inflamación de la pared gástrica.</p>
+              </div>
+            </article>
+
+            <article class="benefit-bubble b5">
+              <div class="benefit-image">
+                <img src="reparacion-tejido.png" alt="Favorece la reparación"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  reparacion-tejido.png<br><br>
+                  Mucosa regenerándose<br>
+                  Tejido reparado<br>
+                  Estómago más sano
+                </div>
+              </div>
+              <div class="benefit-content">
+                <h3>Favorece la reparación</h3>
+                <p>Permite que el tejido del estómago se regenere y sane.</p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
       <!-- PANTALLA 2 -->
-      <section class="scene" id="step1">
-        <div class="scene-label">Pantalla 2: antes y después</div>
-        <div class="stage">
-          <div class="before-after">
-            <div class="state-card bad">
-              <h2>ANTES</h2>
-              <p>🦠 Bacteria presente + estómago dañado 🔴</p>
+      <section class="scene" id="scene1">
+        <div class="scene-card">
+          <h2 class="section-title">Antes y después del tratamiento</h2>
+          <p class="section-text">
+            Aquí se compara cómo está el estómago con la infección activa y cómo mejora después del tratamiento.
+          </p>
 
-              <div class="mini-stomach bad">
-                <div class="bacteria b1"></div>
-                <div class="bacteria b2"></div>
-                <div class="bacteria b3"></div>
-                <div class="lesion l1"></div>
+          <div class="compare-grid">
+            <article class="compare-card before">
+              <div class="compare-head">
+                <h2>ANTES</h2>
+                <p>Bacteria presente y estómago dañado</p>
               </div>
 
-              <ul>
-                <li>La bacteria sigue activa</li>
-                <li>La mucosa está inflamada</li>
-                <li>El ácido sigue dañando el tejido</li>
-                <li>Puede empeorar hacia gastritis o úlcera</li>
-              </ul>
-            </div>
-
-            <div class="state-card good">
-              <h2>DESPUÉS</h2>
-              <p>✨ Estómago más sano + sin bacterias</p>
-
-              <div class="mini-stomach good">
-                <div class="sparkle s1">✨</div>
-                <div class="sparkle s2">✨</div>
-                <div class="sparkle s3">✨</div>
+              <div class="compare-image">
+                <img src="antes-tratamiento.png" alt="Antes del tratamiento"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  antes-tratamiento.png<br><br>
+                  Estómago rojo<br>
+                  Bacterias visibles<br>
+                  Mucosa inflamada<br>
+                  Zona dañada
+                </div>
               </div>
 
-              <ul>
-                <li>Los antibióticos eliminan la bacteria</li>
-                <li>El omeprazol reduce la acidez</li>
-                <li>La mucosa se protege y se regenera</li>
-                <li>El estómago tiene mejores condiciones para sanar</li>
-              </ul>
-
-              <div class="summary-box">
-                <strong>Frase clave:</strong><br>
-                El tratamiento elimina la bacteria y permite que el estómago sane.
+              <div class="compare-body">
+                <ul>
+                  <li>Bacteria activa</li>
+                  <li>Mucosa inflamada</li>
+                  <li>Acidez irritante</li>
+                  <li>Riesgo de gastritis y úlcera</li>
+                </ul>
               </div>
-            </div>
+            </article>
+
+            <article class="compare-card after">
+              <div class="compare-head">
+                <h2>DESPUÉS</h2>
+                <p>Estómago más sano y sin infección activa</p>
+              </div>
+
+              <div class="compare-image">
+                <img src="despues-tratamiento.png" alt="Después del tratamiento"
+                     onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="fallback" style="display:none;">
+                  despues-tratamiento.png<br><br>
+                  Estómago más limpio o rosado<br>
+                  Sin bacterias o con muchas menos<br>
+                  Mucosa recuperada<br>
+                  Aspecto más sano
+                </div>
+              </div>
+
+              <div class="compare-body">
+                <ul>
+                  <li>Disminuye o desaparece la bacteria</li>
+                  <li>Baja la inflamación</li>
+                  <li>Se protege la mucosa</li>
+                  <li>El estómago puede sanar mejor</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+
+          <div class="final-phrase">
+            El tratamiento elimina la infección y permite que el estómago recupere su función protectora.
           </div>
         </div>
+      </section>
+
+      <section class="summary-box">
+        <h2>Texto para el costado</h2>
+        <p><strong>Tratamiento:</strong> Ayuda a eliminar la bacteria, disminuir la acidez, proteger la mucosa y favorecer la reparación del tejido.</p>
+        <p><strong>Antes:</strong> Bacteria presente, inflamación y daño.</p>
+        <p><strong>Después:</strong> Menos infección, menos irritación y mejores condiciones para sanar.</p>
+        <div class="highlight">El tratamiento no solo elimina la infección: también ayuda a recuperar el estómago.</div>
       </section>
     </main>
 
     <aside class="right">
       <section class="panel info-card">
-        <div class="tag">Tratamiento principal</div>
-        <h2>Terapia triple</h2>
-        <p>
-          Incluye <strong>2 antibióticos</strong> y <strong>1 inhibidor de ácido</strong>.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Antibióticos</div>
+        <h2>Qué hace el tratamiento</h2>
         <ul>
-          <li>Ejemplo: amoxicilina</li>
-          <li>Ejemplo: claritromicina</li>
-          <li>Eliminan la bacteria</li>
-          <li>Detienen la infección</li>
+          <li>Elimina la bacteria</li>
+          <li>Reduce la acidez</li>
+          <li>Protege la mucosa</li>
+          <li>Disminuye la inflamación</li>
+          <li>Ayuda a regenerar el tejido</li>
+          <li>Evita que el daño siga avanzando</li>
         </ul>
       </section>
 
       <section class="panel info-card">
-        <div class="tag">Reductores de ácido</div>
+        <h2>Antes del tratamiento</h2>
         <ul>
-          <li>Ejemplo: omeprazol</li>
-          <li>Disminuyen la acidez</li>
-          <li>Protegen la mucosa</li>
-          <li>Permiten que el tejido sane</li>
+          <li>Bacteria presente</li>
+          <li>Mucosa inflamada</li>
+          <li>Exceso de daño</li>
+          <li>Acidez que irrita</li>
+          <li>Riesgo de gastritis y úlcera</li>
         </ul>
       </section>
 
       <section class="panel info-card">
-        <div class="tag">Protectores gástricos</div>
+        <h2>Después del tratamiento</h2>
         <ul>
-          <li>Protegen la pared del estómago</li>
-          <li>Ayudan a regenerar la mucosa</li>
-          <li>Favorecen la reparación del tejido</li>
+          <li>Menos o ninguna bacteria</li>
+          <li>Menor inflamación</li>
+          <li>Mucosa más protegida</li>
+          <li>Mejores condiciones para sanar</li>
+          <li>Menor riesgo de daño progresivo</li>
         </ul>
-      </section>
 
-      <section class="panel info-card">
-        <div class="tag">Flechas para tu imagen</div>
-        <ul>
-          <li>“Elimina la bacteria”</li>
-          <li>“Reduce la acidez”</li>
-          <li>“Protege la mucosa”</li>
-          <li>“Regenera el tejido”</li>
-        </ul>
-      </section>
-
-      <section class="panel info-card">
-        <h2>Dato importante</h2>
-        <p class="mini-note">
-          Duración habitual: <strong>10–14 días</strong>.  
-          Si no se trata, la infección puede durar años y causar daño grave.
-        </p>
-
-        <div class="nav-buttons">
-          <button onclick="prevStep()">◀ Pantalla anterior</button>
-          <button onclick="nextStep()">Siguiente pantalla ▶</button>
+        <div class="nav-side">
+          <button onclick="prevScene()">◀ Anterior</button>
+          <button onclick="nextScene()">Siguiente ▶</button>
         </div>
       </section>
     </aside>
   </div>
 
   <script>
-    const steps = document.querySelectorAll(".scene");
-    const stepButtons = document.querySelectorAll(".step-btn");
-    let currentStep = 0;
+    const scenes = document.querySelectorAll(".scene");
+    const navBtns = document.querySelectorAll(".nav-btn");
+    let currentScene = 0;
 
-    function renderSteps(){
-      steps.forEach((step, index) => {
-        step.classList.toggle("active", index === currentStep);
+    function renderScenes(){
+      scenes.forEach((scene, index) => {
+        scene.classList.toggle("active", index === currentScene);
       });
 
-      stepButtons.forEach((btn, index) => {
-        btn.classList.toggle("active", index === currentStep);
+      navBtns.forEach((btn, index) => {
+        btn.classList.toggle("active", index === currentScene);
       });
     }
 
-    function goStep(index){
-      currentStep = index;
-      renderSteps();
+    function showScene(index){
+      currentScene = index;
+      renderScenes();
     }
 
-    function nextStep(){
-      if(currentStep < steps.length - 1){
-        currentStep++;
-        renderSteps();
+    function nextScene(){
+      if(currentScene < scenes.length - 1){
+        currentScene++;
+        renderScenes();
       }
     }
 
-    function prevStep(){
-      if(currentStep > 0){
-        currentStep--;
-        renderSteps();
+    function prevScene(){
+      if(currentScene > 0){
+        currentScene--;
+        renderScenes();
       }
     }
-
-    stepButtons.forEach((btn, index) => {
-      btn.addEventListener("click", () => goStep(index));
-    });
 
     document.addEventListener("keydown", (e) => {
-      if(e.key === "ArrowRight") nextStep();
-      if(e.key === "ArrowLeft") prevStep();
+      if(e.key === "ArrowRight") nextScene();
+      if(e.key === "ArrowLeft") prevScene();
     });
 
-    renderSteps();
+    renderScenes();
   </script>
 </body>
 </html>
