@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>4. Proceso de infección | Helicobacter pylori</title>
+  <style>
+    :root{
+      --bg1:#030813;
+      --bg2:#071a2f;
+      --cyan:#63e7ff;
+      --cyan2:#b7f8ff;
+      --pink:#ff5fd2;
+      --yellow:#ffd86a;
+      --glass:rgba(7,18,34,0.60);
+      --border:rgba(99,231,255,0.30);
+      --soft:#dffaff;
+      --danger:#ff6b7a;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      min-height:100vh;
+      color:white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(0,180,255,.18), transparent 22%),
+        radial-gradient(circle at 80% 25%, rgba(255,0,180,.14), transparent 22%),
+        radial-gradient(circle at 60% 75%, rgba(0,255,255,.08), transparent 25%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),#13081f);
+      overflow:auto;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size:40px 40px;
+      pointer-events:none;
+    }
+
+    .page{
+      width:100%;
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:340px 1fr 360px;
+      gap:16px;
+      padding:16px;
+    }
+
+    .panel{
+      background:var(--glass);
+      border:1px solid var(--border);
+      border-radius:20px;
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 25px rgba(99,231,255,.10), inset 0 0 16px rgba(99,231,255,.05);
+      overflow:hidden;
+    }
+
+    .left,.right{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      z-index:3;
+    }
+
+    .title-box,.section,.info-card{
+      padding:18px;
+    }
+
+    .title-box h1,
+    .section h2,
+    .info-card h2{
+      color:var(--cyan2);
+    }
+
+    .title-box h1{
+      font-size:2rem;
+      line-height:1.04;
+      margin-bottom:10px;
+      text-shadow:0 0 14px rgba(99,231,255,.22);
+    }
+
+    .title-box p,
+    .section p,
+    .section li,
+    .info-card p,
+    .info-card li{
+      color:#eefcff;
+      line-height:1.55;
+    }
+
+    .section h2,
+    .info-card h2{
+      margin-bottom:12px;
+      font-size:1.15rem;
+    }
+
+    .section ul,
+    .info-card ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+    }
+
+    .back-btn{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:linear-gradient(135deg, rgba(99,231,255,.12), rgba(255,95,210,.10));
+      color:#fff;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+
+    .back-btn:hover,.card-btn:hover{
+      transform:translateY(-2px);
+      border-color:rgba(183,248,255,.85);
+      box-shadow:0 0 16px rgba(99,231,255,.14);
+    }
+
+    .center{
+      position:relative;
+      min-height:980px;
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid rgba(99,231,255,.18);
+      background:
+        radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
+      padding:90px 24px 24px;
+    }
+
+    .hud-grid{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(transparent 97%, rgba(99,231,255,.06) 100%),
+        linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
+      background-size:100% 72px, 72px 100%;
+      opacity:.45;
+    }
+
+    .top-title{
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:5;
+      background:rgba(6,18,35,.78);
+      border:1px solid rgba(99,231,255,.24);
+      color:#fff;
+      padding:12px 18px;
+      border-radius:999px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .cards-grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+
+    .process-card{
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      overflow:hidden;
+      box-shadow:0 0 16px rgba(99,231,255,.05);
+      display:flex;
+      flex-direction:column;
+      min-height:420px;
+    }
+
+    .card-image{
+      height:220px;
+      background:rgba(255,255,255,.03);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    .card-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .card-fallback{
+      padding:20px;
+      text-align:center;
+      color:#dffaff;
+      line-height:1.5;
+    }
+
+    .card-content{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1;
+    }
+
+    .step-badge{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.18));
+      border:1px solid rgba(99,231,255,.26);
+      font-weight:800;
+    }
+
+    .card-content h3{
+      color:var(--cyan2);
+      font-size:1.1rem;
+    }
+
+    .card-content p{
+      color:#eefcff;
+      line-height:1.55;
+      font-size:.96rem;
+    }
+
+    .mini-list{
+      padding-left:18px;
+      display:grid;
+      gap:6px;
+      color:#eefcff;
+      line-height:1.45;
+      font-size:.92rem;
+    }
+
+    .card-btn{
+      margin-top:auto;
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(99,231,255,.28);
+      background:rgba(99,231,255,.08);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+
+    .summary-box{
+      margin-top:22px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:20px;
+      box-shadow:0 0 16px rgba(99,231,255,.05);
+    }
+
+    .summary-box h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+    }
+
+    .summary-box p{
+      color:#eefcff;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .highlight{
+      display:inline-block;
+      margin-top:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,216,106,.10);
+      border:1px solid rgba(255,216,106,.28);
+      color:#fff;
+      font-weight:700;
+    }
+
+    .info-card h2{
+      margin-bottom:12px;
+      font-size:1.15rem;
+    }
+
+    .nav-buttons{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .nav-buttons button{
+      flex:1;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(99,231,255,.30);
+      background:rgba(99,231,255,.08);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.72);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      pointer-events:none;
+      transition:.25s ease;
+      z-index:999;
+      padding:20px;
+    }
+
+    .modal.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .modal-card{
+      width:min(960px, 96vw);
+      max-height:90vh;
+      overflow:auto;
+      border-radius:26px;
+      border:1px solid rgba(99,231,255,.22);
+      background:linear-gradient(145deg, rgba(7,18,34,.96), rgba(24,10,40,.94));
+      box-shadow:0 0 30px rgba(99,231,255,.14);
+      padding:24px;
+      position:relative;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .close-btn{
+      position:absolute;
+      top:14px;
+      right:14px;
+      width:42px;
+      height:42px;
+      border:none;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      font-size:1.1rem;
+      cursor:pointer;
+    }
+
+    .modal-img{
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      min-height:320px;
+      background:rgba(255,255,255,.03);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .modal-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .modal-text h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+      margin-top:10px;
+    }
+
+    .modal-text p,
+    .modal-text li{
+      color:#eefcff;
+      line-height:1.6;
+    }
+
+    .modal-text ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    @media (max-width:1200px){
+      .page{grid-template-columns:1fr;}
+      .center{min-height:1200px;}
+    }
+
+    @media (max-width:950px){
+      .cards-grid{
+        grid-template-columns:1fr;
+      }
+      .modal-card{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <aside class="left">
+      <section class="panel title-box">
+        <h1>4. Proceso de infección</h1>
+        <p>
+          La infección por <strong>Helicobacter pylori</strong> ocurre en 6 etapas.
+          Cada tarjeta muestra una imagen distinta y una explicación corta.
+        </p>
+      </section>
+
+      <section class="panel section">
+        <h2>Navegación</h2>
+        <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
+      </section>
+
+      <section class="panel section">
+        <h2>Estructura</h2>
+        <ul>
+          <li>Ingreso al cuerpo</li>
+          <li>Llega al estómago</li>
+          <li>Movimiento</li>
+          <li>Adhesión</li>
+          <li>Supervivencia</li>
+          <li>Daño</li>
+        </ul>
+      </section>
+    </aside>
+
+    <main class="center panel">
+      <div class="hud-grid"></div>
+      <div class="top-title">¿Cómo se produce la infección?</div>
+
+      <div class="cards-grid">
+        <article class="process-card">
+          <div class="card-image">
+            <img src="proceso1.png" alt="Ingreso al cuerpo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-fallback" style="display:none;">Imagen 1<br>Agua contaminada, comida contaminada, manos sucias, flecha hacia la boca</div>
+          </div>
+          <div class="card-content">
+            <div class="step-badge">1</div>
+            <h3>Ingreso al cuerpo</h3>
+            <p>La bacteria entra por agua o alimentos contaminados y también por mala higiene.</p>
+            <ul class="mini-list">
+              <li>Vaso de agua</li>
+              <li>Comida</li>
+              <li>Mano con bacterias</li>
+              <li>Flecha hacia la boca</li>
+            </ul>
+            <button class="card-btn" onclick="openModal(0)">Ver detalle</button>
+          </div>
+        </article>
+
+        <article class="process-card">
+          <div class="card-image">
+            <img src="proceso2.png" alt="Llega al estómago" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-fallback" style="display:none;">Imagen 2<br>Bacteria llegando al estómago, ácido gástrico, bacteria sobreviviendo</div>
+          </div>
+          <div class="card-content">
+            <div class="step-badge">2</div>
+            <h3>Llega al estómago</h3>
+            <p>Resiste el ambiente ácido del estómago, algo que muchas bacterias no logran hacer.</p>
+            <ul class="mini-list">
+              <li>Estómago por dentro</li>
+              <li>Ácido gástrico</li>
+              <li>Bacteria sobreviviendo</li>
+            </ul>
+            <button class="card-btn" onclick="openModal(1)">Ver detalle</button>
+          </div>
+        </article>
+
+        <article class="process-card">
+          <div class="card-image">
+            <img src="proceso3.png" alt="Movimiento" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-fallback" style="display:none;">Imagen 3<br>Bacteria con flagelos, flechas de movimiento, capa de moco</div>
+          </div>
+          <div class="card-content">
+            <div class="step-badge">3</div>
+            <h3>Movimiento</h3>
+            <p>Usa flagelos para desplazarse y atraviesa la capa de moco que protege el estómago.</p>
+            <ul class="mini-list">
+              <li>Bacteria con “colas”</li>
+              <li>Flechas de movimiento</li>
+              <li>Capa de moco</li>
+            </ul>
+            <button class="card-btn" onclick="openModal(2)">Ver detalle</button>
+          </div>
+        </article>
+
+        <article class="process-card">
+          <div class="card-image">
+            <img src="proceso4.png" alt="Adhesión" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-fallback" style="display:none;">Imagen 4<br>Pared interna del estómago, bacteria adherida, flecha a la mucosa</div>
+          </div>
+          <div class="card-content">
+            <div class="step-badge">4</div>
+            <h3>Adhesión</h3>
+            <p>Se adhiere a la mucosa gástrica y evita ser eliminada por el cuerpo.</p>
+            <ul class="mini-list">
+              <li>Pared interna del estómago</li>
+              <li>Bacteria adherida</li>
+              <li>Flecha señalando la mucosa</li>
+            </ul>
+            <button class="card-btn" onclick="openModal(3)">Ver detalle</button>
+          </div>
+        </article>
+
+        <article class="process-card">
+          <div class="card-image">
+            <img src="proceso5.png" alt="Supervivencia" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-fallback" style="display:none;">Imagen 5<br>Bacteria, ureasa, burbuja protectora, ácido neutralizado</div>
+          </div>
+          <div class="card-content">
+            <div class="step-badge">5</div>
+            <h3>Supervivencia</h3>
+            <p>Produce ureasa, una enzima que neutraliza el ácido y le permite sobrevivir.</p>
+            <ul class="mini-list">
+              <li>Bacteria</li>
+              <li>Moléculas o burbuja protectora</li>
+              <li>Texto pequeño: ureasa</li>
+              <li>Ácido siendo neutralizado</li>
+            </ul>
+            <button class="card-btn" onclick="openModal(4)">Ver detalle</button>
+          </div>
+        </article>
+
+        <article class="process-card">
+          <div class="card-image">
+            <img src="proceso6.png" alt="Daño" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-fallback" style="display:none;">Imagen 6<br>Pared inflamada, zona roja, herida o úlcera</div>
+          </div>
+          <div class="card-content">
+            <div class="step-badge">6</div>
+            <h3>Daño</h3>
+            <p>Irrita la pared del estómago, provoca inflamación y puede causar gastritis, úlceras y en casos graves cáncer gástrico.</p>
+            <ul class="mini-list">
+              <li>Pared del estómago inflamada</li>
+              <li>Zona roja</li>
+              <li>Herida o úlcera</li>
+            </ul>
+            <button class="card-btn" onclick="openModal(5)">Ver detalle</button>
+          </div>
+        </article>
+      </div>
+
+      <section class="summary-box">
+        <h2>Texto corto para poner debajo</h2>
+        <p><strong>Cómo se produce:</strong> Entra por alimentos o agua contaminada, llega al estómago, atraviesa el moco, se adhiere a la mucosa y produce ureasa para sobrevivir.</p>
+        <p><strong>Qué produce:</strong> Inflamación, gastritis, úlceras y en casos graves cáncer gástrico.</p>
+        <div class="highlight">La bacteria no daña de inmediato; actúa lentamente y puede vivir años en el estómago.</div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <section class="panel info-card">
+        <h2>Consecuencias principales</h2>
+        <ul>
+          <li>Gastritis</li>
+          <li>Úlceras gástricas y duodenales</li>
+          <li>Daño crónico de la mucosa</li>
+          <li>En casos graves: cáncer gástrico</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <h2>Idea clave</h2>
+        <p>La bacteria no daña de inmediato, sino que actúa lentamente y puede vivir años en el estómago.</p>
+      </section>
+
+      <section class="panel info-card">
+        <h2>Orden visual</h2>
+        <p>Puedes usarlo como 2 filas de 3 tarjetas o como secuencia horizontal 1 → 2 → 3 → 4 → 5 → 6.</p>
+
+        <div class="nav-buttons">
+          <button onclick="scrollTo({top:0, behavior:'smooth'})">Ir arriba</button>
+          <button onclick="document.querySelector('.summary-box').scrollIntoView({behavior:'smooth'})">Ir al resumen</button>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="modal" id="detailModal">
+    <div class="modal-card">
+      <button class="close-btn" onclick="closeModal()">✕</button>
+
+      <div class="modal-img" id="modalImgBox"></div>
+
+      <div class="modal-text">
+        <div class="step-badge" id="modalStep">1</div>
+        <h2 id="modalTitle">Título</h2>
+        <p id="modalText">Texto</p>
+        <h2 style="font-size:1rem;">Qué debe mostrar la imagen</h2>
+        <ul id="modalList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modalData = [
+      {
+        step:"1",
+        title:"Ingreso al cuerpo",
+        text:"La bacteria entra por agua o alimentos contaminados y también por mala higiene.",
+        image:"proceso1.png",
+        fallback:"Imagen 1 · vaso de agua, comida, mano con bacterias y flecha hacia la boca",
+        items:[
+          "Agua contaminada",
+          "Comida contaminada",
+          "Manos sucias",
+          "Flecha hacia la boca"
+        ]
+      },
+      {
+        step:"2",
+        title:"Llega al estómago",
+        text:"Resiste el ambiente ácido del estómago, algo que muchas bacterias no logran hacer.",
+        image:"proceso2.png",
+        fallback:"Imagen 2 · bacteria llegando al estómago y sobreviviendo al ácido",
+        items:[
+          "Bacteria llegando al estómago",
+          "Ambiente ácido del estómago",
+          "Bacteria sobreviviendo"
+        ]
+      },
+      {
+        step:"3",
+        title:"Movimiento",
+        text:"Usa flagelos para desplazarse y atraviesa la capa de moco que protege el estómago.",
+        image:"proceso3.png",
+        fallback:"Imagen 3 · bacteria con flagelos atravesando la capa de moco",
+        items:[
+          "Bacteria con colas",
+          "Flechas de movimiento",
+          "Capa de moco"
+        ]
+      },
+      {
+        step:"4",
+        title:"Adhesión",
+        text:"Se adhiere a la mucosa gástrica y evita ser eliminada por el cuerpo.",
+        image:"proceso4.png",
+        fallback:"Imagen 4 · pared interna del estómago, bacteria adherida y mucosa",
+        items:[
+          "Pared interna del estómago",
+          "Bacteria adherida",
+          "Flecha señalando la mucosa"
+        ]
+      },
+      {
+        step:"5",
+        title:"Supervivencia",
+        text:"Produce ureasa, una enzima que neutraliza el ácido y le permite sobrevivir.",
+        image:"proceso5.png",
+        fallback:"Imagen 5 · bacteria, ureasa, burbuja protectora y ácido neutralizado",
+        items:[
+          "Bacteria",
+          "Moléculas o burbuja protectora",
+          "Texto pequeño: ureasa",
+          "Ácido siendo neutralizado"
+        ]
+      },
+      {
+        step:"6",
+        title:"Daño",
+        text:"Irrita la pared del estómago, provoca inflamación y puede causar gastritis, úlceras y en casos graves cáncer gástrico.",
+        image:"proceso6.png",
+        fallback:"Imagen 6 · pared inflamada, zona roja, herida o úlcera",
+        items:[
+          "Pared del estómago inflamada",
+          "Zona roja",
+          "Herida o úlcera"
+        ]
+      }
+    ];
+
+    function openModal(index){
+      const data = modalData[index];
+      document.getElementById("modalStep").textContent = data.step;
+      document.getElementById("modalTitle").textContent = data.title;
+      document.getElementById("modalText").textContent = data.text;
+      document.getElementById("modalList").innerHTML = data.items.map(item => `<li>${item}</li>`).join("");
+
+      document.getElementById("modalImgBox").innerHTML = `
+        <img src="${data.image}" alt="${data.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="img-fallback" style="display:none;">${data.fallback}</div>
+      `;
+
+      document.getElementById("detailModal").classList.add("show");
+    }
+
+    function closeModal(){
+      document.getElementById("detailModal").classList.remove("show");
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") closeModal();
+    });
+  </script>
+</body>
+</html>
