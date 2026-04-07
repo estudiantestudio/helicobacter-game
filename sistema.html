@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sistema afectado - Helicobacter pylori</title>
+  <title>2. Sistema afectado | Helicobacter pylori</title>
   <style>
     :root{
       --bg1:#030813;
@@ -15,7 +15,6 @@
       --glass:rgba(7,18,34,0.60);
       --border:rgba(99,231,255,0.30);
       --soft:#dffaff;
-      --danger:#ff6b7a;
       --green:#8fff9e;
     }
 
@@ -48,7 +47,7 @@
       width:100%;
       min-height:100vh;
       display:grid;
-      grid-template-columns:360px 1fr 390px;
+      grid-template-columns:340px 1fr 360px;
       gap:16px;
       padding:16px;
     }
@@ -86,7 +85,13 @@
       text-shadow:0 0 14px rgba(99,231,255,.22);
     }
 
-    .title-box p,
+    .subtitle{
+      color:#dffaff;
+      line-height:1.6;
+      font-size:1rem;
+      margin-top:8px;
+    }
+
     .section p,
     .section li,
     .info-card p,
@@ -98,7 +103,7 @@
     .section h2,
     .info-card h2{
       margin-bottom:12px;
-      font-size:1.2rem;
+      font-size:1.15rem;
     }
 
     .section ul,
@@ -108,7 +113,7 @@
       gap:8px;
     }
 
-    .back-btn,.main-btn,.zoom-btn{
+    .back-btn,.nav-btn{
       width:100%;
       padding:12px 14px;
       border-radius:14px;
@@ -120,48 +125,26 @@
       transition:.25s ease;
     }
 
-    .back-btn:hover,.main-btn:hover,.zoom-btn:hover{
+    .back-btn:hover,.nav-btn:hover{
       transform:translateY(-2px);
       border-color:rgba(183,248,255,.85);
       box-shadow:0 0 16px rgba(99,231,255,.14);
     }
 
-    .step-buttons{
+    .nav-buttons{
       display:grid;
       gap:10px;
     }
 
-    .step-btn{
-      width:100%;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(99,231,255,.28);
-      background:rgba(99,231,255,.08);
-      color:#fff;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .step-btn.active{
+    .nav-btn.active{
       border-color:rgba(183,248,255,.95);
       box-shadow:0 0 18px rgba(99,231,255,.16);
       background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.12));
     }
 
-    .tag{
-      display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(99,231,255,.10);
-      border:1px solid rgba(99,231,255,.24);
-      color:var(--soft);
-      font-size:.9rem;
-      margin-bottom:10px;
-    }
-
     .center{
       position:relative;
-      min-height:940px;
+      min-height:980px;
       overflow:hidden;
       border-radius:24px;
       border:1px solid rgba(99,231,255,.18);
@@ -169,6 +152,7 @@
         radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
         linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
       box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
+      padding:90px 24px 24px;
     }
 
     .hud-grid{
@@ -180,31 +164,6 @@
         linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
       background-size:100% 72px, 72px 100%;
       opacity:.45;
-    }
-
-    .ring-wrap{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-    }
-
-    .ring{
-      position:absolute;
-      border:1px solid rgba(99,231,255,.14);
-      border-radius:50%;
-      animation:spin 18s linear infinite;
-    }
-
-    .r1{width:620px;height:620px;}
-    .r2{width:470px;height:470px;animation-direction:reverse;}
-    .r3{width:320px;height:320px;animation-duration:12s;}
-
-    @keyframes spin{
-      from{transform:rotate(0deg)}
-      to{transform:rotate(360deg)}
     }
 
     .top-title{
@@ -223,350 +182,157 @@
     }
 
     .scene{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transition:.45s ease;
+      display:none;
     }
 
     .scene.active{
-      opacity:1;
-      pointer-events:auto;
+      display:block;
     }
 
-    .scene-label{
-      position:absolute;
-      top:74px;
-      left:18px;
-      z-index:5;
-      background:rgba(6,18,35,.74);
-      border:1px solid rgba(99,231,255,.24);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:700;
-    }
-
-    .stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .body-wrap{
-      position:relative;
-      width:min(35vw,430px);
-      filter:drop-shadow(0 0 25px rgba(99,231,255,.20));
-      transition:transform .6s ease;
-    }
-
-    .body-wrap img{
+    .scene-card{
       width:100%;
-      height:auto;
-      display:block;
-    }
-
-    .body-wrap.dimmed img{
-      opacity:.55;
-      filter:grayscale(15%) brightness(.78);
-    }
-
-    .digestive-overlay{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-    }
-
-    .digestive-spot{
-      position:absolute;
-      border-radius:999px;
-      box-shadow:0 0 20px rgba(99,231,255,.4);
-      background:radial-gradient(circle, rgba(99,231,255,.42), rgba(99,231,255,.12), transparent 72%);
-      opacity:0;
-      transition:.4s ease;
-    }
-
-    .digestive-on .digestive-spot{
-      opacity:1;
-    }
-
-    .esophagus{width:34px;height:140px;left:48%;top:14%;}
-    .stomach{width:90px;height:92px;left:49.5%;top:32%;}
-    .small-int{width:120px;height:140px;left:44%;top:42%;}
-    .large-int{width:145px;height:165px;left:42.5%;top:40%;}
-
-    .stomach.strong{
-      box-shadow:0 0 28px rgba(255,208,90,.75);
-      background:radial-gradient(circle, rgba(255,215,70,.48), rgba(255,150,0,.16), transparent 72%);
-      border:2px solid rgba(255,208,90,.9);
-    }
-
-    .body-caption{
-      position:absolute;
-      bottom:26px;
-      left:50%;
-      transform:translateX(-50%);
-      background:rgba(6,18,35,.74);
-      border:1px solid rgba(99,231,255,.22);
-      border-radius:999px;
-      padding:10px 16px;
-      color:#dffaff;
-      font-weight:700;
-      z-index:5;
-    }
-
-    .action-box{
-      position:absolute;
-      bottom:90px;
-      left:50%;
-      transform:translateX(-50%);
-      width:min(360px, 82%);
-      z-index:5;
-    }
-
-    .zoom-stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .zoom-body{
-      position:relative;
-      width:min(48vw,700px);
-      transform:scale(1.35) translateY(34px);
-      filter:drop-shadow(0 0 25px rgba(99,231,255,.18));
-    }
-
-    .zoom-body img{
-      width:100%;
-      display:block;
-      opacity:.8;
-    }
-
-    .abdomen-focus{
-      position:absolute;
-      width:280px;
-      height:260px;
-      left:50%;
-      top:43%;
-      transform:translate(-50%,-50%);
-      border:2px dashed rgba(99,231,255,.55);
-      border-radius:50%;
-      animation:targetPulse 2s infinite;
-      box-shadow:0 0 18px rgba(99,231,255,.16);
-    }
-
-    @keyframes targetPulse{
-      0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}
-      50%{transform:translate(-50%,-50%) scale(1.07);opacity:.7}
-    }
-
-    .digestive-label{
-      position:absolute;
-      z-index:5;
-      color:#fff;
-      font-weight:700;
-    }
-
-    .digestive-line{
-      position:absolute;
-      display:block;
-      background:rgba(99,231,255,.9);
-      box-shadow:0 0 10px rgba(99,231,255,.4);
-    }
-
-    .digestive-text{
-      display:inline-block;
-      background:rgba(6,18,35,.74);
-      border:1px solid rgba(99,231,255,.2);
-      border-radius:12px;
-      padding:8px 10px;
-    }
-
-    .label-es{left:16%;top:22%;}
-    .label-es .digestive-line{width:130px;height:2px;left:105%;top:50%;}
-
-    .label-st{right:15%;top:34%;}
-    .label-st .digestive-line{width:140px;height:2px;right:105%;top:50%;}
-
-    .label-id{left:14%;top:54%;}
-    .label-id .digestive-line{width:130px;height:2px;left:105%;top:50%;}
-
-    .label-ig{right:14%;top:63%;}
-    .label-ig .digestive-line{width:140px;height:2px;right:105%;top:50%;}
-
-    .stomach-big-stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .stomach-card{
-      position:relative;
-      width:min(520px, 80%);
-      height:min(620px, 78%);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      min-height:760px;
       border-radius:28px;
-      background:rgba(255,255,255,.02);
       border:1px solid rgba(99,231,255,.16);
-      box-shadow:0 0 26px rgba(99,231,255,.08);
+      background:rgba(255,255,255,.02);
+      box-shadow:0 0 25px rgba(99,231,255,.08);
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:20px;
+      padding:24px;
+      align-items:center;
     }
 
-    .stomach-img{
-      max-width:72%;
-      max-height:72%;
-      object-fit:contain;
-      filter:drop-shadow(0 0 24px rgba(255,180,80,.16));
+    .img-box{
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      min-height:560px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      position:relative;
     }
 
-    .stomach-fallback{
-      display:none;
+    .img-box img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .img-fallback{
+      display:flex;
       align-items:center;
       justify-content:center;
       width:100%;
       height:100%;
+      text-align:center;
+      padding:24px;
+      color:#dffaff;
+      line-height:1.6;
+      font-size:1.05rem;
     }
 
-    .stomach-shape{
-      width:260px;
-      height:320px;
-      border-radius:44% 54% 48% 56%;
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,214,160,.55), rgba(255,141,95,.35), transparent 64%),
-        linear-gradient(180deg, #f7b499, #cf6f63);
-      transform:rotate(18deg);
-      box-shadow:0 0 30px rgba(255,130,80,.22);
+    .text-box{
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:22px;
     }
 
-    .stomach-title{
-      position:absolute;
-      top:24px;
-      left:50%;
-      transform:translateX(-50%);
-      background:rgba(6,18,35,.76);
-      border:1px solid rgba(99,231,255,.24);
+    .badge{
+      display:inline-block;
+      padding:8px 12px;
       border-radius:999px;
-      padding:12px 18px;
+      background:rgba(99,231,255,.12);
+      border:1px solid rgba(99,231,255,.24);
       color:#fff;
       font-weight:800;
-      z-index:4;
-    }
-
-    .hotspot{
-      position:absolute;
-      width:18px;
-      height:18px;
-      border-radius:50%;
-      background:radial-gradient(circle, #fff, var(--cyan), rgba(99,231,255,.2));
-      box-shadow:0 0 18px rgba(99,231,255,.7);
-      cursor:pointer;
-      animation:pulseHot 1.8s infinite;
-      z-index:6;
-    }
-
-    @keyframes pulseHot{
-      0%,100%{transform:scale(1)}
-      50%{transform:scale(1.22)}
-    }
-
-    .hs1{left:46%;top:36%;}
-    .hs2{left:54%;top:48%;}
-    .hs3{left:50%;top:58%;}
-    .hs4{left:60%;top:68%;}
-
-    .side-note{
-      position:absolute;
-      background:rgba(6,18,35,.78);
-      border:1px solid rgba(99,231,255,.2);
-      border-radius:12px;
-      padding:8px 10px;
-      color:#fff;
-      font-weight:700;
-      z-index:5;
-    }
-
-    .sn1{left:18px;top:120px;}
-    .sn2{right:18px;top:200px;}
-    .sn3{left:18px;bottom:120px;}
-    .sn4{right:18px;bottom:100px;}
-
-    .modal{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,.55);
-      opacity:0;
-      pointer-events:none;
-      transition:.25s ease;
-      z-index:20;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-    }
-
-    .modal.show{
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .modal-card{
-      width:min(540px, 92%);
-      background:linear-gradient(145deg, rgba(7,18,34,.96), rgba(24,10,40,.94));
-      border:1px solid rgba(99,231,255,.28);
-      border-radius:22px;
-      padding:22px;
-      box-shadow:0 0 30px rgba(99,231,255,.14);
-    }
-
-    .modal-card h3{
-      color:var(--cyan2);
       margin-bottom:12px;
     }
 
-    .modal-card p{
+    .text-box h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+      font-size:1.35rem;
+    }
+
+    .text-box p{
       color:#eefcff;
       line-height:1.6;
       margin-bottom:10px;
     }
 
-    .close-modal{
-      margin-top:8px;
+    .text-box ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+      color:#eefcff;
+      line-height:1.55;
+    }
+
+    .mini-blocks{
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .mini-block{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:14px;
+    }
+
+    .mini-block strong{
+      color:var(--yellow);
+    }
+
+    .summary-box{
+      margin-top:22px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      padding:20px;
+      box-shadow:0 0 16px rgba(99,231,255,.05);
+    }
+
+    .summary-box h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+    }
+
+    .summary-box p{
+      color:#eefcff;
+      line-height:1.6;
+      margin-bottom:10px;
+    }
+
+    .highlight{
+      display:inline-block;
+      margin-top:10px;
       padding:10px 14px;
-      border-radius:12px;
-      border:1px solid rgba(99,231,255,.24);
-      background:rgba(99,231,255,.08);
-      color:white;
+      border-radius:999px;
+      background:rgba(143,255,158,.10);
+      border:1px solid rgba(143,255,158,.28);
+      color:#fff;
       font-weight:700;
-      cursor:pointer;
     }
 
     .info-card h2{
       margin-bottom:12px;
-      font-size:1.2rem;
+      font-size:1.15rem;
     }
 
-    .mini-note{
-      font-size:.92rem;
-      color:#dffaff;
-      opacity:.95;
-    }
-
-    .nav-buttons{
+    .nav-side{
       display:flex;
       gap:10px;
       margin-top:12px;
     }
 
-    .nav-buttons button{
+    .nav-side button{
       flex:1;
       padding:12px 14px;
       border-radius:14px;
@@ -577,24 +343,17 @@
       cursor:pointer;
     }
 
-    @media (max-width:1300px){
-      .page{
-        grid-template-columns:1fr;
-      }
-      .center{
-        min-height:960px;
-      }
+    @media (max-width:1200px){
+      .page{grid-template-columns:1fr;}
+      .center{min-height:1200px;}
     }
 
     @media (max-width:900px){
-      .body-wrap{
-        width:min(66vw,360px);
+      .scene-card{
+        grid-template-columns:1fr;
       }
-      .zoom-body{
-        width:min(80vw,620px);
-      }
-      .stomach-card{
-        width:88%;
+      .img-box{
+        min-height:320px;
       }
     }
   </style>
@@ -603,10 +362,9 @@
   <div class="page">
     <aside class="left">
       <section class="panel title-box">
-        <h1>2. Sistema afectado:<br>Sistema digestivo</h1>
-        <p>
-          En este nivel se muestra el sistema humano afectado por <strong>Helicobacter pylori</strong>,
-          con foco en el <strong>estómago</strong> y específicamente en la <strong>mucosa gástrica</strong>.
+        <h1>2. Sistema afectado</h1>
+        <p class="subtitle">
+          Helicobacter pylori afecta principalmente el sistema digestivo, especialmente el estómago y su mucosa gástrica.
         </p>
       </section>
 
@@ -616,251 +374,204 @@
       </section>
 
       <section class="panel section">
-        <h2>Ruta visual</h2>
-        <div class="step-buttons">
-          <button class="step-btn active" data-step="0">Pantalla 1 · Cuerpo humano completo</button>
-          <button class="step-btn" data-step="1">Pantalla 2 · Sistema digestivo ampliado</button>
-          <button class="step-btn" data-step="2">Pantalla 3 · Estómago y mucosa gástrica</button>
+        <h2>Pantallas</h2>
+        <div class="nav-buttons">
+          <button class="nav-btn active" onclick="showScene(0)">1. Sistema digestivo</button>
+          <button class="nav-btn" onclick="showScene(1)">2. Estómago</button>
+          <button class="nav-btn" onclick="showScene(2)">3. Mucosa gástrica</button>
         </div>
       </section>
 
       <section class="panel section">
-        <h2>Texto corto listo para poner</h2>
-        <p>
-          <strong>Sistema afectado:</strong> Sistema digestivo<br>
-          <strong>Órgano principal:</strong> Estómago<br>
-          <strong>Zona específica:</strong> Mucosa gástrica<br>
-          <strong>Importancia:</strong> Helicobacter pylori coloniza la mucosa del estómago, altera su función protectora y puede provocar inflamación, gastritis y úlceras.
-        </p>
+        <h2>Qué debes explicar</h2>
+        <ul>
+          <li>Qué sistema afecta</li>
+          <li>Qué órgano afecta más</li>
+          <li>Qué parte exacta del estómago afecta</li>
+          <li>Qué hace normalmente el estómago</li>
+          <li>Qué altera la bacteria</li>
+        </ul>
       </section>
     </aside>
 
     <main class="center panel">
       <div class="hud-grid"></div>
-      <div class="ring-wrap">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
-      </div>
+      <div class="top-title">Sistema digestivo afectado por Helicobacter pylori</div>
 
-      <div class="top-title">Sistema humano afectado: sistema digestivo</div>
+      <section class="scene active" id="scene0">
+        <div class="scene-card">
+          <div class="img-box">
+            <img src="sistema1.png" alt="Sistema digestivo"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="img-fallback" style="display:none;">
+              Imagen 1<br><br>
+              Sistema digestivo<br>
+              Esófago<br>
+              Estómago<br>
+              Intestinos
+            </div>
+          </div>
 
-      <!-- PANTALLA 1 -->
-      <section class="scene active" id="step0">
-        <div class="scene-label">Pantalla 1: cuerpo humano completo</div>
-        <div class="stage">
-          <div class="body-wrap digestive-on" id="fullBody">
-            <img src="human-body.png" alt="Cuerpo humano">
-            <div class="digestive-overlay">
-              <div class="digestive-spot esophagus"></div>
-              <div class="digestive-spot stomach strong"></div>
-              <div class="digestive-spot large-int"></div>
-              <div class="digestive-spot small-int"></div>
+          <div class="text-box">
+            <div class="badge">Imagen 1</div>
+            <h2>Sistema digestivo</h2>
+            <p>El sistema digestivo procesa los alimentos y absorbe nutrientes.</p>
+
+            <div class="mini-blocks">
+              <div class="mini-block"><strong>Sistema afectado:</strong> Sistema digestivo</div>
+              <div class="mini-block"><strong>Órgano principal:</strong> Estómago</div>
+              <div class="mini-block"><strong>Zona afectada:</strong> Mucosa gástrica</div>
             </div>
           </div>
         </div>
-
-        <div class="action-box">
-          <button class="main-btn" onclick="goStep(1)">Explorar sistema digestivo</button>
-        </div>
-
-        <div class="body-caption">Sistema digestivo iluminado · el estómago es el foco principal</div>
       </section>
 
-      <!-- PANTALLA 2 -->
-      <section class="scene" id="step1">
-        <div class="scene-label">Pantalla 2: sistema digestivo ampliado</div>
-        <div class="zoom-stage">
-          <div class="zoom-body">
-            <img src="human-body.png" alt="Sistema digestivo ampliado">
-            <div class="abdomen-focus"></div>
-
-        <div class="action-box">
-          <button class="main-btn" onclick="goStep(2)">Zoom al estómago</button>
-        </div>
-
-        <div class="body-caption">El sistema digestivo se amplía y el estómago queda resaltado</div>
-      </section>
-
-      <!-- PANTALLA 3 -->
-      <section class="scene" id="step2">
-        <div class="scene-label">Pantalla 3: estómago y mucosa gástrica</div>
-
-        <div class="stomach-big-stage">
-          <div class="stomach-card">
-            <div class="stomach-title">Órgano principal: Estómago · Zona específica: mucosa gástrica</div>
-
-            <img
-              src="stomach-real.png"
-              alt="Estómago"
-              class="stomach-img"
-              onerror="this.style.display='none';document.getElementById('fallbackStomach').style.display='flex';"
-            >
-
-            <div class="stomach-fallback" id="fallbackStomach">
-              <div class="stomach-shape"></div>
+      <section class="scene" id="scene1">
+        <div class="scene-card">
+          <div class="img-box">
+            <img src="sistema2.png" alt="Estómago"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="img-fallback" style="display:none;">
+              Imagen 2<br><br>
+              Estómago grande<br>
+              Bien visible<br>
+              Órgano principal
             </div>
+          </div>
 
-            <div class="hotspot hs1" onclick="openInfo('mucosa')"></div>
-            <div class="hotspot hs2" onclick="openInfo('llega')"></div>
-            <div class="hotspot hs3" onclick="openInfo('accion')"></div>
-            <div class="hotspot hs4" onclick="openInfo('danio')"></div>
+          <div class="text-box">
+            <div class="badge">Imagen 2</div>
+            <h2>Estómago</h2>
+            <p>El estómago es el órgano más afectado por Helicobacter pylori.</p>
 
-            <div class="side-note sn1">Punto 1 · Mucosa gástrica</div>
-            <div class="side-note sn2">Punto 2 · Zona donde llega H. pylori</div>
-            <div class="side-note sn3">Punto 3 · Acción de la bacteria</div>
-            <div class="side-note sn4">Punto 4 · Daño causado</div>
+            <h2 style="font-size:1.1rem; margin-top:14px;">Función normal del estómago</h2>
+            <ul>
+              <li>Digerir alimentos</li>
+              <li>Producir ácido gástrico</li>
+              <li>Ayudar a eliminar microorganismos</li>
+              <li>Iniciar la descomposición de los alimentos</li>
+            </ul>
           </div>
         </div>
+      </section>
 
-        <div class="modal" id="infoModal">
-          <div class="modal-card">
-            <h3 id="modalTitle">Título</h3>
-            <p id="modalText">Texto</p>
-            <button class="close-modal" onclick="closeInfo()">Cerrar</button>
+      <section class="scene" id="scene2">
+        <div class="scene-card">
+          <div class="img-box">
+            <img src="sistema3.png" alt="Mucosa gástrica"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="img-fallback" style="display:none;">
+              Imagen 3<br><br>
+              Interior del estómago<br>
+              Pared interna<br>
+              Mucosa gástrica
+            </div>
+          </div>
+
+          <div class="text-box">
+            <div class="badge">Imagen 3</div>
+            <h2>Mucosa gástrica</h2>
+            <p>La bacteria coloniza la mucosa gástrica y altera su función protectora.</p>
+
+            <h2 style="font-size:1.1rem; margin-top:14px;">Qué altera la bacteria</h2>
+            <ul>
+              <li>Daña la mucosa</li>
+              <li>Reduce la protección natural</li>
+              <li>Facilita inflamación y lesiones</li>
+              <li>Puede provocar gastritis y úlceras</li>
+            </ul>
           </div>
         </div>
+      </section>
 
-        <div class="body-caption">Haz clic en los puntos brillantes para ver el detalle de la infección</div>
+      <section class="summary-box">
+        <h2>Texto corto listo para poner</h2>
+        <p><strong>Sistema afectado:</strong> Sistema digestivo</p>
+        <p><strong>Órgano principal:</strong> Estómago</p>
+        <p><strong>Zona específica:</strong> Mucosa gástrica</p>
+        <p><strong>Función normal:</strong> El estómago digiere alimentos, produce ácido gástrico y protege al cuerpo de microorganismos.</p>
+        <p><strong>Importancia:</strong> Helicobacter pylori coloniza la mucosa gástrica, altera su función protectora y puede provocar inflamación, gastritis y úlceras.</p>
+        <div class="highlight">La parte específica más afectada es la mucosa gástrica.</div>
       </section>
     </main>
 
     <aside class="right">
       <section class="panel info-card">
-        <div class="tag">Sistema afectado</div>
-        <h2>Sistema digestivo</h2>
-        <p>
-          Es el sistema principal afectado por <strong>Helicobacter pylori</strong>.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Órgano principal</div>
-        <h2>Estómago</h2>
-        <p>
-          Es el órgano más importante en esta infección, porque allí actúa la bacteria.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Parte específica afectada</div>
-        <h2>Mucosa gástrica</h2>
-        <p>
-          Es la capa protectora interna del estómago, donde la bacteria coloniza y altera la función normal de protección.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Función normal del sistema</div>
+        <h2>Resumen</h2>
         <ul>
-          <li>Digerir alimentos</li>
-          <li>Absorber nutrientes</li>
-          <li>Usar ácido gástrico para ayudar en la digestión y defensa</li>
+          <li>Afecta el sistema digestivo</li>
+          <li>El órgano principal afectado es el estómago</li>
+          <li>La parte específica es la mucosa gástrica</li>
         </ul>
       </section>
 
       <section class="panel info-card">
-        <div class="tag">Qué altera la bacteria</div>
+        <h2>Qué hace normalmente el estómago</h2>
+        <ul>
+          <li>Digiere la comida</li>
+          <li>Usa ácido gástrico</li>
+          <li>Protege al cuerpo de microbios</li>
+          <li>Ayuda en la digestión química</li>
+        </ul>
+      </section>
+
+      <section class="panel info-card">
+        <h2>Qué altera la bacteria</h2>
         <ul>
           <li>Daña la mucosa</li>
-          <li>Reduce la protección del estómago</li>
-          <li>Causa inflamación</li>
-          <li>Deja que el ácido lesione el tejido</li>
+          <li>Reduce la protección natural</li>
+          <li>Facilita inflamación</li>
+          <li>Facilita lesiones</li>
         </ul>
-      </section>
 
-      <section class="panel info-card">
-        <h2>Ruta visual</h2>
-        <p class="mini-note">
-          Cuerpo humano completo → sistema digestivo seleccionado → zoom al abdomen → zoom al estómago → puntos interactivos → detalle de cómo H. pylori afecta la mucosa.
-        </p>
-
-        <div class="nav-buttons">
-          <button onclick="prevStep()">◀ Pantalla anterior</button>
-          <button onclick="nextStep()">Siguiente pantalla ▶</button>
+        <div class="nav-side">
+          <button onclick="prevScene()">◀ Anterior</button>
+          <button onclick="nextScene()">Siguiente ▶</button>
         </div>
       </section>
     </aside>
   </div>
 
   <script>
-    const steps = document.querySelectorAll(".scene");
-    const stepButtons = document.querySelectorAll(".step-btn");
-    let currentStep = 0;
+    const scenes = document.querySelectorAll(".scene");
+    const navBtns = document.querySelectorAll(".nav-btn");
+    let currentScene = 0;
 
-    function renderSteps(){
-      steps.forEach((step, index) => {
-        step.classList.toggle("active", index === currentStep);
+    function renderScenes(){
+      scenes.forEach((scene, index) => {
+        scene.classList.toggle("active", index === currentScene);
       });
 
-      stepButtons.forEach((btn, index) => {
-        btn.classList.toggle("active", index === currentStep);
+      navBtns.forEach((btn, index) => {
+        btn.classList.toggle("active", index === currentScene);
       });
     }
 
-    function goStep(index){
-      currentStep = index;
-      renderSteps();
+    function showScene(index){
+      currentScene = index;
+      renderScenes();
     }
 
-    function nextStep(){
-      if(currentStep < steps.length - 1){
-        currentStep++;
-        renderSteps();
+    function nextScene(){
+      if(currentScene < scenes.length - 1){
+        currentScene++;
+        renderScenes();
       }
     }
 
-    function prevStep(){
-      if(currentStep > 0){
-        currentStep--;
-        renderSteps();
+    function prevScene(){
+      if(currentScene > 0){
+        currentScene--;
+        renderScenes();
       }
-    }
-
-    stepButtons.forEach((btn, index) => {
-      btn.addEventListener("click", () => goStep(index));
-    });
-
-    const infoData = {
-      mucosa: {
-        title: "Punto 1: Mucosa gástrica",
-        text: "Capa interna que protege el estómago del ácido. Es la barrera principal que normalmente evita que el tejido se dañe."
-      },
-      llega: {
-        title: "Punto 2: Zona donde llega H. pylori",
-        text: "Helicobacter pylori se instala en la mucosa gástrica. Allí encuentra un lugar donde puede sobrevivir y adherirse."
-      },
-      accion: {
-        title: "Punto 3: Acción de la bacteria",
-        text: "La bacteria produce ureasa y logra sobrevivir al ácido del estómago. Así altera el ambiente y debilita la protección normal."
-      },
-      danio: {
-        title: "Punto 4: Daño causado",
-        text: "Provoca inflamación, gastritis y puede causar úlceras. En algunos casos más graves, favorece daño prolongado del tejido."
-      }
-    };
-
-    function openInfo(key){
-      const modal = document.getElementById("infoModal");
-      const title = document.getElementById("modalTitle");
-      const text = document.getElementById("modalText");
-
-      title.textContent = infoData[key].title;
-      text.textContent = infoData[key].text;
-      modal.classList.add("show");
-    }
-
-    function closeInfo(){
-      document.getElementById("infoModal").classList.remove("show");
     }
 
     document.addEventListener("keydown", (e) => {
-      if(e.key === "ArrowRight") nextStep();
-      if(e.key === "ArrowLeft") prevStep();
-      if(e.key === "Escape") closeInfo();
+      if(e.key === "ArrowRight") nextScene();
+      if(e.key === "ArrowLeft") prevScene();
     });
 
-    renderSteps();
+    renderScenes();
   </script>
 </body>
 </html>
