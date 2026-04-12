@@ -3,23 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nivel 5 - Contagio | Helicobacter pylori</title>
+  <title>5. Contagio | Helicobacter pylori</title>
   <style>
     :root{
-      --bg1:#030813;
-      --bg2:#071a2f;
-      --cyan:#63e7ff;
-      --cyan2:#b7f8ff;
-      --pink:#ff5fd2;
-      --yellow:#ffd86a;
-      --glass:rgba(7,18,34,0.60);
-      --border:rgba(99,231,255,0.30);
-      --soft:#dffaff;
-      --danger:#ff6b7a;
-      --danger2:#ff944d;
+      --bg1:#07131f;
+      --bg2:#0d2236;
+      --bg3:#1b2945;
+      --cyan:#8fe8ff;
+      --cyan2:#d2f8ff;
+      --red:#ff6f8e;
       --green:#8fff9e;
-      --redGlow:rgba(255,107,122,.35);
-      --blueGlow:rgba(99,231,255,.25);
+      --yellow:#ffd86a;
+      --glass:rgba(255,255,255,0.05);
+      --border:rgba(255,255,255,0.10);
+      --text:#eefcff;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -29,10 +26,9 @@
       min-height:100vh;
       color:white;
       background:
-        radial-gradient(circle at 20% 20%, rgba(0,180,255,.18), transparent 22%),
-        radial-gradient(circle at 80% 25%, rgba(255,0,180,.14), transparent 22%),
-        radial-gradient(circle at 60% 75%, rgba(0,255,255,.08), transparent 25%),
-        linear-gradient(135deg,var(--bg1),var(--bg2),#13081f);
+        radial-gradient(circle at 20% 20%, rgba(0,180,255,.14), transparent 22%),
+        radial-gradient(circle at 80% 20%, rgba(255,0,180,.10), transparent 22%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
       overflow:auto;
     }
 
@@ -47,941 +43,543 @@
       pointer-events:none;
     }
 
-    .page{
-      width:100%;
-      min-height:100vh;
+    .container{
       display:grid;
-      grid-template-columns:360px 1fr 390px;
+      grid-template-columns:280px 1fr;
       gap:16px;
+      min-height:100vh;
       padding:16px;
     }
 
-    .panel{
+    .sidebar,
+    .main-panel,
+    .info-panel{
       background:var(--glass);
       border:1px solid var(--border);
       border-radius:20px;
       backdrop-filter:blur(10px);
-      box-shadow:0 0 25px rgba(99,231,255,.10), inset 0 0 16px rgba(99,231,255,.05);
-      overflow:hidden;
+      box-shadow:0 0 24px rgba(0,0,0,.18);
     }
 
-    .left,.right{
+    .sidebar{
+      padding:20px;
       display:flex;
       flex-direction:column;
       gap:16px;
-      z-index:3;
     }
 
-    .title-box,.section,.info-card{
-      padding:18px;
-    }
-
-    .title-box h1,
-    .section h2,
-    .info-card h2{
+    .sidebar h1{
       color:var(--cyan2);
+      font-size:1.9rem;
+      line-height:1.05;
     }
 
-    .title-box h1{
-      font-size:2rem;
-      line-height:1.04;
-      margin-bottom:10px;
-      text-shadow:0 0 14px rgba(99,231,255,.22);
-    }
-
-    .title-box p,
-    .section p,
-    .section li,
-    .info-card p,
-    .info-card li{
-      color:#eefcff;
+    .sidebar p{
+      color:var(--text);
       line-height:1.55;
     }
 
-    .section h2,
-    .info-card h2{
-      margin-bottom:12px;
-      font-size:1.2rem;
+    .menu{
+      display:grid;
+      gap:10px;
     }
 
-    .section ul,
-    .info-card ul{
+    .menu button,
+    .back-link{
+      width:100%;
+      padding:12px 14px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      color:white;
+      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.14));
+      border:1px solid rgba(255,255,255,.10);
+      transition:.25s ease;
+      text-align:left;
+    }
+
+    .menu button:hover,
+    .back-link:hover{
+      transform:translateY(-2px);
+      box-shadow:0 0 16px rgba(99,231,255,.16);
+    }
+
+    .menu button.active{
+      border-color:rgba(143,232,255,.7);
+      box-shadow:0 0 16px rgba(99,231,255,.18);
+    }
+
+    .back-link{
+      text-decoration:none;
+      text-align:center;
+      display:block;
+      margin-top:auto;
+    }
+
+    .main{
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      gap:16px;
+    }
+
+    .main-panel{
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .title{
+      color:var(--cyan2);
+      font-size:2rem;
+      margin-bottom:8px;
+    }
+
+    .subtitle{
+      color:var(--text);
+      line-height:1.6;
+      margin-bottom:18px;
+    }
+
+    .screen{
+      display:none;
+    }
+
+    .screen.active{
+      display:block;
+    }
+
+    /* Pantalla 1 */
+    .simulacion{
+      display:grid;
+      grid-template-columns:1fr 220px 1fr;
+      align-items:center;
+      gap:20px;
+      margin-bottom:24px;
+    }
+
+    .persona{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:18px;
+      text-align:center;
+    }
+
+    .persona img{
+      width:100%;
+      max-width:220px;
+      height:260px;
+      object-fit:contain;
+      display:block;
+      margin:0 auto 10px;
+      background:rgba(255,255,255,.02);
+      border-radius:12px;
+    }
+
+    .persona p{
+      color:var(--text);
+      font-weight:700;
+      font-size:1rem;
+    }
+
+    .infectada{
+      box-shadow:0 0 18px rgba(255,111,142,.14);
+    }
+
+    .sana{
+      box-shadow:0 0 18px rgba(143,255,158,.10);
+    }
+
+    .flujo{
+      text-align:center;
+    }
+
+    .flujo img{
+      width:100%;
+      max-width:180px;
+      height:180px;
+      object-fit:contain;
+      display:block;
+      margin:0 auto 10px;
+    }
+
+    .flujo .label{
+      color:var(--yellow);
+      font-weight:800;
+      line-height:1.5;
+    }
+
+    .acciones{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+    }
+
+    .accion-card{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:14px;
+      text-align:center;
+    }
+
+    .accion-card img{
+      width:100%;
+      max-width:150px;
+      height:120px;
+      object-fit:contain;
+      display:block;
+      margin:0 auto 10px;
+    }
+
+    .accion-card p{
+      color:var(--text);
+      line-height:1.5;
+      font-weight:700;
+    }
+
+    /* Pantalla 2 */
+    .ruta{
+      display:grid;
+      grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;
+      gap:14px;
+      align-items:center;
+    }
+
+    .bloque{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:14px;
+      text-align:center;
+      min-height:240px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .bloque img{
+      width:100%;
+      max-width:150px;
+      height:120px;
+      object-fit:contain;
+      display:block;
+      margin:0 auto 12px;
+    }
+
+    .bloque p{
+      color:var(--text);
+      line-height:1.5;
+      font-weight:700;
+    }
+
+    .arrow{
+      font-size:2rem;
+      color:var(--yellow);
+      text-align:center;
+    }
+
+    /* Pantalla 3 */
+    .contenido{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:20px;
+      align-items:start;
+    }
+
+    .imagen-box,
+    .info{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .imagen-grande{
+      width:100%;
+      height:420px;
+      object-fit:cover;
+      display:block;
+      background:rgba(255,255,255,.02);
+    }
+
+    .info{
+      padding:18px;
+    }
+
+    .info p{
+      color:var(--text);
+      line-height:1.6;
+      margin-bottom:12px;
+    }
+
+    /* Modos */
+    .modos{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      margin-top:20px;
+    }
+
+    .modo{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .modo h3{
+      margin-bottom:10px;
+      font-size:1.15rem;
+    }
+
+    .modo.directo h3{ color:var(--red); }
+    .modo.indirecto h3{ color:var(--yellow); }
+
+    .simulacion-img{
+      width:100%;
+      height:220px;
+      object-fit:contain;
+      display:block;
+      margin-bottom:10px;
+      background:rgba(255,255,255,.02);
+      border-radius:12px;
+    }
+
+    .modo p{
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    .info-panel{
+      padding:18px;
+    }
+
+    .info-panel h2{
+      color:var(--cyan2);
+      margin-bottom:10px;
+      font-size:1.15rem;
+    }
+
+    .info-panel p,
+    .info-panel li{
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    .info-panel ul{
       padding-left:18px;
       display:grid;
       gap:8px;
     }
 
-    .back-btn,.main-btn,.step-btn,.sim-btn{
-      width:100%;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(99,231,255,.30);
-      background:linear-gradient(135deg, rgba(99,231,255,.12), rgba(255,95,210,.10));
-      color:#fff;
-      font-weight:700;
-      cursor:pointer;
-      transition:.25s ease;
-    }
-
-    .back-btn:hover,.main-btn:hover,.step-btn:hover,.sim-btn:hover{
-      transform:translateY(-2px);
-      border-color:rgba(183,248,255,.85);
-      box-shadow:0 0 16px rgba(99,231,255,.14);
-    }
-
-    .step-buttons,.sim-box{
-      display:grid;
-      gap:10px;
-    }
-
-    .step-btn.active,.sim-btn.active{
-      border-color:rgba(183,248,255,.95);
-      box-shadow:0 0 18px rgba(99,231,255,.16);
-      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.12));
-    }
-
     .tag{
       display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(99,231,255,.10);
-      border:1px solid rgba(99,231,255,.24);
-      color:var(--soft);
-      font-size:.9rem;
-      margin-bottom:10px;
-    }
-
-    .impact{
-      color:var(--yellow);
-      font-weight:800;
-    }
-
-    .center{
-      position:relative;
-      min-height:980px;
-      overflow:hidden;
-      border-radius:24px;
-      border:1px solid rgba(99,231,255,.18);
-      background:
-        radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
-    }
-
-    .hud-grid{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        linear-gradient(transparent 97%, rgba(99,231,255,.06) 100%),
-        linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
-      background-size:100% 72px, 72px 100%;
-      opacity:.45;
-    }
-
-    .ring-wrap{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-    }
-
-    .ring{
-      position:absolute;
-      border:1px solid rgba(99,231,255,.14);
-      border-radius:50%;
-      animation:spin 18s linear infinite;
-    }
-
-    .r1{width:620px;height:620px;}
-    .r2{width:470px;height:470px;animation-direction:reverse;}
-    .r3{width:320px;height:320px;animation-duration:12s;}
-
-    @keyframes spin{
-      from{transform:rotate(0deg)}
-      to{transform:rotate(360deg)}
-    }
-
-    .top-title{
-      position:absolute;
-      top:18px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:5;
-      background:rgba(6,18,35,.78);
-      border:1px solid rgba(99,231,255,.24);
-      color:#fff;
-      padding:12px 18px;
-      border-radius:999px;
-      font-weight:800;
-      text-align:center;
-    }
-
-    .scene{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transition:.45s ease;
-    }
-
-    .scene.active{
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .scene-label{
-      position:absolute;
-      top:74px;
-      left:18px;
-      z-index:5;
-      background:rgba(6,18,35,.74);
-      border:1px solid rgba(99,231,255,.24);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:700;
-    }
-
-    .stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:30px;
-    }
-
-    .sim-stage{
-      width:min(980px, 96%);
-      min-height:560px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .alert-box{
-      position:absolute;
-      top:24px;
-      left:50%;
-      transform:translateX(-50%);
-      background:rgba(255,107,122,.14);
-      border:1px solid rgba(255,107,122,.28);
-      color:#fff;
-      padding:12px 18px;
-      border-radius:999px;
-      font-weight:800;
-      box-shadow:0 0 18px var(--redGlow);
-      z-index:5;
-    }
-
-    .transmission-label{
-      position:absolute;
-      bottom:22px;
-      left:50%;
-      transform:translateX(-50%);
-      background:rgba(255,216,106,.14);
-      border:1px solid rgba(255,216,106,.28);
-      color:#fff;
-      padding:10px 16px;
-      border-radius:999px;
-      font-weight:800;
-      z-index:5;
-    }
-
-    .person{
-      position:absolute;
-      width:120px;
-      height:220px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:flex-start;
-    }
-
-    .person .head{
-      width:52px;
-      height:52px;
-      border-radius:50%;
-      background:radial-gradient(circle, #dffaff, #7ccff0);
-      box-shadow:0 0 16px var(--blueGlow);
-    }
-
-    .person .body{
-      width:64px;
-      height:110px;
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(99,231,255,.40), rgba(99,231,255,.14));
-      margin-top:8px;
-      box-shadow:0 0 18px var(--blueGlow);
-      position:relative;
-    }
-
-    .person .legs{
-      width:70px;
-      height:38px;
-      margin-top:8px;
-      position:relative;
-    }
-
-    .person .legs::before,
-    .person .legs::after{
-      content:"";
-      position:absolute;
-      width:18px;
-      height:40px;
-      background:linear-gradient(180deg, rgba(99,231,255,.40), rgba(99,231,255,.14));
-      border-radius:12px;
-      top:0;
-    }
-
-    .person .legs::before{left:12px;}
-    .person .legs::after{right:12px;}
-
-    .person.left{left:10%;top:44%;transform:translateY(-50%);}
-    .person.right{right:10%;top:44%;transform:translateY(-50%);}
-
-    .person-label{
-      margin-top:8px;
-      font-weight:800;
-      color:#fff;
-      text-align:center;
-      font-size:.95rem;
-    }
-
-    .infected .body{
-      box-shadow:0 0 26px var(--redGlow);
-      background:linear-gradient(180deg, rgba(255,107,122,.45), rgba(255,107,122,.16));
-    }
-
-    .infected .head{
-      box-shadow:0 0 18px var(--redGlow);
-      background:radial-gradient(circle, #ffe3e6, #ff8ca0);
-    }
-
-    .arrow-flow{
-      position:absolute;
-      left:27%;
-      right:27%;
-      top:46%;
-      height:4px;
-      background:linear-gradient(90deg, rgba(99,231,255,.2), rgba(99,231,255,.95), rgba(99,231,255,.2));
-      box-shadow:0 0 14px var(--blueGlow);
-      overflow:hidden;
-    }
-
-    .arrow-flow::after{
-      content:"";
-      position:absolute;
-      right:-8px;
-      top:-4px;
-      border-left:14px solid rgba(99,231,255,.95);
-      border-top:6px solid transparent;
-      border-bottom:6px solid transparent;
-    }
-
-    .particles{
-      position:absolute;
-      left:29%;
-      right:29%;
-      top:38%;
-      height:120px;
-      pointer-events:none;
-    }
-
-    .particle{
-      position:absolute;
-      width:16px;
-      height:16px;
-      border-radius:50%;
-      background:radial-gradient(circle, #fff, #ff7bc6 60%, rgba(255,123,198,.2));
-      box-shadow:0 0 14px rgba(255,123,198,.45);
-      animation:moveParticle 3.6s linear infinite;
-    }
-
-    .particle::before,
-    .particle::after{
-      content:"";
-      position:absolute;
-      width:10px;
-      height:2px;
-      background:#ffc1e6;
-      right:-5px;
-    }
-
-    .particle::before{top:4px;transform:rotate(25deg);}
-    .particle::after{bottom:4px;transform:rotate(-25deg);}
-
-    .p1{top:12px;left:0;animation-delay:0s;}
-    .p2{top:48px;left:5%;animation-delay:.7s;}
-    .p3{top:80px;left:12%;animation-delay:1.2s;}
-    .p4{top:30px;left:18%;animation-delay:1.8s;}
-    .p5{top:64px;left:22%;animation-delay:2.3s;}
-
-    @keyframes moveParticle{
-      from{transform:translateX(0) translateY(0) scale(1); opacity:0;}
-      10%{opacity:1;}
-      50%{transform:translateX(220px) translateY(-10px) scale(1.08);}
-      100%{transform:translateX(420px) translateY(6px) scale(.9); opacity:0;}
-    }
-
-    .icon-box{
-      position:absolute;
-      bottom:84px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:8px;
-      color:#fff;
-      font-weight:700;
-      text-align:center;
-    }
-
-    .icon{
-      width:78px;
-      height:78px;
-      border-radius:22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:2rem;
-      background:rgba(99,231,255,.10);
-      border:1px solid rgba(99,231,255,.22);
-      box-shadow:0 0 14px var(--blueGlow);
-    }
-
-    .direct-box{left:14%;}
-    .indirect-box{right:14%;}
-
-    .route-stage{
-      width:min(980px, 96%);
-      min-height:580px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .route-row{
-      width:90%;
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      align-items:center;
-      gap:16px;
-    }
-
-    .route-item{
-      min-height:160px;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:16px;
-      box-shadow:0 0 16px rgba(99,231,255,.05);
-    }
-
-    .route-emoji{
-      font-size:3rem;
-      margin-bottom:12px;
-    }
-
-    .route-title{
-      color:var(--cyan2);
-      font-weight:800;
-      margin-bottom:8px;
-    }
-
-    .route-arrow{
-      font-size:2rem;
-      color:var(--yellow);
-      text-shadow:0 0 14px rgba(255,216,106,.25);
-    }
-
-    .water-stage{
-      width:min(980px, 96%);
-      min-height:600px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:40px;
-      padding:30px;
-      flex-wrap:wrap;
-    }
-
-    .glass{
-      width:180px;
-      height:250px;
-      border:3px solid rgba(99,231,255,.55);
-      border-top:none;
-      border-radius:0 0 28px 28px;
-      position:relative;
-      box-shadow:0 0 22px var(--blueGlow);
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
-    }
-
-    .water{
-      position:absolute;
-      left:10px;
-      right:10px;
-      bottom:10px;
-      height:62%;
-      border-radius:0 0 18px 18px;
-      background:linear-gradient(180deg, rgba(99,231,255,.5), rgba(99,231,255,.16));
-      overflow:hidden;
-    }
-
-    .water-particle{
-      position:absolute;
-      width:14px;
-      height:14px;
-      border-radius:50%;
-      background:radial-gradient(circle, #fff, #ff7bc6 60%, rgba(255,123,198,.2));
-      box-shadow:0 0 10px rgba(255,123,198,.4);
-      animation:floatWater 3s ease-in-out infinite;
-    }
-
-    .wp1{left:20%;top:18%;}
-    .wp2{left:60%;top:34%;animation-delay:.7s;}
-    .wp3{left:42%;top:58%;animation-delay:1.4s;}
-    .wp4{left:72%;top:68%;animation-delay:2.1s;}
-
-    @keyframes floatWater{
-      0%,100%{transform:translateY(0)}
-      50%{transform:translateY(-10px)}
-    }
-
-    .houses{
-      display:flex;
-      gap:10px;
-      align-items:flex-end;
-    }
-
-    .house{
-      width:86px;
-      height:76px;
-      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:10px;
-      position:relative;
-      box-shadow:0 0 14px rgba(99,231,255,.06);
-    }
-
-    .house::before{
-      content:"";
-      position:absolute;
-      top:-26px;
-      left:8px;
-      right:8px;
-      border-left:34px solid transparent;
-      border-right:34px solid transparent;
-      border-bottom:26px solid rgba(255,107,122,.35);
-    }
-
-    .text-callout{
-      max-width:360px;
-      padding:18px;
-      border-radius:20px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.08);
-      line-height:1.6;
-      color:#eefcff;
-    }
-
-    .big-impact{
-      position:absolute;
-      top:28px;
-      right:28px;
-      max-width:320px;
-      padding:16px;
-      border-radius:20px;
-      background:rgba(255,216,106,.12);
-      border:1px solid rgba(255,216,106,.28);
-      color:#fff;
-      font-weight:800;
-      line-height:1.5;
-      box-shadow:0 0 20px rgba(255,216,106,.12);
-    }
-
-    .info-card h2{
-      margin-bottom:12px;
-      font-size:1.2rem;
-    }
-
-    .mini-note{
-      font-size:.92rem;
-      color:#dffaff;
-      opacity:.95;
-    }
-
-    .nav-buttons{
-      display:flex;
-      gap:10px;
       margin-top:12px;
-    }
-
-    .nav-buttons button{
-      flex:1;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(99,231,255,.30);
-      background:rgba(99,231,255,.08);
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,216,106,.12);
+      border:1px solid rgba(255,216,106,.24);
       color:white;
       font-weight:700;
-      cursor:pointer;
     }
 
-    @media (max-width:1300px){
-      .page{grid-template-columns:1fr;}
-      .center{min-height:1120px;}
-    }
-
-    @media (max-width:980px){
-      .route-row{
+    @media (max-width: 1100px){
+      .simulacion{
         grid-template-columns:1fr;
       }
-      .route-arrow{
+
+      .acciones,
+      .modos,
+      .contenido{
+        grid-template-columns:1fr;
+      }
+
+      .ruta{
+        grid-template-columns:1fr;
+      }
+
+      .arrow{
         transform:rotate(90deg);
       }
-      .person.left{left:6%;}
-      .person.right{right:6%;}
-      .arrow-flow{left:22%;right:22%;}
-      .particles{left:24%;right:24%;}
+    }
+
+    @media (max-width: 900px){
+      .container{
+        grid-template-columns:1fr;
+      }
+
+      .persona img,
+      .flujo img,
+      .accion-card img,
+      .bloque img,
+      .simulacion-img,
+      .imagen-grande{
+        object-fit:contain;
+        background:rgba(0,0,0,.18);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <aside class="left">
-      <section class="panel title-box">
+  <div class="container">
+    <aside class="sidebar">
+      <div>
         <h1>5. Contagio</h1>
         <p>
-          Este nivel muestra cómo se transmite <strong>Helicobacter pylori</strong> de forma
-          directa e indirecta, con animaciones tipo videojuego y la ruta completa del contagio.
+          Este nivel explica cómo se transmite <strong>Helicobacter pylori</strong>
+          de forma directa e indirecta.
         </p>
-      </section>
-
-      <section class="panel section">
-        <h2>Navegación</h2>
-        <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
-      </section>
-
-      <section class="panel section">
-        <h2>Pantallas del nivel</h2>
-        <div class="step-buttons">
-          <button class="step-btn active" data-step="0">Pantalla 1 · Simulación de contagio</button>
-          <button class="step-btn" data-step="1">Pantalla 2 · Ruta completa del contagio</button>
-          <button class="step-btn" data-step="2">Pantalla 3 · Agua contaminada y contexto social</button>
-        </div>
-      </section>
-
-      <section class="panel section">
-        <h2>Modo de simulación</h2>
-        <div class="sim-box">
-          <button class="sim-btn active" onclick="setMode('directo')">Simular contagio directo</button>
-          <button class="sim-btn" onclick="setMode('indirecto')">Simular contagio indirecto</button>
-        </div>
-      </section>
-
-      <section class="panel section">
-        <h2>Versión corta para tu diseño</h2>
-        <p>
-          <strong>Contagio directo:</strong> saliva, contacto persona a persona<br>
-          <strong>Contagio indirecto:</strong> agua o alimentos contaminados<br>
-          <strong>Principal vía:</strong> fecal-oral
-        </p>
-      </section>
-    </aside>
-
-    <main class="center panel">
-      <div class="hud-grid"></div>
-      <div class="ring-wrap">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
       </div>
 
-      <div class="top-title">Mecanismo de contagio de Helicobacter pylori</div>
+      <div class="menu">
+        <button class="active" onclick="mostrar(1,this)">Pantalla 1 · Simulación</button>
+        <button onclick="mostrar(2,this)">Pantalla 2 · Ruta completa</button>
+        <button onclick="mostrar(3,this)">Pantalla 3 · Agua contaminada</button>
+      </div>
 
-      <!-- PANTALLA 1 -->
-      <section class="scene active" id="step0">
-        <div class="scene-label">Pantalla 1: simulación de contagio</div>
-        <div class="stage">
-          <div class="sim-stage">
-            <div class="alert-box">🚨 RIESGO DE CONTAGIO DETECTADO</div>
-            <div class="transmission-label" id="transmissionLabel">Transmisión en tiempo real · contagio directo</div>
+      <a class="back-link" href="index.html">⬅ Volver</a>
+    </aside>
 
-            <div class="person left infected">
-              <div class="head"></div>
-              <div class="body"></div>
-              <div class="legs"></div>
-              <div class="person-label">Persona infectada</div>
+    <main class="main">
+      <section class="main-panel">
+        <div id="p1" class="screen active">
+          <h2 class="title">Pantalla 1: Simulación de contagio</h2>
+          <p class="subtitle">
+            Aquí se muestra el contagio directo entre una persona infectada y otra persona.
+          </p>
+
+          <div class="simulacion">
+            <div class="persona infectada">
+              <img src="img/persona_infectada.png" alt="Persona infectada">
+              <p>Persona infectada</p>
             </div>
 
-            <div class="arrow-flow"></div>
-
-            <div class="particles" id="particleLayer">
-              <div class="particle p1"></div>
-              <div class="particle p2"></div>
-              <div class="particle p3"></div>
-              <div class="particle p4"></div>
-              <div class="particle p5"></div>
+            <div class="flujo">
+              <img src="img/contagio.png" alt="Bacterias de contagio">
+              <div class="label">Transmisión en tiempo real</div>
             </div>
 
-            <div class="person right">
-              <div class="head"></div>
-              <div class="body"></div>
-              <div class="legs"></div>
-              <div class="person-label">Otra persona</div>
+            <div class="persona sana">
+              <img src="img/persona_sana.png" alt="Persona sana">
+              <p>Otra persona</p>
+            </div>
+          </div>
+
+          <div class="acciones">
+            <div class="accion-card">
+              <img src="img/beso.png" alt="Beso">
+              <p>Beso (saliva)</p>
             </div>
 
-            <div class="icon-box direct-box" id="leftIconBox">
-              <div class="icon" id="leftIcon">💋</div>
-              <div id="leftIconText">Saliva / utensilios compartidos</div>
+            <div class="accion-card">
+              <img src="img/utensilios.png" alt="Utensilios compartidos">
+              <p>Utensilios compartidos</p>
             </div>
 
-            <div class="icon-box indirect-box" id="rightIconBox">
-              <div class="icon" id="rightIcon">🍴</div>
-              <div id="rightIconText">Contacto persona a persona</div>
+            <div class="accion-card">
+              <img src="img/contacto.png" alt="Contacto directo">
+              <p>Contacto directo</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="p2" class="screen">
+          <h2 class="title">Pantalla 2: Ruta completa del contagio</h2>
+          <p class="subtitle">
+            Ruta visual de cómo la bacteria puede pasar al cuerpo por mala higiene.
+          </p>
+
+          <div class="ruta">
+            <div class="bloque">
+              <img src="img/manos_sucias.png" alt="Manos sucias">
+              <p>Manos sucias</p>
+            </div>
+
+            <div class="arrow">➡️</div>
+
+            <div class="bloque">
+              <img src="img/comida_contaminada.png" alt="Comida contaminada">
+              <p>Comida contaminada</p>
+            </div>
+
+            <div class="arrow">➡️</div>
+
+            <div class="bloque">
+              <img src="img/boca.png" alt="Boca">
+              <p>Boca</p>
+            </div>
+
+            <div class="arrow">➡️</div>
+
+            <div class="bloque">
+              <img src="img/estomago.png" alt="Estómago">
+              <p>Estómago (H. pylori)</p>
+            </div>
+          </div>
+
+          <div class="modos">
+            <div class="modo directo">
+              <h3>Simulación contagio directo</h3>
+              <img src="img/contagio_directo.png" alt="Contagio directo" class="simulacion-img">
+              <p>Transmisión por saliva, besos o contacto directo.</p>
+            </div>
+
+            <div class="modo indirecto">
+              <h3>Simulación contagio indirecto</h3>
+              <img src="img/contagio_indirecto.png" alt="Contagio indirecto" class="simulacion-img">
+              <p>Transmisión por agua, alimentos o mala higiene.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="p3" class="screen">
+          <h2 class="title">Pantalla 3: Agua contaminada</h2>
+          <p class="subtitle">
+            El agua no potable y las malas condiciones sanitarias aumentan el riesgo de infección.
+          </p>
+
+          <div class="contenido">
+            <div class="imagen-box">
+              <img src="img/agua_contaminada.png" alt="Agua contaminada" class="imagen-grande">
+            </div>
+
+            <div class="info">
+              <p><strong>Riesgo:</strong> Agua no potable</p>
+              <p>La bacteria puede transmitirse por agua contaminada.</p>
+              <p><strong>Contexto:</strong></p>
+              <p>Mayor riesgo en lugares con mala higiene y poco acceso a agua limpia.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- PANTALLA 2 -->
-      <section class="scene" id="step1">
-        <div class="scene-label">Pantalla 2: ruta completa del contagio</div>
-        <div class="stage">
-          <div class="route-stage">
-            <div class="route-row">
-              <div class="route-item">
-                <div class="route-emoji">🤚</div>
-                <div class="route-title">Mano sucia</div>
-                <div>Mala higiene</div>
-              </div>
-
-              <div class="route-arrow">➡️</div>
-
-              <div class="route-item">
-                <div class="route-emoji">🍎</div>
-                <div class="route-title">Comida</div>
-                <div>Alimentos contaminados</div>
-              </div>
-
-              <div class="route-arrow">➡️</div>
-
-              <div class="route-item">
-                <div class="route-emoji">👄</div>
-                <div class="route-title">Boca</div>
-                <div>Ruta fecal-oral</div>
-              </div>
-
-              <div class="route-arrow">➡️</div>
-
-              <div class="route-item">
-                <div class="route-emoji">🫃</div>
-                <div class="route-title">Estómago</div>
-                <div>Infección por H. pylori</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PANTALLA 3 -->
-      <section class="scene" id="step2">
-        <div class="scene-label">Pantalla 3: agua contaminada y contexto social</div>
-        <div class="stage">
-          <div class="water-stage">
-            <div class="glass">
-              <div class="water">
-                <div class="water-particle wp1"></div>
-                <div class="water-particle wp2"></div>
-                <div class="water-particle wp3"></div>
-                <div class="water-particle wp4"></div>
-              </div>
-            </div>
-
-            <div class="text-callout">
-              <strong>Agua no potable = riesgo de infección</strong><br><br>
-              La transmisión indirecta puede ocurrir por agua contaminada, alimentos mal lavados o mala higiene.
-            </div>
-
-            <div class="houses">
-              <div class="house"></div>
-              <div class="house"></div>
-              <div class="house"></div>
-            </div>
-
-            <div class="text-callout">
-              <strong>Mayor riesgo en condiciones sanitarias deficientes</strong><br><br>
-              Es más común en lugares con poca higiene, falta de agua potable y alta densidad de personas.
-            </div>
-
-            <div class="big-impact">
-              🌍 Más del 50% de las personas en el mundo tienen Helicobacter pylori
-            </div>
-          </div>
-        </div>
+      <section class="info-panel">
+        <h2>Resumen del nivel 5</h2>
+        <ul>
+          <li>Contagio directo: saliva, besos, utensilios compartidos</li>
+          <li>Contagio indirecto: agua, alimentos, mala higiene</li>
+          <li>Ruta visual del contagio</li>
+          <li>Modo directo e indirecto con imágenes</li>
+          <li>Agua contaminada como factor importante</li>
+        </ul>
+        <div class="tag">Nivel visual mejorado</div>
       </section>
     </main>
-
-    <aside class="right">
-      <section class="panel info-card">
-        <div class="tag">Mecanismo de contagio</div>
-        <h2>Directo e indirecto</h2>
-        <p>
-          La bacteria Helicobacter pylori se transmite de dos formas: contagio directo y contagio indirecto.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Contagio directo</div>
-        <ul>
-          <li>Saliva (besos)</li>
-          <li>Compartir utensilios</li>
-          <li>Contacto con vómito o secreciones</li>
-          <li>Transmisión persona a persona</li>
-        </ul>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Contagio indirecto</div>
-        <ul>
-          <li>Agua contaminada</li>
-          <li>Alimentos mal lavados o contaminados</li>
-          <li>Mala higiene</li>
-          <li>Contaminación por contacto</li>
-        </ul>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Principal vía</div>
-        <h2>Vía fecal-oral</h2>
-        <p>
-          Significa que la bacteria puede pasar de heces → boca, especialmente por mala higiene.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Idea clave</div>
-        <p>
-          Es más común en lugares con poca higiene, falta de agua potable y alta densidad de personas.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <h2>Frases para tu imagen</h2>
-        <ul>
-          <li>Contacto persona a persona</li>
-          <li>Saliva / utensilios compartidos</li>
-          <li>Agua contaminada</li>
-          <li>Alimentos contaminados</li>
-          <li>Mala higiene</li>
-          <li>Vía fecal-oral</li>
-          <li>Ingesta de agua infectada</li>
-          <li>Falta de higiene = mayor riesgo</li>
-          <li>Ruta completa del contagio</li>
-        </ul>
-
-        <div class="nav-buttons">
-          <button onclick="prevStep()">◀ Pantalla anterior</button>
-          <button onclick="nextStep()">Siguiente pantalla ▶</button>
-        </div>
-      </section>
-    </aside>
   </div>
 
   <script>
-    const steps = document.querySelectorAll(".scene");
-    const stepButtons = document.querySelectorAll(".step-btn");
-    const simButtons = document.querySelectorAll(".sim-btn");
-    let currentStep = 0;
-    let currentMode = "directo";
+    function mostrar(n, btn){
+      document.getElementById("p1").style.display = "none";
+      document.getElementById("p2").style.display = "none";
+      document.getElementById("p3").style.display = "none";
 
-    function renderSteps(){
-      steps.forEach((step, index) => {
-        step.classList.toggle("active", index === currentStep);
-      });
+      document.getElementById("p" + n).style.display = "block";
 
-      stepButtons.forEach((btn, index) => {
-        btn.classList.toggle("active", index === currentStep);
-      });
+      document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     }
-
-    function goStep(index){
-      currentStep = index;
-      renderSteps();
-    }
-
-    function nextStep(){
-      if(currentStep < steps.length - 1){
-        currentStep++;
-        renderSteps();
-      }
-    }
-
-    function prevStep(){
-      if(currentStep > 0){
-        currentStep--;
-        renderSteps();
-      }
-    }
-
-    stepButtons.forEach((btn, index) => {
-      btn.addEventListener("click", () => goStep(index));
-    });
-
-    function setMode(mode){
-      currentMode = mode;
-      simButtons.forEach(btn => btn.classList.remove("active"));
-
-      if(mode === "directo"){
-        simButtons[0].classList.add("active");
-        document.getElementById("transmissionLabel").textContent = "Transmisión en tiempo real · contagio directo";
-        document.getElementById("leftIcon").textContent = "💋";
-        document.getElementById("leftIconText").textContent = "Saliva / utensilios compartidos";
-        document.getElementById("rightIcon").textContent = "🍴";
-        document.getElementById("rightIconText").textContent = "Contacto persona a persona";
-      } else {
-        simButtons[1].classList.add("active");
-        document.getElementById("transmissionLabel").textContent = "Transmisión en tiempo real · contagio indirecto";
-        document.getElementById("leftIcon").textContent = "💧";
-        document.getElementById("leftIconText").textContent = "Agua contaminada";
-        document.getElementById("rightIcon").textContent = "🤚";
-        document.getElementById("rightIconText").textContent = "Mala higiene";
-      }
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "ArrowRight") nextStep();
-      if(e.key === "ArrowLeft") prevStep();
-    });
-
-    renderSteps();
-    setMode("directo");
   </script>
 </body>
 </html>
