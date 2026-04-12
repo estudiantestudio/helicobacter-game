@@ -3,37 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nivel 7 - Prevención | Helicobacter pylori</title>
+  <title>Nivel 7 - Prevención</title>
   <style>
     :root{
-      --bg1:#030813;
-      --bg2:#071a2f;
-      --cyan:#63e7ff;
-      --cyan2:#b7f8ff;
-      --pink:#ff5fd2;
-      --yellow:#ffd86a;
-      --glass:rgba(7,18,34,0.60);
-      --border:rgba(99,231,255,0.30);
-      --soft:#dffaff;
-      --danger:#ff6b7a;
+      --bg1:#0f2027;
+      --bg2:#203a43;
+      --bg3:#2c5364;
+      --panel:rgba(255,255,255,0.06);
+      --border:rgba(255,255,255,0.10);
+      --cyan:#aeefff;
       --green:#8fff9e;
-      --blueGlow:rgba(99,231,255,.25);
-      --greenGlow:rgba(143,255,158,.28);
-      --purple:#c890ff;
+      --red:#ff7b8b;
+      --yellow:#ffd86a;
+      --text:#eefcff;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
 
     body{
       font-family:Arial, Helvetica, sans-serif;
-      min-height:100vh;
       color:white;
+      min-height:100vh;
       background:
-        radial-gradient(circle at 20% 20%, rgba(0,180,255,.18), transparent 22%),
-        radial-gradient(circle at 80% 25%, rgba(255,0,180,.14), transparent 22%),
-        radial-gradient(circle at 60% 75%, rgba(0,255,255,.08), transparent 25%),
-        linear-gradient(135deg,var(--bg1),var(--bg2),#13081f);
-      overflow:auto;
+        radial-gradient(circle at 20% 20%, rgba(0,180,255,.15), transparent 22%),
+        radial-gradient(circle at 80% 20%, rgba(255,0,180,.12), transparent 22%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
     }
 
     body::before{
@@ -47,826 +41,464 @@
       pointer-events:none;
     }
 
-    .page{
-      width:100%;
-      min-height:100vh;
+    .container{
       display:grid;
-      grid-template-columns:360px 1fr 390px;
+      grid-template-columns:280px 1fr;
       gap:16px;
+      min-height:100vh;
       padding:16px;
     }
 
-    .panel{
-      background:var(--glass);
+    .sidebar,
+    .main-panel,
+    .info-box{
+      background:var(--panel);
       border:1px solid var(--border);
       border-radius:20px;
       backdrop-filter:blur(10px);
-      box-shadow:0 0 25px rgba(99,231,255,.10), inset 0 0 16px rgba(99,231,255,.05);
-      overflow:hidden;
+      box-shadow:0 0 25px rgba(0,0,0,.18);
     }
 
-    .left,.right{
+    .sidebar{
+      padding:20px;
       display:flex;
       flex-direction:column;
       gap:16px;
-      z-index:3;
     }
 
-    .title-box,.section,.info-card{
-      padding:18px;
+    .sidebar h1{
+      color:var(--cyan);
+      font-size:1.9rem;
+      line-height:1.05;
     }
 
-    .title-box h1,
-    .section h2,
-    .info-card h2{
-      color:var(--cyan2);
-    }
-
-    .title-box h1{
-      font-size:2rem;
-      line-height:1.04;
-      margin-bottom:10px;
-      text-shadow:0 0 14px rgba(99,231,255,.22);
-    }
-
-    .title-box p,
-    .section p,
-    .section li,
-    .info-card p,
-    .info-card li{
-      color:#eefcff;
+    .sidebar p{
+      color:var(--text);
       line-height:1.55;
     }
 
-    .section h2,
-    .info-card h2{
-      margin-bottom:12px;
-      font-size:1.2rem;
-    }
-
-    .section ul,
-    .info-card ul{
-      padding-left:18px;
-      display:grid;
-      gap:8px;
-    }
-
-    .back-btn,.step-btn{
-      width:100%;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(99,231,255,.30);
-      background:linear-gradient(135deg, rgba(99,231,255,.12), rgba(255,95,210,.10));
-      color:#fff;
-      font-weight:700;
-      cursor:pointer;
-      transition:.25s ease;
-    }
-
-    .back-btn:hover,.step-btn:hover{
-      transform:translateY(-2px);
-      border-color:rgba(183,248,255,.85);
-      box-shadow:0 0 16px rgba(99,231,255,.14);
-    }
-
-    .step-buttons{
+    .menu{
       display:grid;
       gap:10px;
     }
 
-    .step-btn.active{
-      border-color:rgba(183,248,255,.95);
-      box-shadow:0 0 18px rgba(99,231,255,.16);
-      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.12));
+    .menu button,
+    .back-link{
+      width:100%;
+      padding:12px 14px;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      color:white;
+      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.14));
+      border:1px solid rgba(255,255,255,.10);
+      transition:.25s ease;
+      text-align:left;
+    }
+
+    .menu button:hover,
+    .back-link:hover{
+      transform:translateY(-2px);
+      box-shadow:0 0 16px rgba(99,231,255,.16);
+    }
+
+    .menu button.active{
+      border-color:rgba(174,239,255,.7);
+      box-shadow:0 0 16px rgba(99,231,255,.18);
+    }
+
+    .back-link{
+      display:block;
+      text-decoration:none;
+      text-align:center;
+      margin-top:auto;
+    }
+
+    .main{
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      gap:16px;
+    }
+
+    .main-panel{
+      padding:20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .title{
+      color:var(--cyan);
+      font-size:2rem;
+      margin-bottom:8px;
+    }
+
+    .subtitle{
+      color:var(--text);
+      line-height:1.6;
+      margin-bottom:18px;
+    }
+
+    .screen{
+      display:none;
+    }
+
+    .screen.active{
+      display:block;
+    }
+
+    /* Pantalla 1 */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:14px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 0 18px rgba(0,0,0,.12);
+    }
+
+    .card img{
+      width:100%;
+      height:160px;
+      object-fit:cover;
+      display:block;
+      background:rgba(255,255,255,.03);
+    }
+
+    .card-body{
+      padding:14px;
+    }
+
+    .card-body h3{
+      color:var(--cyan);
+      margin-bottom:8px;
+      font-size:1.05rem;
+    }
+
+    .card-body p{
+      color:var(--text);
+      line-height:1.5;
+      font-size:.95rem;
+    }
+
+    /* Pantalla 2 y 3 */
+    .compare{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .box{
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,0.05);
+    }
+
+    .box.red{
+      box-shadow:0 0 20px rgba(255,0,0,.08);
+    }
+
+    .box.green{
+      box-shadow:0 0 20px rgba(0,255,128,.08);
+    }
+
+    .box-head{
+      padding:18px 18px 8px;
+    }
+
+    .box.red .box-head h3{ color:var(--red); }
+    .box.green .box-head h3{ color:var(--green); }
+
+    .box-head h3{
+      font-size:1.6rem;
+      margin-bottom:6px;
+    }
+
+    .box-head p{
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    .box img{
+      width:100%;
+      height:300px;
+      object-fit:cover;
+      display:block;
+      background:rgba(255,255,255,.03);
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .box-body{
+      padding:18px;
+    }
+
+    .box-body ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    .footer-note{
+      margin-top:18px;
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(143,255,158,.18);
+      color:white;
+      line-height:1.6;
+      font-weight:700;
+    }
+
+    .info-box{
+      padding:18px;
+    }
+
+    .info-box h2{
+      color:var(--cyan);
+      margin-bottom:10px;
+      font-size:1.15rem;
+    }
+
+    .info-box p,
+    .info-box li{
+      color:var(--text);
+      line-height:1.55;
+    }
+
+    .info-box ul{
+      padding-left:18px;
+      display:grid;
+      gap:8px;
     }
 
     .tag{
       display:inline-block;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(99,231,255,.10);
-      border:1px solid rgba(99,231,255,.24);
-      color:var(--soft);
-      font-size:.9rem;
-      margin-bottom:10px;
-    }
-
-    .highlight{
-      color:var(--yellow);
-      font-weight:800;
-    }
-
-    .center{
-      position:relative;
-      min-height:980px;
-      overflow:hidden;
-      border-radius:24px;
-      border:1px solid rgba(99,231,255,.18);
-      background:
-        radial-gradient(circle at center, rgba(99,231,255,.08), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      box-shadow:0 0 30px rgba(99,231,255,.07), inset 0 0 20px rgba(99,231,255,.04);
-    }
-
-    .hud-grid{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        linear-gradient(transparent 97%, rgba(99,231,255,.06) 100%),
-        linear-gradient(90deg, transparent 97%, rgba(99,231,255,.05) 100%);
-      background-size:100% 72px, 72px 100%;
-      opacity:.45;
-    }
-
-    .ring-wrap{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-    }
-
-    .ring{
-      position:absolute;
-      border:1px solid rgba(99,231,255,.14);
-      border-radius:50%;
-      animation:spin 18s linear infinite;
-    }
-
-    .r1{width:620px;height:620px;}
-    .r2{width:470px;height:470px;animation-direction:reverse;}
-    .r3{width:320px;height:320px;animation-duration:12s;}
-
-    @keyframes spin{
-      from{transform:rotate(0deg)}
-      to{transform:rotate(360deg)}
-    }
-
-    .top-title{
-      position:absolute;
-      top:18px;
-      left:50%;
-      transform:translateX(-50%);
-      z-index:5;
-      background:rgba(6,18,35,.78);
-      border:1px solid rgba(99,231,255,.24);
-      color:#fff;
-      padding:12px 18px;
-      border-radius:999px;
-      font-weight:800;
-      text-align:center;
-    }
-
-    .scene{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      pointer-events:none;
-      transition:.45s ease;
-    }
-
-    .scene.active{
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .scene-label{
-      position:absolute;
-      top:74px;
-      left:18px;
-      z-index:5;
-      background:rgba(6,18,35,.74);
-      border:1px solid rgba(99,231,255,.24);
-      color:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:700;
-    }
-
-    .stage{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:30px;
-    }
-
-    .prevention-stage{
-      width:min(980px, 96%);
-      min-height:660px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .shield-core{
-      position:absolute;
-      left:50%;
-      top:50%;
-      transform:translate(-50%,-50%);
-      width:220px;
-      height:260px;
-      border-radius:40% 40% 46% 46%;
-      background:linear-gradient(180deg, rgba(143,255,158,.30), rgba(99,231,255,.16));
-      border:2px solid rgba(143,255,158,.55);
-      box-shadow:0 0 28px var(--greenGlow);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:5rem;
-      z-index:3;
-    }
-
-    .bubble{
-      position:absolute;
-      width:190px;
-      min-height:150px;
-      border-radius:24px;
-      padding:16px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow:0 0 20px rgba(99,231,255,.08);
-      z-index:4;
-      text-align:center;
-    }
-
-    .bubble h3{
-      margin-bottom:10px;
-      font-size:1.03rem;
-      color:var(--cyan2);
-    }
-
-    .bubble p{
-      color:#eefcff;
-      line-height:1.5;
-      font-size:.94rem;
-    }
-
-    .bubble-1{left:28px;top:122px;}
-    .bubble-2{right:28px;top:122px;}
-    .bubble-3{left:28px;bottom:70px;}
-    .bubble-4{right:28px;bottom:70px;}
-    .bubble-5{left:50%;top:108px;transform:translateX(-50%);}
-
-    .emoji{
-      font-size:2.2rem;
-      margin-bottom:8px;
-    }
-
-    .flow-line{
-      position:absolute;
-      background:rgba(99,231,255,.9);
-      box-shadow:0 0 10px rgba(99,231,255,.35);
-      z-index:3;
-    }
-
-    .line-1{width:150px;height:2px;left:212px;top:245px;}
-    .line-2{width:150px;height:2px;right:212px;top:245px;}
-    .line-3{width:150px;height:2px;left:212px;bottom:150px;}
-    .line-4{width:150px;height:2px;right:212px;bottom:150px;}
-    .line-5{width:2px;height:110px;left:50%;top:240px;transform:translateX(-50%);}
-
-    .alert-box{
-      position:absolute;
-      bottom:22px;
-      left:50%;
-      transform:translateX(-50%);
-      background:rgba(255,107,122,.14);
-      border:1px solid rgba(255,107,122,.28);
-      color:#fff;
-      padding:12px 18px;
-      border-radius:999px;
-      font-weight:800;
-      box-shadow:0 0 18px rgba(255,107,122,.18);
-      z-index:5;
-    }
-
-    .compare-stage{
-      width:min(980px, 96%);
-      min-height:660px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-      padding:24px;
-      align-items:center;
-    }
-
-    .state-card{
-      min-height:540px;
-      border-radius:24px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      padding:20px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .state-card h2{
-      margin-bottom:10px;
-    }
-
-    .state-card p,
-    .state-card li{
-      color:#eefcff;
-      line-height:1.55;
-    }
-
-    .state-card ul{
-      padding-left:18px;
-      display:grid;
-      gap:8px;
-      margin-top:10px;
-    }
-
-    .bad h2{color:var(--danger);}
-    .good h2{color:var(--green);}
-
-    .risk-badges{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin:18px 0;
-    }
-
-    .risk-badge{
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(255,107,122,.12);
-      border:1px solid rgba(255,107,122,.24);
-      color:#fff;
-      font-weight:700;
-    }
-
-    .safe-badge{
-      padding:10px 12px;
-      border-radius:999px;
-      background:rgba(143,255,158,.12);
-      border:1px solid rgba(143,255,158,.24);
-      color:#fff;
-      font-weight:700;
-    }
-
-    .summary-box{
-      margin-top:16px;
-      padding:14px;
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.08);
-      color:#eefcff;
-      line-height:1.55;
-    }
-
-    .connect-stage{
-      width:min(980px, 96%);
-      min-height:660px;
-      border-radius:28px;
-      border:1px solid rgba(99,231,255,.16);
-      background:rgba(255,255,255,.02);
-      box-shadow:0 0 25px rgba(99,231,255,.08);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:30px;
-    }
-
-    .connect-wrap{
-      width:100%;
-      display:grid;
-      grid-template-columns:1fr auto 1fr;
-      gap:20px;
-      align-items:center;
-    }
-
-    .flow-card{
-      min-height:300px;
-      border-radius:24px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap:12px;
-    }
-
-    .flow-card h2{
-      color:var(--cyan2);
-    }
-
-    .flow-card p,
-    .flow-card li{
-      color:#eefcff;
-      line-height:1.55;
-    }
-
-    .big-arrow{
-      font-size:4rem;
-      color:var(--yellow);
-      text-shadow:0 0 14px rgba(255,216,106,.22);
-    }
-
-    .status-pill{
-      display:inline-block;
-      padding:10px 14px;
-      border-radius:999px;
-      font-weight:800;
-      color:#fff;
-    }
-
-    .status-red{
-      background:rgba(255,107,122,.14);
-      border:1px solid rgba(255,107,122,.28);
-    }
-
-    .status-green{
-      background:rgba(143,255,158,.14);
-      border:1px solid rgba(143,255,158,.28);
-    }
-
-    .info-card h2{
-      margin-bottom:12px;
-      font-size:1.2rem;
-    }
-
-    .mini-note{
-      font-size:.92rem;
-      color:#dffaff;
-      opacity:.95;
-    }
-
-    .nav-buttons{
-      display:flex;
-      gap:10px;
       margin-top:12px;
-    }
-
-    .nav-buttons button{
-      flex:1;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(99,231,255,.30);
-      background:rgba(99,231,255,.08);
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,216,106,.12);
+      border:1px solid rgba(255,216,106,.24);
       color:white;
       font-weight:700;
-      cursor:pointer;
     }
 
-    @media (max-width:1300px){
-      .page{grid-template-columns:1fr;}
-      .center{min-height:1120px;}
+    @media (max-width: 1200px){
+      .grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
     }
 
-    @media (max-width:980px){
-      .compare-stage,
-      .connect-wrap{
+    @media (max-width: 900px){
+      .container{
         grid-template-columns:1fr;
       }
 
-      .big-arrow{
-        transform:rotate(90deg);
-        margin:auto;
+      .compare{
+        grid-template-columns:1fr;
       }
 
-      .bubble{
-        position:relative;
-        left:auto;
-        right:auto;
-        top:auto;
-        bottom:auto;
-        transform:none;
-        width:100%;
-        max-width:420px;
-        margin:10px auto;
+      .grid{
+        grid-template-columns:1fr;
       }
 
-      .shield-core{
-        position:relative;
-        left:auto;
-        top:auto;
-        transform:none;
-        margin:20px auto;
-      }
-
-      .flow-line{
-        display:none;
-      }
-
-      .alert-box{
-        position:relative;
-        left:auto;
-        bottom:auto;
-        transform:none;
-        margin:12px auto 0;
-        width:max-content;
-      }
-
-      .prevention-stage{
-        padding:18px;
-        display:grid;
-        gap:12px;
+      .box img,
+      .card img{
+        object-fit:contain;
+        background:rgba(0,0,0,.18);
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <aside class="left">
-      <section class="panel title-box">
+  <div class="container">
+    <aside class="sidebar">
+      <div>
         <h1>7. Prevención</h1>
         <p>
-          Este nivel muestra cómo prevenir la infección por <strong>Helicobacter pylori</strong>
-          evitando el contagio y manteniendo buenas condiciones de higiene.
+          Este nivel muestra cómo evitar el contagio de <strong>Helicobacter pylori</strong>
+          usando medidas de higiene y protección.
         </p>
-      </section>
-
-      <section class="panel section">
-        <h2>Navegación</h2>
-        <button class="back-btn" onclick="window.location.href='index.html'">← Volver a la página principal</button>
-      </section>
-
-      <section class="panel section">
-        <h2>Pantallas del nivel</h2>
-        <div class="step-buttons">
-          <button class="step-btn active" data-step="0">Pantalla 1 · Burbujas de prevención</button>
-          <button class="step-btn" data-step="1">Pantalla 2 · Riesgo vs prevención</button>
-          <button class="step-btn" data-step="2">Pantalla 3 · Contagio ❌ → Prevención ✅</button>
-        </div>
-      </section>
-
-      <section class="panel section">
-        <h2>Versión corta para tu diseño</h2>
-        <p>
-          <strong>Prevención:</strong><br>
-          Lavado de manos, agua potable, higiene de alimentos, no compartir utensilios y evitar contacto con saliva infectada.
-        </p>
-      </section>
-    </aside>
-
-    <main class="center panel">
-      <div class="hud-grid"></div>
-      <div class="ring-wrap">
-        <div class="ring r1"></div>
-        <div class="ring r2"></div>
-        <div class="ring r3"></div>
       </div>
 
-      <div class="top-title">¿Cómo prevenir la infección por Helicobacter pylori?</div>
+      <div class="menu">
+        <button class="active" onclick="mostrar(1,this)">Pantalla 1 · Prevención visual</button>
+        <button onclick="mostrar(2,this)">Pantalla 2 · Riesgo vs prevención</button>
+        <button onclick="mostrar(3,this)">Pantalla 3 · Ruta visual</button>
+      </div>
 
-      <!-- PANTALLA 1 -->
-      <section class="scene active" id="step0">
-        <div class="scene-label">Pantalla 1: medidas principales</div>
-        <div class="stage">
-          <div class="prevention-stage">
-            <div class="shield-core">🛡️</div>
+      <a class="back-link" href="index.html">⬅ Volver</a>
+    </aside>
 
-            <div class="bubble bubble-1">
-              <div class="emoji">🖐️</div>
-              <h3>Lavado de manos</h3>
-              <p>Antes de comer y después de ir al baño. Corta la vía fecal-oral.</p>
-            </div>
+    <main class="main">
+      <section class="main-panel">
+        <div id="p1" class="screen active">
+          <h2 class="title">Medidas de prevención</h2>
+          <p class="subtitle">
+            La prevención depende principalmente de la higiene personal y del entorno.
+          </p>
 
-            <div class="bubble bubble-2">
-              <div class="emoji">💧</div>
-              <h3>Agua potable</h3>
-              <p>Beber agua segura y evitar agua contaminada. Reduce el contagio indirecto.</p>
-            </div>
-
-            <div class="bubble bubble-3">
-              <div class="emoji">🥗</div>
-              <h3>Higiene de alimentos</h3>
-              <p>Lavar frutas y verduras. Cocinar bien los alimentos.</p>
-            </div>
-
-            <div class="bubble bubble-4">
-              <div class="emoji">🚫🍴</div>
-              <h3>No compartir utensilios</h3>
-              <p>Evita el contagio directo por vasos o cubiertos.</p>
-            </div>
-
-            <div class="bubble bubble-5">
-              <div class="emoji">🧼</div>
-              <h3>Higiene y entorno</h3>
-              <p>Evitar saliva infectada y mantener buenas condiciones sanitarias.</p>
-            </div>
-
-            <div class="flow-line line-1"></div>
-            <div class="flow-line line-2"></div>
-            <div class="flow-line line-3"></div>
-            <div class="flow-line line-4"></div>
-            <div class="flow-line line-5"></div>
-
-            <div class="alert-box">🚨 Sin higiene = alto riesgo de infección</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PANTALLA 2 -->
-      <section class="scene" id="step1">
-        <div class="scene-label">Pantalla 2: riesgo vs prevención</div>
-        <div class="stage">
-          <div class="compare-stage">
-            <div class="state-card bad">
-              <h2>Sin prevención</h2>
-              <p><strong>Riesgo alto de infección</strong></p>
-
-              <div class="risk-badges">
-                <div class="risk-badge">Agua contaminada</div>
-                <div class="risk-badge">Mala higiene</div>
-                <div class="risk-badge">Utensilios compartidos</div>
-                <div class="risk-badge">Saliva infectada</div>
+          <div class="grid">
+            <div class="card">
+              <img src="img/lavado.png" alt="Lavado de manos">
+              <div class="card-body">
+                <h3>Lavado de manos</h3>
+                <p>Lavarse las manos antes de comer y después de ir al baño ayuda a cortar la vía fecal-oral.</p>
               </div>
-
-              <ul>
-                <li>Mayor probabilidad de contagio directo</li>
-                <li>Mayor probabilidad de contagio indirecto</li>
-                <li>La vía fecal-oral se facilita</li>
-                <li>Más riesgo en condiciones sanitarias deficientes</li>
-              </ul>
             </div>
 
-            <div class="state-card good">
-              <h2>Con prevención</h2>
-              <p><strong>Riesgo reducido</strong></p>
-
-              <div class="risk-badges">
-                <div class="safe-badge">Lavado de manos</div>
-                <div class="safe-badge">Agua potable</div>
-                <div class="safe-badge">Alimentos seguros</div>
-                <div class="safe-badge">Higiene</div>
+            <div class="card">
+              <img src="img/agua.png" alt="Agua potable">
+              <div class="card-body">
+                <h3>Agua potable</h3>
+                <p>Consumir agua segura reduce el contagio indirecto por agua contaminada.</p>
               </div>
+            </div>
 
-              <ul>
-                <li>Se evita el contagio directo</li>
-                <li>Se evita el contagio indirecto</li>
-                <li>Se reduce la vía fecal-oral</li>
-                <li>Disminuye la posibilidad de infección</li>
-              </ul>
+            <div class="card">
+              <img src="img/alimentos.png" alt="Higiene de alimentos">
+              <div class="card-body">
+                <h3>Higiene de alimentos</h3>
+                <p>Lavar frutas y verduras y cocinar bien los alimentos ayuda a evitar ingerir bacterias.</p>
+              </div>
+            </div>
 
-              <div class="summary-box">
-                <strong>Idea clave:</strong><br>
-                La prevención depende principalmente de la higiene personal y del entorno.
+            <div class="card">
+              <img src="img/utensilios.png" alt="No compartir utensilios">
+              <div class="card-body">
+                <h3>No compartir utensilios</h3>
+                <p>Evita el contagio directo por vasos, cubiertos y otros objetos de uso personal.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <img src="img/entorno.png" alt="Higiene del entorno">
+              <div class="card-body">
+                <h3>Higiene del entorno</h3>
+                <p>Un entorno limpio, con agua segura y buenas condiciones sanitarias, disminuye el riesgo de infección.</p>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- PANTALLA 3 -->
-      <section class="scene" id="step2">
-        <div class="scene-label">Pantalla 3: conexión con el nivel anterior</div>
-        <div class="stage">
-          <div class="connect-stage">
-            <div class="connect-wrap">
-              <div class="flow-card">
-                <span class="status-pill status-red">Contagio ❌</span>
-                <h2>Ruta de riesgo</h2>
+        <div id="p2" class="screen">
+          <h2 class="title">Riesgo vs prevención</h2>
+          <p class="subtitle">
+            Comparación entre un ambiente sin medidas preventivas y uno con buenas prácticas de higiene.
+          </p>
+
+          <div class="compare">
+            <div class="box red">
+              <div class="box-head">
+                <h3>Sin prevención</h3>
+                <p>Riesgo alto de infección</p>
+              </div>
+              <img src="img/riesgo.png" alt="Riesgo alto">
+              <div class="box-body">
                 <ul>
-                  <li>Contacto directo</li>
-                  <li>Agua contaminada</li>
-                  <li>Alimentos inseguros</li>
+                  <li>Agua sucia o contaminada</li>
+                  <li>Manos sucias</li>
+                  <li>Comida contaminada</li>
+                  <li>Mayor presencia de bacterias</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="box green">
+              <div class="box-head">
+                <h3>Con prevención</h3>
+                <p>Riesgo reducido</p>
+              </div>
+              <img src="img/salud.png" alt="Riesgo reducido">
+              <div class="box-body">
+                <ul>
+                  <li>Agua limpia</li>
+                  <li>Manos lavadas</li>
+                  <li>Alimentos seguros</li>
+                  <li>Entorno más sano e higiénico</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="p3" class="screen">
+          <h2 class="title">Ruta de contagio vs prevención</h2>
+          <p class="subtitle">
+            Así se compara el camino del contagio con la ruta segura de protección.
+          </p>
+
+          <div class="compare">
+            <div class="box red">
+              <div class="box-head">
+                <h3>Ruta de riesgo</h3>
+                <p>Contagio favorecido por mala higiene</p>
+              </div>
+              <img src="img/contagio.png" alt="Ruta de contagio">
+              <div class="box-body">
+                <ul>
+                  <li>Bacterias entrando al cuerpo</li>
                   <li>Mala higiene</li>
-                  <li>Vía fecal-oral</li>
+                  <li>Mayor probabilidad de infección</li>
                 </ul>
               </div>
+            </div>
 
-              <div class="big-arrow">➡️</div>
-
-              <div class="flow-card">
-                <span class="status-pill status-green">Prevención ✅</span>
-                <h2>Ruta segura</h2>
+            <div class="box green">
+              <div class="box-head">
+                <h3>Ruta segura</h3>
+                <p>Prevención y protección</p>
+              </div>
+              <img src="img/proteccion.png" alt="Ruta de prevención">
+              <div class="box-body">
                 <ul>
-                  <li>Lavado de manos</li>
-                  <li>Agua potable</li>
-                  <li>Higiene de alimentos</li>
-                  <li>No compartir utensilios</li>
-                  <li>Reducir riesgo de infección</li>
+                  <li>Escudo de protección</li>
+                  <li>Higiene constante</li>
+                  <li>Menor riesgo de contagio</li>
                 </ul>
               </div>
             </div>
           </div>
+
+          <div class="footer-note">
+            Contagio ❌ → Prevención ✅
+          </div>
         </div>
+      </section>
+
+      <section class="info-box">
+        <h2>Checklist del nivel 7</h2>
+        <ul>
+          <li>Muchas imágenes por pantalla</li>
+          <li>Cada tarjeta separada por concepto</li>
+          <li>Comparación visual clara</li>
+          <li>Ruta visual de riesgo y protección</li>
+          <li>Diseño más interactivo y visual</li>
+        </ul>
+        <div class="tag">Nivel 7/7</div>
       </section>
     </main>
-
-    <aside class="right">
-      <section class="panel info-card">
-        <div class="tag">Medidas principales</div>
-        <ul>
-          <li>Lavado de manos</li>
-          <li>Consumir agua potable</li>
-          <li>Higiene de alimentos</li>
-          <li>No compartir utensilios</li>
-          <li>Evitar saliva infectada</li>
-          <li>Buenas condiciones sanitarias</li>
-        </ul>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Relación con contagio</div>
-        <p>
-          La prevención se basa en evitar el contagio directo e indirecto y mantener buenas condiciones de higiene.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Flechas para tu imagen</div>
-        <ul>
-          <li>“Evitar contagio directo”</li>
-          <li>“Evitar agua contaminada”</li>
-          <li>“Mantener higiene”</li>
-          <li>“Prevenir infección”</li>
-          <li>“Reducir riesgo”</li>
-        </ul>
-      </section>
-
-      <section class="panel info-card">
-        <div class="tag">Tip para nota máxima</div>
-        <p>
-          Conecta este nivel con el anterior:
-          <br><br>
-          <strong>Contagio ❌ → Prevención ✅</strong>
-          <br><br>
-          Eso demuestra que entiendes todo el proceso completo.
-        </p>
-      </section>
-
-      <section class="panel info-card">
-        <h2>Checklist</h2>
-        <ul>
-          <li>Lavado de manos</li>
-          <li>Agua potable</li>
-          <li>Higiene de alimentos</li>
-          <li>No compartir utensilios</li>
-          <li>Evitar saliva infectada</li>
-          <li>Condiciones sanitarias</li>
-          <li>Relación con contagio</li>
-        </ul>
-
-        <div class="nav-buttons">
-          <button onclick="prevStep()">◀ Pantalla anterior</button>
-          <button onclick="nextStep()">Siguiente pantalla ▶</button>
-        </div>
-      </section>
-    </aside>
   </div>
 
   <script>
-    const steps = document.querySelectorAll(".scene");
-    const stepButtons = document.querySelectorAll(".step-btn");
-    let currentStep = 0;
+    function mostrar(n, btn){
+      document.getElementById("p1").style.display = "none";
+      document.getElementById("p2").style.display = "none";
+      document.getElementById("p3").style.display = "none";
 
-    function renderSteps(){
-      steps.forEach((step, index) => {
-        step.classList.toggle("active", index === currentStep);
-      });
+      document.getElementById("p" + n).style.display = "block";
 
-      stepButtons.forEach((btn, index) => {
-        btn.classList.toggle("active", index === currentStep);
-      });
+      document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
     }
-
-    function goStep(index){
-      currentStep = index;
-      renderSteps();
-    }
-
-    function nextStep(){
-      if(currentStep < steps.length - 1){
-        currentStep++;
-        renderSteps();
-      }
-    }
-
-    function prevStep(){
-      if(currentStep > 0){
-        currentStep--;
-        renderSteps();
-      }
-    }
-
-    stepButtons.forEach((btn, index) => {
-      btn.addEventListener("click", () => goStep(index));
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "ArrowRight") nextStep();
-      if(e.key === "ArrowLeft") prevStep();
-    });
-
-    renderSteps();
   </script>
 </body>
 </html>
