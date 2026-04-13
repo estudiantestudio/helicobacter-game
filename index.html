@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Tu página</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Inside the Human Body: Helicobacter pylori Attack</title>
+
   <style>
     :root{
       --bg1:#030813;
@@ -28,7 +25,7 @@
       font-family:Arial, Helvetica, sans-serif;
       min-height:100vh;
       color:white;
-      overflow:hidden;
+      overflow:auto;
       background:
         radial-gradient(circle at 20% 20%, rgba(0,180,255,.18), transparent 22%),
         radial-gradient(circle at 80% 25%, rgba(255,0,180,.14), transparent 22%),
@@ -49,7 +46,7 @@
 
     .app{
       width:100%;
-      height:100vh;
+      min-height:100vh;
       display:grid;
       grid-template-columns:340px 1fr 360px;
       gap:16px;
@@ -65,11 +62,12 @@
       overflow:hidden;
     }
 
-    .left, .right{
+    .left,.right{
       display:flex;
       flex-direction:column;
       gap:14px;
-      z-index:5;
+      z-index:20;
+      position:relative;
     }
 
     .title-box{
@@ -129,6 +127,7 @@
         radial-gradient(circle at center, rgba(85,200,255,.10), transparent 30%),
         radial-gradient(circle at center, rgba(85,200,255,.05), transparent 60%);
       box-shadow:0 0 30px rgba(99,231,255,.08), inset 0 0 25px rgba(99,231,255,.05);
+      min-height:760px;
     }
 
     .hud-lines{
@@ -156,6 +155,7 @@
       border:1px solid rgba(99,231,255,.17);
       border-radius:50%;
       animation:spin 18s linear infinite;
+      pointer-events:none;
     }
 
     .r1{width:620px;height:620px;}
@@ -173,6 +173,7 @@
       display:flex;
       align-items:center;
       justify-content:center;
+      pointer-events:none;
     }
 
     .body-wrap{
@@ -180,6 +181,7 @@
       width:min(34vw,430px);
       transition:transform 1s ease;
       filter:drop-shadow(0 0 24px rgba(99,231,255,.20));
+      pointer-events:none;
     }
 
     .body-wrap img{
@@ -187,6 +189,22 @@
       height:auto;
       display:block;
       opacity:.95;
+      pointer-events:none;
+    }
+
+    .holo,
+    .scan-line,
+    .stomach-highlight,
+    .infection-zone,
+    .bacteria-layer,
+    .bacteria,
+    .zoom-box,
+    .zoom-grid,
+    .micro,
+    .abdomen-target,
+    .stomach-ring,
+    .scan-caption{
+      pointer-events:none;
     }
 
     .holo{
@@ -196,7 +214,6 @@
         linear-gradient(180deg, rgba(0,255,255,.10), transparent 18%, transparent 82%, rgba(255,0,255,.08)),
         radial-gradient(circle at center, rgba(0,255,255,.08), transparent 60%);
       mix-blend-mode:screen;
-      pointer-events:none;
     }
 
     .scan-line{
@@ -207,7 +224,6 @@
       background:linear-gradient(90deg, transparent, rgba(99,231,255,.95), transparent);
       box-shadow:0 0 16px rgba(99,231,255,.8);
       animation:scanMove 4.5s ease-in-out infinite;
-      pointer-events:none;
     }
 
     @keyframes scanMove{
@@ -228,7 +244,6 @@
       box-shadow:0 0 25px rgba(255,186,59,.55);
       opacity:0;
       transition:.5s ease;
-      pointer-events:none;
       animation:stomachPulse 2s infinite;
     }
 
@@ -254,12 +269,6 @@
     @keyframes infectPulse{
       0%,100%{transform:translate(-50%,-50%) scale(1)}
       50%{transform:translate(-50%,-50%) scale(1.14)}
-    }
-
-    .bacteria-layer{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
     }
 
     .bacteria{
@@ -313,7 +322,6 @@
       overflow:hidden;
       transform:scale(0);
       transition:transform .6s ease;
-      pointer-events:none;
     }
 
     .zoom-box.show{
@@ -388,6 +396,8 @@
       margin-bottom:14px;
       font-weight:700;
       color:#eaffff;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
     .meter{
@@ -399,6 +409,7 @@
       justify-content:space-between;
       margin-bottom:6px;
       font-size:.95rem;
+      gap:10px;
     }
 
     .bar{
@@ -430,6 +441,8 @@
 
     .levels{
       padding:18px;
+      position:relative;
+      z-index:60;
     }
 
     .levels h2{
@@ -441,9 +454,12 @@
       display:grid;
       grid-template-columns:repeat(2,1fr);
       gap:10px;
+      position:relative;
+      z-index:70;
     }
 
-    .buttons button, .controls button{
+    .buttons a,
+    .controls button{
       background:rgba(99,231,255,.08);
       border:1px solid rgba(99,231,255,.28);
       color:white;
@@ -452,17 +468,21 @@
       cursor:pointer;
       font-weight:700;
       transition:.2s ease;
+      text-decoration:none;
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      touch-action:manipulation;
+      position:relative;
+      z-index:80;
     }
 
-    .buttons button:hover,
+    .buttons a:hover,
     .controls button:hover{
       transform:translateY(-2px);
       border-color:rgba(183,248,255,.9);
-    }
-
-    .buttons button.active{
-      background:linear-gradient(135deg, rgba(99,231,255,.18), rgba(255,95,210,.14));
-      border-color:rgba(183,248,255,.85);
     }
 
     .desc{
@@ -537,27 +557,6 @@
       line-height:1.7;
       margin-bottom:10px;
       color:#f0fcff;
-    }
-
-    @media (max-width:1200px){
-      body{overflow:auto}
-      .app{
-        height:auto;
-        min-height:100vh;
-        grid-template-columns:1fr;
-      }
-      .center{min-height:900px}
-      .controls{
-        position:static;
-        transform:none;
-        margin:14px auto 20px;
-      }
-    }
-
-    @media (max-width:700px){
-      .body-wrap{width:min(72vw,320px)}
-      .buttons{grid-template-columns:1fr}
-      .title-box h1{font-size:1.7rem}
     }
 
     .quick-link-box{
@@ -644,6 +643,8 @@
       align-items:center;
       padding:22px 26px 16px;
       border-bottom:1px solid rgba(255,255,255,.08);
+      gap:10px;
+      flex-wrap:wrap;
     }
 
     .agent-top-title{
@@ -680,11 +681,6 @@
       opacity:1;
       pointer-events:auto;
       transform:translateX(0);
-    }
-
-    .scene-main,
-    .scene-side{
-      min-height:100%;
     }
 
     .visual-stage{
@@ -871,26 +867,11 @@
       padding:8px 10px;
     }
 
-    .arrow-a{
-      left:14%;
-      top:34%;
-    }
-    .arrow-a .arrow-line{
-      width:120px;
-      height:2px;
-      left:105%;
-      top:50%;
-    }
-    .arrow-b{
-      right:13%;
-      top:56%;
-    }
-    .arrow-b .arrow-line{
-      width:120px;
-      height:2px;
-      right:105%;
-      top:50%;
-    }
+    .arrow-a{ left:14%; top:34%; }
+    .arrow-a .arrow-line{ width:120px; height:2px; left:105%; top:50%; }
+
+    .arrow-b{ right:13%; top:56%; }
+    .arrow-b .arrow-line{ width:120px; height:2px; right:105%; top:50%; }
 
     .microscope-stage{
       position:absolute;
@@ -996,14 +977,8 @@
       line-height:1.4;
     }
 
-    .micro-note-1{
-      left:28px;
-      bottom:42px;
-    }
-    .micro-note-2{
-      right:28px;
-      top:90px;
-    }
+    .micro-note-1{ left:28px; bottom:42px; }
+    .micro-note-2{ right:28px; top:90px; }
 
     .bacteria-detail-stage{
       position:absolute;
@@ -1054,14 +1029,8 @@
       box-shadow:0 0 8px rgba(255,210,236,.5);
     }
 
-    .flagella-group::before{
-      top:24px;
-      transform:rotate(24deg);
-    }
-    .flagella-group::after{
-      top:42px;
-      transform:rotate(-18deg);
-    }
+    .flagella-group::before{ top:24px; transform:rotate(24deg); }
+    .flagella-group::after{ top:42px; transform:rotate(-18deg); }
 
     .label-box{
       position:absolute;
@@ -1101,6 +1070,7 @@
       gap:12px;
       padding:16px 20px 22px;
       border-top:1px solid rgba(255,255,255,.08);
+      flex-wrap:wrap;
     }
 
     .agent-controls button{
@@ -1111,9 +1081,49 @@
       padding:12px 16px;
       cursor:pointer;
       font-weight:700;
+      min-height:48px;
     }
 
-    @media (max-width: 1050px){
+    @media (max-width:1200px){
+      .app{
+        grid-template-columns:1fr;
+        height:auto;
+      }
+
+      .center{
+        min-height:900px;
+      }
+
+      .controls{
+        position:static;
+        transform:none;
+        margin:14px auto 20px;
+      }
+    }
+
+    @media (max-width:1100px){
+      .app{
+        grid-template-columns:1fr !important;
+        min-height:100vh;
+        padding:10px !important;
+        gap:10px !important;
+      }
+
+      .left,.right,.center{
+        width:100% !important;
+        max-width:100% !important;
+      }
+
+      .buttons{
+        grid-template-columns:1fr !important;
+      }
+
+      .body-wrap{
+        width:min(70vw,320px) !important;
+      }
+    }
+
+    @media (max-width:1050px){
       .agent-scene{
         grid-template-columns:1fr;
         overflow:auto;
@@ -1123,16 +1133,85 @@
         transform:scale(.82) rotate(-8deg);
       }
     }
+
+    @media (max-width:768px){
+      .title-box h1{
+        font-size:1.6rem !important;
+        line-height:1.15 !important;
+      }
+
+      .title-box,
+      .section,
+      .hud,
+      .levels,
+      .desc{
+        padding:14px !important;
+      }
+
+      .top-status{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .meter-head{
+        flex-wrap:wrap;
+      }
+
+      .controls button,
+      .buttons a,
+      .agent-link-btn,
+      .agent-controls button{
+        width:100% !important;
+        font-size:16px !important;
+      }
+
+      .zoom-box{
+        width:180px !important;
+        height:180px !important;
+        right:14px !important;
+        bottom:14px !important;
+      }
+
+      .agent-module-card{
+        width:96vw !important;
+        height:92vh !important;
+      }
+
+      .scene-body-img,
+      .stomach-real-img{
+        max-width:90% !important;
+      }
+
+      .big-bacteria{
+        transform:scale(.6) rotate(-8deg) !important;
+      }
+
+      .floating-organ-title,
+      .scan-caption,
+      .scene-title{
+        font-size:.88rem;
+        padding:8px 10px;
+      }
+
+      .arrow-a,
+      .arrow-b{
+        display:none;
+      }
+    }
+
+    @media (max-width:700px){
+      .body-wrap{width:min(72vw,320px)}
+      .title-box h1{font-size:1.7rem}
+    }
   </style>
 </head>
+
 <body>
   <div class="app">
     <div class="left">
       <section class="panel title-box">
         <h1>INSIDE THE HUMAN BODY:<br>Helicobacter pylori Attack</h1>
-        <p>
-      
-        </p>
+        <p></p>
       </section>
 
       <section class="panel section quick-link-box">
@@ -1140,9 +1219,7 @@
         <button class="agent-link-btn" onclick="openAgentModule()">
           Agente infeccioso: Helicobacter pylori
         </button>
-        <p class="quick-help">
-          
-        </p>
+        <p class="quick-help"></p>
       </section>
 
       <section class="panel section">
@@ -1163,11 +1240,13 @@
 
     <main class="center">
       <div class="hud-lines"></div>
+
       <div class="scanner-ring">
         <div class="ring r1"></div>
         <div class="ring r2"></div>
         <div class="ring r3"></div>
       </div>
+
       <div class="scan-line"></div>
 
       <div class="body-stage">
@@ -1176,7 +1255,6 @@
           <div class="holo"></div>
           <div class="stomach-highlight" id="stomachHighlight"></div>
           <div class="infection-zone" id="infectionZone"></div>
-
           <div class="bacteria-layer">
             <div class="bacteria b1" id="b1"></div>
             <div class="bacteria b2" id="b2"></div>
@@ -1240,7 +1318,16 @@
 
       <section class="panel levels">
         <h2>Niveles</h2>
-        <div class="buttons" id="levelButtons"></div>
+        <div class="buttons" id="levelButtons">
+          <a href="agente.html">1. Agente</a>
+          <a href="sistema.html">2. Sistema</a>
+          <a href="enfermedad.html">3. Enfermedad</a>
+          <a href="proceso.html">4. Proceso</a>
+          <a href="contagio.html">5. Contagio</a>
+          <a href="tratamiento.html">6. Tratamiento</a>
+          <a href="prevencion.html">7. Prevención</a>
+          <a href="chile.html">8. Chile</a>
+        </div>
       </section>
 
       <section class="panel desc" id="descBox"></section>
@@ -1391,10 +1478,8 @@
     ];
 
     let current = 0;
-
     const leftList = document.getElementById("leftList");
     const descBox = document.getElementById("descBox");
-    const levelButtons = document.getElementById("levelButtons");
     const levelLabel = document.getElementById("levelLabel");
     const statusLabel = document.getElementById("statusLabel");
     const lifeText = document.getElementById("lifeText");
@@ -1409,61 +1494,11 @@
     const bodyWrap = document.getElementById("bodyWrap");
     const finish = document.getElementById("finish");
     const bacteriaEls = [document.getElementById("b1"), document.getElementById("b2"), document.getElementById("b3")];
-function makeButtons(){
-  levelButtons.innerHTML = "";
 
-  levels.forEach((lv, i) => {
-    const btn = document.createElement("button");
-    btn.textContent = `${i+1}. ${lv.short}`;
-
-    if(i === 0){
-      btn.onclick = () => {
-        window.location.href = "agente.html";
-      };
-    } else if(i === 1){
-      btn.onclick = () => {
-        window.location.href = "sistema.html";
-      };
-    } else if(i === 2){
-      btn.onclick = () => {
-        window.location.href = "enfermedad.html";
-      };
-      } else if(i === 3){
-      btn.onclick = () => {
-        window.location.href = "proceso.html";
-      };
-    } else if(i === 4){
-      btn.onclick = () => {
-        window.location.href = "contagio.html";
-      };
-    } else if(i === 5){
-      btn.onclick = () => {
-        window.location.href = "tratamiento.html";
-      };
-    } else if(i === 6){
-      btn.onclick = () => {
-        window.location.href = "prevencion.html";
-      };
-    } else if(i === 7){
-      btn.onclick = () => {
-        window.location.href = "chile.html";
-      };
-    } else {
-      btn.onclick = () => {
-        current = i;
-        render();
-      };
-    }
-
-    levelButtons.appendChild(btn);
-  });
-}
     function render(){
       const lv = levels[current];
-
       leftList.innerHTML = lv.left.map(x => `<li>${x}</li>`).join("");
       descBox.innerHTML = lv.desc;
-
       levelLabel.textContent = `Nivel ${current + 1} / ${levels.length}`;
       statusLabel.textContent = lv.status;
       lifeText.textContent = lv.life + "%";
@@ -1472,18 +1507,11 @@ function makeButtons(){
       infectBar.style.width = lv.infect + "%";
       scoreText.textContent = lv.score + " pts";
       stateText.textContent = lv.status;
-
       stomachHighlight.style.opacity = lv.stomach ? "1" : "0";
       infectionZone.style.opacity = lv.infection ? "1" : "0";
       zoomBox.classList.toggle("show", lv.zoom);
       bodyWrap.style.transform = `scale(${lv.scale})`;
-
       bacteriaEls.forEach(el => el.style.opacity = lv.bacteria ? "1" : "0");
-
-      [...levelButtons.children].forEach((b, i) => {
-        b.classList.toggle("active", i === current);
-      });
-
       finish.classList.remove("show");
     }
 
@@ -1512,7 +1540,6 @@ function makeButtons(){
       render();
     }
 
-    makeButtons();
     render();
 
     document.addEventListener("keydown", (e) => {
@@ -1541,14 +1568,12 @@ function makeButtons(){
               <div class="scan-caption">Zoom al abdomen • foco en estómago</div>
             </div>
           </div>
-
           <div class="scene-side">
             <div class="info-panel-box">
               <h3>Panel A — Agente infeccioso</h3>
               <p><strong>Helicobacter pylori</strong></p>
               <p>Bacteria que coloniza la mucosa gástrica y puede provocar inflamación, gastritis y úlceras.</p>
             </div>
-
             <div class="info-panel-box">
               <h3>Panel B — Nombre</h3>
               <p><strong>Nombre común:</strong> bacteria Helicobacter pylori</p>
@@ -1560,7 +1585,6 @@ function makeButtons(){
         <section class="agent-scene" id="scene2">
           <div class="scene-main visual-stage">
             <div class="scene-title">Escena 2: acercamiento al estómago</div>
-
             <div class="stomach-scene-wrap">
               <img
                 src="stomach-real.png"
@@ -1568,7 +1592,6 @@ function makeButtons(){
                 class="stomach-real-img"
                 onerror="this.style.display='none';document.getElementById('stomachFallback').style.display='flex';"
               >
-
               <div class="stomach-fallback" id="stomachFallback">
                 <div class="stomach-shape"></div>
               </div>
@@ -1614,7 +1637,6 @@ function makeButtons(){
         <section class="agent-scene" id="scene3">
           <div class="scene-main visual-stage">
             <div class="scene-title">Escena 3: vista microscópica</div>
-
             <div class="microscope-stage">
               <div class="mucosa-bg"></div>
               <div class="mucosa-layer"></div>
@@ -1648,10 +1670,10 @@ function makeButtons(){
         <section class="agent-scene" id="scene4">
           <div class="scene-main visual-stage">
             <div class="scene-title">Escena 4: microzoom de la bacteria</div>
-
             <div class="bacteria-detail-stage">
               <div class="big-bacteria">
                 <div class="flagella-group"></div>
+
                 <div class="label-box lb1">Flagelos polares</div>
                 <div class="label-box lb2">Pared celular gramnegativa</div>
                 <div class="label-box lb3">Membrana externa</div>
@@ -1700,11 +1722,9 @@ function makeButtons(){
       agentModule = document.getElementById("agentModule");
       agentStepLabel = document.getElementById("agentStepLabel");
       agentScenes.length = 0;
-
       for(let i = 1; i <= 4; i++){
         agentScenes.push(document.getElementById(`scene${i}`));
       }
-
       renderAgentScene();
     }
 
@@ -1727,7 +1747,6 @@ function makeButtons(){
           scene.classList.toggle("active", index === currentAgentScene);
         }
       });
-
       if(agentStepLabel){
         agentStepLabel.textContent = `Escena ${currentAgentScene + 1} / 4`;
       }
@@ -1750,7 +1769,6 @@ function makeButtons(){
     document.addEventListener("keydown", (e) => {
       const isOpen = agentModule && agentModule.classList.contains("show");
       if(!isOpen) return;
-
       if(e.key === "Escape") closeAgentModule();
       if(e.key === "ArrowRight") nextAgentScene();
       if(e.key === "ArrowLeft") prevAgentScene();
